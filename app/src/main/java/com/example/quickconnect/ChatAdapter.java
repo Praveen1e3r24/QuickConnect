@@ -27,12 +27,10 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private static final int VIEWTYPE_RECIEVE = 2;
     private String userId;
 
-    private List<Message> messageList;
-    private Context context;
+    private final List<Message> messageList;
 
-    public ChatAdapter(List<Message> messageList, Context context) {
+    public ChatAdapter(List<Message> messageList) {
         this.messageList = messageList;
-        this.context = context;
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
