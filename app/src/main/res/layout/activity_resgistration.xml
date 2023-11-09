@@ -9,6 +9,12 @@
     android:padding="15dp"
     tools:context=".registration">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/ic_action_name" />
+
     <TextView
         android:text="@string/Register"
         android:textSize="25sp"
@@ -60,4 +66,5 @@
         android:text="@string/click_to_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
 </LinearLayout>
