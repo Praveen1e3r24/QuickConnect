@@ -8,8 +8,11 @@
     <string name="click_to_register">click_to_register</string>
     <string name="logout">logout</string>
     <string name="go_to_sms">Go To SMS</string>
-    <string name="back" />
     <string name="change_language">Change Language</string>
     <string name="send">Send</string>
     <string name="enter_message">Enter Message</string>
+    <string name="last_name">last_name</string>
+    <string name="first_name">first_name</string>
+    <string name="user_type">user_type</string>
+    <string name="add_user">add user</string>
 </resources>
