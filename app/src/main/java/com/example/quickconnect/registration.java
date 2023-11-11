@@ -39,8 +39,12 @@ public class registration extends AppCompatActivity {
             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
             finish();
+
+
         }
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

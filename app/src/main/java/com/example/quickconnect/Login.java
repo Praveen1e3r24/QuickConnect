@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickconnect.databinding.ActivityAddUsersBinding;
+import com.example.quickconnect.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
+
+    ActivityLoginBinding binding;
 
     TextInputEditText editTextEmail,editTextPassword ;
     Button buttonLogin;
@@ -47,13 +51,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth=FirebaseAuth.getInstance();
-        editTextEmail=findViewById(R.id.email);
-        editTextPassword=findViewById(R.id.password);
-        buttonLogin=findViewById(R.id.btn_login);
-        progressBar=findViewById(R.id.progressBar);
-        textView=findViewById(R.id.registerNow);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        binding.RedirectSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),add_users.class);
@@ -62,13 +63,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        binding.Loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 String email,password;
-                email=editTextEmail.getText().toString();
-                password=editTextPassword.getText().toString();
+                email=binding.loginUsername.getText().toString();
+                password=binding.loginPassword.getText().toString();
 
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(Login.this, "Enter Email", Toast.LENGTH_SHORT).show();
@@ -82,7 +83,7 @@ public class Login extends AppCompatActivity {
                         .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
+//                                progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Login.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                                     Intent intent=new Intent(getApplicationContext(),MainActivity.class);
@@ -100,7 +101,7 @@ public class Login extends AppCompatActivity {
 
 
             }
-        });
+});
 
-    }
+}
 }

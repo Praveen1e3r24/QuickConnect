@@ -8,6 +8,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/QC_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QC"
+        app:cornerRadius="?android:attr/buttonCornerRadius" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
