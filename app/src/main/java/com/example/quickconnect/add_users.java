@@ -1,4 +1,5 @@
 package com.example.quickconnect;
+
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 import android.content.Intent;
@@ -26,94 +27,94 @@ import java.util.List;
 public class add_users extends AppCompatActivity {
 
 
-    ActivityAddUsersBinding binding;
-    FirebaseDatabase db;
-    DatabaseReference usersReference;
-    DatabaseReference customersReference;
-    DatabaseReference employeesReference;
+        ActivityAddUsersBinding binding;
+        FirebaseDatabase db;
+        DatabaseReference usersReference;
+        DatabaseReference customersReference;
+        DatabaseReference employeesReference;
 
-    FirebaseAuth mAuth;
+        FirebaseAuth mAuth;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAuth=FirebaseAuth.getInstance();
-        binding = ActivityAddUsersBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            mAuth=FirebaseAuth.getInstance();
+            binding = ActivityAddUsersBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
 
-        db = FirebaseDatabase.getInstance();
-        usersReference = db.getReference("Users");
-        customersReference = usersReference.child("Customers");
-        employeesReference = usersReference.child("Employees");
+            db = FirebaseDatabase.getInstance();
+            usersReference = db.getReference("Users");
+            customersReference = usersReference.child("Customers");
+            employeesReference = usersReference.child("Employees");
 
-        binding.addUser1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String firstName = binding.firstName.getText().toString();
-                String lastName = binding.lastName.getText().toString();
-                String password = binding.password.getText().toString();
-                String userType = binding.usertype.getText().toString();
-                String email=binding.email.getText().toString();
-                String team=binding.supportteam.getText().toString();
-
-
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(add_users.this, "Enter Email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                else if(TextUtils.isEmpty(password)){
-                    Toast.makeText(add_users.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            binding.addUser1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String firstName = binding.firstName.getText().toString();
+                    String lastName = binding.lastName.getText().toString();
+                    String password = binding.password.getText().toString();
+                    String userType = binding.usertype.getText().toString();
+                    String email=binding.email.getText().toString();
+                    String team=binding.supportteam.getText().toString();
 
 
-                if (!firstName.isEmpty() && !lastName.isEmpty() && !password.isEmpty() && !userType.isEmpty() && !email.isEmpty()
-                        && (userType.equals("customer") || userType.equals("employee"))){
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(TextUtils.isEmpty(email)){
+                        Toast.makeText(add_users.this, "Enter Email", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else if(TextUtils.isEmpty(password)){
+                        Toast.makeText(add_users.this, "Enter Password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                                    if (task.isSuccessful()) {
 
-                                        String userId = mAuth.getCurrentUser().getUid();
+                    if (!firstName.isEmpty() && !lastName.isEmpty() && !password.isEmpty() && !userType.isEmpty() && !email.isEmpty()
+                            && (userType.equals("customer") || userType.equals("employee"))){
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                        User user = new User(userId,email, firstName, lastName);
+                                        if (task.isSuccessful()) {
 
-                                        // Determine where to save the user data based on userType
-                                        DatabaseReference userTypeReference;
-                                        if ("customer".equals(userType)) {
-                                            userTypeReference = customersReference.child(userId);
-                                            Card card = new Card("1234567890123456", "Debit", "12/24", 1000);
-                                            Card card2 = new Card("1234567890123456", "Debit", "12/24", 1000, 1000);
-                                            BankAccount account = new BankAccount("123-4567-890", "OCBC 360 Account", 1000);
-                                            user = new Customer(user,Arrays.asList(account,account), Arrays.asList(card, card2));
+                                            String userId = mAuth.getCurrentUser().getUid();
 
-                                        } else if ("employee".equals(userType)) {
-                                            userTypeReference = employeesReference.child(userId);
-                                            user = new Employee(user, "Chat Specialist", team);
+                                            User user = new User(userId,email, firstName, lastName);
+
+                                            // Determine where to save the user data based on userType
+                                            DatabaseReference userTypeReference;
+                                            if ("customer".equals(userType)) {
+                                                userTypeReference = customersReference.child(userId);
+                                                Card card = new Card("1234567890123456", "Debit", "12/24", 1000);
+                                                Card card2 = new Card("1234567890123456", "Debit", "12/24", 1000, 1000);
+                                                BankAccount account = new BankAccount("123-4567-890", "OCBC 360 Account", 1000);
+                                                user = new Customer(user,Arrays.asList(account,account), Arrays.asList(card, card2));
+
+                                            } else if ("employee".equals(userType)) {
+                                                userTypeReference = employeesReference.child(userId);
+                                                user = new Employee(user, "Chat Specialist", team);
+
+                                            } else {
+                                                Toast.makeText(add_users.this, "Invalid user type", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+
+                                            // Save user data under the appropriate reference
+                                            userTypeReference.setValue(user);
+
+                                            Toast.makeText(add_users.this, "Account is created", Toast.LENGTH_SHORT).show();
+                                            Intent intent=new Intent(getApplicationContext(),Login.class);
+                                            startActivity(intent);
+                                            finish();
 
                                         } else {
-                                            Toast.makeText(add_users.this, "Invalid user type", Toast.LENGTH_SHORT).show();
-                                            return;
+                                            Toast.makeText(add_users.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                         }
-
-                                        // Save user data under the appropriate reference
-                                        userTypeReference.setValue(user);
-
-                                        Toast.makeText(add_users.this, "Account is created", Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(getApplicationContext(),Login.class);
-                                        startActivity(intent);
-                                        finish();
-
-                                    } else {
-                                        Toast.makeText(add_users.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                     }
-                                }
-                            });
+                                });
+                    }
                 }
-            }
 
-        });
-}
-}
+            });
+        }
+    }

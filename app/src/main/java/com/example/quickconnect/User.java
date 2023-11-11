@@ -1,4 +1,5 @@
 package com.example.quickconnect;
+
 public class User {
 
     private String userId;
@@ -67,5 +68,5 @@ public class User {
 
     public void setUserType(String userType) {
         this.userType = userType;
-}
+    }
 }

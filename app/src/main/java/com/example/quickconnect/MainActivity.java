@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         button=findViewById(R.id.logout);
-        textView=findViewById(R.id.user_details);
+//        textView=findViewById(R.id.user_details);
         user=auth.getCurrentUser();
 
         if(user == null){
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else {
-            textView.setText("Welcome "+user.getEmail());
+//            textView.setText("Welcome "+user.getEmail());
         }
 
         button.setOnClickListener(new View.OnClickListener() {
