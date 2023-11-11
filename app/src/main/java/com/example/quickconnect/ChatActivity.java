@@ -11,14 +11,22 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.quickconnect.databinding.ActivityChatBinding;
 
 public class ChatActivity extends AppCompatActivity {
     private EditText messageText;
+
+    private ActivityChatBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        binding = ActivityChatBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
@@ -28,14 +36,13 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setTitle("Tan Choon Peng");
         actionBar.setSubtitle("OCBC Representative");
 
-        messageText = findViewById(R.id.chat_message);
+        messageText = binding.chatMessage;
         messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-
-
+                    Toast.makeText(ChatActivity.this, "Hello", Toast.LENGTH_SHORT).show();
                     handled = true;
                 }
                 return handled;

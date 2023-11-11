@@ -6,12 +6,14 @@ public class Chat {
     private int chatId;
     private String supportId;
     private String customerId;
+    private String category;
     private List<Message> messages;
 
-    public Chat(int chatId, String supportId, String customerId, List<Message> messages) {
+    public Chat(int chatId, String supportId, String customerId, String topic, List<Message> messages) {
         this.chatId = chatId;
         this.supportId = supportId;
         this.customerId = customerId;
+        this.category = topic;
         this.messages = messages;
     }
 
@@ -45,5 +47,13 @@ public class Chat {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

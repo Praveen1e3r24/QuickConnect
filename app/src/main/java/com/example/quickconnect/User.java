@@ -2,24 +2,40 @@ package com.example.quickconnect;
 
 public class User {
 
-      String usertype,FirstName,LastName,password;
+    private String userId;
+    private String email;
+    private String FirstName;
+    private String LastName;
+
+    private String fullName;
+
+    private String userType;
 
     public User() {
     }
 
-    public User(String usertype, String firstName, String lastName, String password) {
-        this.usertype = usertype;
+    public User(String userId, String email, String firstName, String lastName) {
+        this.userId = userId;
+        this.email = email;
         FirstName = firstName;
         LastName = lastName;
-        this.password = password;
+        fullName = firstName + " " + lastName;
     }
 
-    public String getUsertype() {
-        return usertype;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsertype(String usertype) {
-        this.usertype = usertype;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -38,11 +54,19 @@ public class User {
         LastName = lastName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }
