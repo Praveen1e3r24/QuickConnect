@@ -2,9 +2,6 @@ package com.example.quickconnect;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.AppPreferences;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.Employee_M.Employee_M_Main;
 import com.example.customer.Customer_Main;
-import com.example.quickconnect.databinding.ActivityAddUsersBinding;
 import com.example.quickconnect.databinding.ActivityLoginBinding;
 import com.example.quickconnect_employee_cc.Employee_CallCentre_Main;
 import com.google.android.gms.tasks.OnCompleteListener;
