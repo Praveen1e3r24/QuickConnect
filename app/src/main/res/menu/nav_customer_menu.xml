@@ -18,10 +18,7 @@
             android:id="@+id/nav_c_profile"
             android:icon="@drawable/nav_profile"
             android:title="@string/profile" />
-        <item
-            android:id="@+id/nav_c_language"
-            android:icon="@drawable/nav_language"
-            android:title="@string/change_language" />
+
 
 
     </group>
@@ -30,6 +27,10 @@
         android:title="">
 
         <menu>
+            <item
+                android:id="@+id/nav_c_language"
+                android:icon="@drawable/nav_language"
+                android:title="@string/change_language" />
             <item
                 android:id="@+id/nav_c_settings"
                 android:icon="@drawable/nav_setting"

@@ -21,6 +21,7 @@ import com.example.Employee_M.Employee_M_Main;
 import com.example.customer.Customer_Main;
 import com.example.quickconnect.databinding.ActivityLoginBinding;
 import com.example.quickconnect_employee_cc.Employee_CallCentre_Main;
+import com.example.utilities.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -140,7 +141,7 @@ public class Login extends AppCompatActivity {
                     // User is an employee, check employeeRole
                     Employee employee = employeeSnapshot.getValue(Employee.class);
                     handleEmployee(employee);
-                    storeUserDetails(employee);
+                    new UserData().storeUserDetails(getApplicationContext(),employee);
                 } else {
                     // User is not an employee, check if they are a customer
                     usersRef.child("Customers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -150,7 +151,7 @@ public class Login extends AppCompatActivity {
                                 // User is a customer
                                 Customer customer = customerSnapshot.getValue(Customer.class);
                                 handleCustomer(customer);
-                                storeUserDetails(customer);
+                                new UserData().storeUserDetails(getApplicationContext(),customer);
                             } else {
                                 // The user data doesn't exist in either "customer" or "employee" nodes
                                 Toast.makeText(Login.this, "User data not found in the database", Toast.LENGTH_SHORT).show();
@@ -194,18 +195,5 @@ public class Login extends AppCompatActivity {
         finish(); // Close the current login activity
     }
 
-    private void storeUserDetails(User user) {
-        // Use Gson to serialize the User object to a JSON string
-        Gson gson = new Gson();
-        String userJson = gson.toJson(user);
-
-        // Obtain SharedPreferences instance
-        SharedPreferences sharedPreferences = getSharedPreferences("UserData", Context.MODE_PRIVATE);
-
-        // Store the JSON string in SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("UserDetails", userJson);
-        editor.apply();
-    }
 }
 

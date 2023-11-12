@@ -26,6 +26,7 @@ import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.ActivityEmployeeCallCentreMainBinding;
+import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
@@ -94,11 +95,9 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
 
     private void logout() {
         // Perform logout tasks here
-
-        clearSharedPreferences();
+        new UserData().removeUserDetails(this);
         // Example: Clear Firebase Authentication
         FirebaseAuth.getInstance().signOut();
-
         // Redirect to the login screen
         Intent intent = new Intent(Employee_CallCentre_Main.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -106,15 +105,6 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
         finish();
     }
 
-    private void clearSharedPreferences() {
-        // Obtain SharedPreferences instance
-        SharedPreferences sharedPreferences = getSharedPreferences("UserData", Context.MODE_PRIVATE);
-
-        // Clear all stored data
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-    }
 
 
     private User getUserDetailsFromSharedPreferences() {
