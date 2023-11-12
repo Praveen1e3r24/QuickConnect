@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_c_home"
+            android:icon="@drawable/nav_home"
+            android:title="@string/Home"/>
+
+        <item
+            android:id="@+id/nav_c_quickconnect"
+            android:icon="@drawable/quick_connect"
+            android:title="@string/quickconnect" />
+        <item
+            android:id="@+id/nav_c_profile"
+            android:icon="@drawable/nav_profile"
+            android:title="@string/profile" />
+        <item
+            android:id="@+id/nav_c_language"
+            android:icon="@drawable/nav_language"
+            android:title="@string/change_language" />
+
+
+    </group>
+
+    <item
+        android:title="">
+
+        <menu>
+            <item
+                android:id="@+id/nav_c_settings"
+                android:icon="@drawable/nav_setting"
+                android:title="@string/settings" />
+            <item
+                android:id="@+id/nav_c_logout"
+                android:icon="@drawable/nav_logout"
+                android:title="@string/Logout" />
+
+        </menu>
+
+
+    </item>
+
+
+
+</menu>

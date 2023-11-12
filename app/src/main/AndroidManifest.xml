@@ -12,8 +12,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Material3.Light"
+        android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
+        <activity
+            android:name=".Registration_Selection_Page"
+            android:exported="false" />
+        <activity
+            android:name=".Add_Employee"
+            android:exported="false" />
+        <activity
+            android:name="com.example.customer.Add_Customers"
+            android:exported="false" />
+        <activity
+            android:name="com.example.Employee_M.Employee_M_Main"
+            android:exported="false" />
+        <activity
+            android:name="com.example.customer.Customer_Main"
+            android:exported="false" />
         <activity
             android:name="com.example.quickconnect_employee_cc.Employee_CallCentre_Main"
             android:exported="false" />
@@ -25,7 +40,8 @@
             android:exported="false" />
         <activity
             android:name=".ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light" />
         <activity
             android:name=".registration"
             android:exported="false"
@@ -41,7 +57,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -1,7 +1,7 @@
-package com.example.quickconnect_employee_cc;
+package com.example.customer;
 
-
-import static com.example.quickconnect.R.id.nav_m_home;
+import static com.example.quickconnect.R.id.nav_c_home;
+import static com.example.quickconnect.R.id.nav_e_cc_home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,45 +19,47 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.Employee_M.Employee_M_Home_Fragment;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
+import com.example.quickconnect.databinding.ActivityCustomerMainBinding;
 import com.example.quickconnect.databinding.ActivityEmployeeCallCentreMainBinding;
+import com.example.quickconnect_employee_cc.Employee_CallCentre_Main;
+import com.example.quickconnect_employee_cc.Employee_Call_Fragment;
+import com.example.quickconnect_employee_cc.Employee_Home_Fragment;
+import com.example.quickconnect_employee_cc.Employee_Language_Fragment;
+import com.example.quickconnect_employee_cc.Employee_Profile_Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
-public class Employee_CallCentre_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class Customer_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    ActivityEmployeeCallCentreMainBinding binding;
+    ActivityCustomerMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEmployeeCallCentreMainBinding.inflate(getLayoutInflater());
+        binding = ActivityCustomerMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.navView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.open_nav, R.string.close_nav);
 
-         binding.drawerLayout.addDrawerListener(toggle);
+        binding.drawerLayout.addDrawerListener(toggle);
 
-         toggle.syncState();
+        toggle.syncState();
 
-         if(savedInstanceState == null) {
-             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_Fragment()).commit();
-             binding.navView.setCheckedItem(nav_m_home);
-         }
-
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Home_Fragment()).commit();
+            binding.navView.setCheckedItem(nav_c_home);
+        }
         User user = getUserDetailsFromSharedPreferences();
 
         updateNavHeader(user);
-
 
     }
 
@@ -67,19 +69,19 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == nav_m_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Home_Fragment()).commit();
-        } else if (itemId == R.id.nav_e_cc_call) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Call_Fragment()).commit();
-        } else if (itemId == R.id.nav_e_cc_language) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Language_Fragment()).commit();
-        } else if (itemId == R.id.nav_e_cc_profile) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Profile_Fragment()).commit();
-        } else if (itemId == R.id.nav_e_cc_logout) {
+        if (itemId == nav_c_home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Home_Fragment()).commit();
+        } else if (itemId == R.id.nav_c_quickconnect) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_QuickConnect_Fragment()).commit();
+        } else if (itemId == R.id.nav_c_language) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Language_Fragment()).commit();
+        } else if (itemId == R.id.nav_c_profile) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Fragment()).commit();
+        } else if (itemId == R.id.nav_c_logout) {
             logout();
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
         }
-      binding.drawerLayout.closeDrawers();
+        binding.drawerLayout.closeDrawers();
         return true;
     }
 
@@ -92,19 +94,20 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
         }
     }
 
+
     private void logout() {
         // Perform logout tasks here
-
         clearSharedPreferences();
         // Example: Clear Firebase Authentication
         FirebaseAuth.getInstance().signOut();
 
         // Redirect to the login screen
-        Intent intent = new Intent(Employee_CallCentre_Main.this, Login.class);
+        Intent intent = new Intent(Customer_Main.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
+
 
     private void clearSharedPreferences() {
         // Obtain SharedPreferences instance
@@ -154,8 +157,8 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
             LinearLayout headerView = (LinearLayout) binding.navView.getHeaderView(0);
 
             // Access the TextViews in the header
-            TextView userEmailTextView = headerView.findViewById(R.id.nav_header_email_e_cc);
-            TextView userContactTextView = headerView.findViewById(R.id.nav_header_contact_e_cc);
+            TextView userEmailTextView = headerView.findViewById(R.id.nav_header_email_customer);
+            TextView userContactTextView = headerView.findViewById(R.id.nav_header_contact_customer);
 
             // Set user details in the TextViews
             userEmailTextView.setText(user.getEmail());
