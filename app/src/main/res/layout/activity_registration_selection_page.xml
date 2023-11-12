@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Your User Type"
+        android:textSize="24sp"
+        android:textColor="#FF0000"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"/>
+
+    <!-- Customer Button -->
+    <Button
+        android:id="@+id/buttonCustomer"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Customer"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="#FF0000"
+        android:layout_below="@id/textViewTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"/>
+
+    <!-- Employee Button -->
+    <Button
+        android:id="@+id/buttonEmployee"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Employee"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="#FF0000"
+        android:layout_below="@id/buttonCustomer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>

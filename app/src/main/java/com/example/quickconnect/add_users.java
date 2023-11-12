@@ -87,7 +87,7 @@ public class add_users extends AppCompatActivity {
 
                                             } else if ("employee".equals(userType)) {
                                                 userTypeReference = employeesReference.child(userId);
-                                                user = new Employee(user, "Chat Specialist", team, true);
+                                                user = new Employee(user, "CS", team, true);
 
                                             } else {
                                                 Toast.makeText(add_users.this, "Invalid user type", Toast.LENGTH_SHORT).show();

@@ -2,8 +2,8 @@
     <string name="app_name">QuickConnect</string>
     <string name="login">Login</string>
     <string name="Register">Register</string>
-    <string name="email">Email\n</string>
-    <string name="password">password\n</string>
+    <string name="email">Email</string>
+    <string name="password">password</string>
     <string name="click_to_login">click_to_login</string>
     <string name="click_to_register">click_to_register</string>
     <string name="logout">logout</string>
@@ -15,4 +15,25 @@
     <string name="first_name">first_name</string>
     <string name="user_type">user_type</string>
     <string name="add_user">add user</string>
+    <string name="intent">intent</string>
+
+
+    <!--    navigation drawer-->
+
+    <string name="open_nav">Open navigation drawer</string>
+    <string name="close_nav">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">home</string>
+    <string name="profile">profile</string>
+    <string name="call">call</string>
+    <string name="Logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="Home">home</string>
+    <string name="username">username</string>
+    <string name="quickconnect">QuickConnect</string>
+    <string name="job_role">Job_Role</string>
+    <string name="message">message</string>
+
+
 </resources>
