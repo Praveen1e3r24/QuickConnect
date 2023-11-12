@@ -51,9 +51,14 @@ public class MainActivity extends AppCompatActivity {
         smsRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent i = new Intent(getApplicationContext(),ChatActivity.class);
                 startActivity(i);
             }
         });
+    }
+
+    private void CreateChat() {
+
     }
 }
