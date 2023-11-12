@@ -86,13 +86,13 @@ public class Add_Employee extends AppCompatActivity {
                                             Log.d(TAG, "onComplete: 11");
 
                                             userTypeReference = employeesReference.child(userId);
-                                            user = new Employee(user, "CS", team);
+                                            user = new Employee(user, "CS", team,true);
                                             Log.d(TAG, "onComplete: 12");
 
                                         } else if (jobRole.equals("M")) {
                                             Log.d(TAG, "onComplete: 13");
                                             userTypeReference = employeesReference.child(userId);
-                                            user = new Employee(user, "M", team);
+                                            user = new Employee(user, "M", team,true);
 
                                         } else {
                                             Log.d(TAG, "onComplete: 14");
