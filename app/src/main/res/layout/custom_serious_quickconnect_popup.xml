@@ -1,0 +1,87 @@
+<!-- custom_dialog_layout.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:id="@+id/custom_dialog_layout"
+    tools:ignore="InvalidId"
+    >
+
+    <!-- Request Call Option -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/request_call"
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/nav_call" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Request Call"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+    <!-- Message 24/7 Messaging Personal Option -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/request_message_24_7"
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/nav_message" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message 24/7 Messaging Personal"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+    <!-- Book an Appointment Option -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/request_book_an_appointment"
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/nav_calender" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book an Appointment"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+    <!-- Add more options following the same pattern -->
+
+</LinearLayout>
