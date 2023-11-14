@@ -53,7 +53,7 @@
             android:layout_marginStart="10dp"
             android:layout_toStartOf="@+id/chat_send"
             android:background="@drawable/chat_outline"
-            android:fontFamily="sans-serif-smallcaps"
+            android:fontFamily="sans-serif-medium"
             android:hint="@string/enter_message"
             android:imeOptions="actionDone"
             android:inputType="text"
@@ -64,20 +64,6 @@
             android:textColorHint="#8D6E63"
             tools:ignore="Autofill" />
 
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/chat_message"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:background="@android:drawable/menuitem_background"
-            android:contentDescription="@string/send"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/baseline_image_24"
-            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/chat_send"

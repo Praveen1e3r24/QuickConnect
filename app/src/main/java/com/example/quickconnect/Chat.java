@@ -5,20 +5,26 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Chat implements Parcelable {
-    private int chatId;
+    private String chatId;
     private String supportId;
     private String supportName;
-    private static String supportTeam;
-
+    private String supportTeam;
     private String customerId;
     private String customerName;
     private String category;
+    private Date timestamp;
     private List<Message> messages;
+    private Boolean isClosed;
 
-    public Chat(int chatId, String supportId, String supportName, String supportTeam, String customerId, String customerName, String topic, List<Message> messages) {
+    public Chat(){
+    }
+
+    public Chat(String chatId, String supportId, String supportName, String supportTeam, String customerId, String customerName, String topic, Date timestamp, List<Message> messages, Boolean isClosed) {
         this.chatId = chatId;
         this.supportId = supportId;
         this.supportName = supportName;
@@ -26,17 +32,27 @@ public class Chat implements Parcelable {
         this.customerId = customerId;
         this.customerName = customerName;
         this.category = topic;
-        this.messages = messages;
+        this.timestamp = timestamp;
+        this.isClosed = isClosed;
+
+        if (messages == null)
+            this.messages = new ArrayList<>();
+        else
+            this.messages = messages;
     }
 
+
     protected Chat(Parcel in) {
-        chatId = in.readInt();
+        chatId = in.readString();
         supportId = in.readString();
         supportName = in.readString();
+        supportTeam = in.readString();
         customerId = in.readString();
         customerName = in.readString();
         category = in.readString();
-        supportTeam = in.readString();
+        messages = in.createTypedArrayList(Message.CREATOR);
+        byte tmpIsClosed = in.readByte();
+        isClosed = tmpIsClosed == 0 ? null : tmpIsClosed == 1;
     }
 
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {
@@ -51,11 +67,11 @@ public class Chat implements Parcelable {
         }
     };
 
-    public int getChatId() {
+    public String getChatId() {
         return chatId;
     }
 
-    public void setChatId(int chatId) {
+    public void setChatId(String chatId) {
         this.chatId = chatId;
     }
 
@@ -107,6 +123,18 @@ public class Chat implements Parcelable {
         this.customerName = customerName;
     }
 
+    public String getSupportTeam() {
+        return supportTeam;
+    }
+
+    public void setSupportTeam(String supportTeam) {
+        this.supportTeam = supportTeam;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -114,12 +142,14 @@ public class Chat implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(chatId);
+        dest.writeString(chatId);
         dest.writeString(supportId);
         dest.writeString(supportName);
+        dest.writeString(supportTeam);
         dest.writeString(customerId);
         dest.writeString(customerName);
         dest.writeString(category);
-        dest.writeString(supportTeam);
+        dest.writeTypedList(messages);
+        dest.writeByte((byte) (isClosed == null ? 0 : isClosed ? 1 : 2));
     }
 }
