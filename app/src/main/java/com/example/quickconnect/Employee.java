@@ -6,21 +6,14 @@ public class Employee extends User {
     private String department;
     private Boolean isAvailable;
 
-    public Employee() {
-    }
 
+
+    public Employee(String userId, String email, String firstName, String lastName, String phonenumber, String address) {
+        super(userId, email, firstName, lastName, phonenumber, address);
+    }
     public Employee(User user, String employeeRole, String department, Boolean isAvailable) {
-        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName());
-        this.isAvailable = isAvailable;
-        this.setUserType("Employee");
-        this.employeeRole = employeeRole;
-        this.department = department;
-    }
-
-    public Employee(String userId, String email, String firstName, String lastName, String employeeRole, String department, Boolean isAvailable) {
-        super(userId, email, firstName, lastName);
-        this.setUserType("Employee");
-        this.employeeRole = employeeRole;
+        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(),user.getPhonenumber(), user.getAddress());
+        this.employeeRole= employeeRole;
         this.department = department;
         this.isAvailable = isAvailable;
     }
