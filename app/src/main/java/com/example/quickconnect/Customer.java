@@ -1,6 +1,7 @@
 package com.example.quickconnect;
 
-import java.util.ArrayList;
+import com.example.customer.Transaction;
+
 import java.util.List;
 
 public class Customer extends User {
@@ -8,22 +9,31 @@ public class Customer extends User {
     private List<BankAccount> bankAccounts;
     private List<Card> cards;
 
-    public Customer() {
+    private List<Transaction> transactions;
+
+
+
+    public Customer(){
+        super();
+    }; // Default constructor
+
+
+    public Customer(User user, List<BankAccount> bankAccounts, List<Card> cards,List<Transaction> transaction) {
+        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(),user.getPhonenumber(), user.getAddress());
+        this.setUserType("Customer");
+        this.bankAccounts = bankAccounts;
+        this.cards = cards;
+        this.transactions = transaction;
     }
 
     public Customer(User user, List<BankAccount> bankAccounts, List<Card> cards) {
-        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName());
+        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(),user.getPhonenumber(), user.getAddress());
         this.setUserType("Customer");
         this.bankAccounts = bankAccounts;
         this.cards = cards;
     }
 
-    public Customer(String userId, String email, String firstName, String lastName, ArrayList<BankAccount> bankAccounts, ArrayList<Card> cards) {
-        super(userId, email, firstName, lastName);
-        this.setUserType("Customer");
-        this.bankAccounts = bankAccounts;
-        this.cards = cards;
-    }
+
 
     public List<BankAccount> getBankAccounts() {
         return bankAccounts;
@@ -39,5 +49,13 @@ public class Customer extends User {
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

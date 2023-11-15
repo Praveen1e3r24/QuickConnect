@@ -34,6 +34,21 @@
     <string name="quickconnect">QuickConnect</string>
     <string name="job_role">Job_Role</string>
     <string name="message">message</string>
+    <string name="user_information">user_information</string>
+    <string name="username_profile">username_profile</string>
+    <string name="about">about</string>
+    <string name="email_address">email_address</string>
+    <string name="transaction_history">Transaction_History</string>
+    <string name="profile_account_type">profile_account_type</string>
+    <string name="customer_preferences">customer_preferences</string>
+    <string name="profile_mobile_bank_info">profile_mobile_bank_info</string>
+    <string name="_21">21</string>
+    <string name="profile_edit_account">profile_edit_account</string>
+    <string name="profile_refereal_information">profile_refereal_information</string>
+    <string name="profile_cards">profile_cards</string>
+    <string name="profile_other">profile_other</string>
+    <string name="profile_mobile_number">profile_mobile_number</string>
+    <string name="profile_customer_preference">Profile_Customer_preference</string>
 
 
 </resources>
