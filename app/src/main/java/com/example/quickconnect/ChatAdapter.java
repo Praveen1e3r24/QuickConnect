@@ -22,12 +22,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     private final OnClickInterface onClickInterface;
     private List<Chat> dataList;
-    private final String userId;
 
     public ChatAdapter(OnClickInterface onClickInterface, List<Chat> dataList) {
         this.onClickInterface = onClickInterface;
         this.dataList = dataList;
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @NonNull
@@ -42,11 +40,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat chat = dataList.get(position);
 
-        if (userId == chat.getCustomerId()) {
+        if (chat.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             holder.binding.chatItemTitle.setText(chat.getSupportName());
         } else {
             holder.binding.chatItemTitle.setText(chat.getCustomerName());
         }
+
         holder.binding.chatItemCategory.setText("Category: " + chat.getCategory());
         SimpleDateFormat formatter = new SimpleDateFormat("E dd HH:mm");
 

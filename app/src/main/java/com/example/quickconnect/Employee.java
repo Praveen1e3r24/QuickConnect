@@ -4,21 +4,25 @@ public class Employee extends User {
 
     private String employeeRole;
     private String department;
+
+    private int numChats;
     private Boolean isAvailable;
 
     public Employee() {
     }
 
-    public Employee(User user, String employeeRole, String department, Boolean isAvailable) {
+    public Employee(User user, String employeeRole, String department, int numChats, Boolean isAvailable) {
         super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName());
+        this.numChats = numChats;
         this.isAvailable = isAvailable;
         this.setUserType("Employee");
         this.employeeRole = employeeRole;
         this.department = department;
     }
 
-    public Employee(String userId, String email, String firstName, String lastName, String employeeRole, String department, Boolean isAvailable) {
+    public Employee(String userId, String email, String firstName, String lastName, String employeeRole, String department, int numChats, Boolean isAvailable) {
         super(userId, email, firstName, lastName);
+        this.numChats = numChats;
         this.setUserType("Employee");
         this.employeeRole = employeeRole;
         this.department = department;
@@ -47,5 +51,13 @@ public class Employee extends User {
 
     public void setAvailable(Boolean available) {
         isAvailable = available;
+    }
+
+    public int getNumChats() {
+        return numChats;
+    }
+
+    public void setNumChats(int numChats) {
+        this.numChats = numChats;
     }
 }

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -73,6 +74,27 @@ public class ChatActivity extends AppCompatActivity {
         RecyclerView rv = binding.recyclerGchat;
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        dbRef.child("Chats").child(chat.getChatId()).child("isClosed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue(Boolean.class) == true)
+                {
+                    Toast.makeText(ChatActivity.this, "Chat has been closed", Toast.LENGTH_SHORT).show();
+                    binding.chatMessage.setVisibility(View.GONE);
+                    binding.chatSend.setVisibility(View.GONE);
+                    binding.chatCloseText.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    binding.chatCloseText.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ChatActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         dbRef.child("Chats").child(chat.getChatId()).child("messages").addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,7 +103,6 @@ public class ChatActivity extends AppCompatActivity {
                 for (DataSnapshot s : snapshot.getChildren()){
                     Message msg = s.getValue(Message.class);
                     messageList.add(msg);
-
                 }
                 if (!messageList.isEmpty())
                 {
@@ -101,12 +122,12 @@ public class ChatActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(ChatActivity.this, "Error sending message: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        if (chat.getSupportId() == FirebaseAuth.getInstance().getCurrentUser().getUid())
+        if (chat.getSupportId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
         {
             actionBar.setTitle(chat.getCustomerId());
             actionBar.setSubtitle("Subject: " + chat.getCategory());
@@ -118,16 +139,15 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         messageText = binding.chatMessage;
-        messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+        messageText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     sendMessage();
-                    handled = true;
+                    return true;
                 }
-                return handled;
+                return false;
             }
         });
 
@@ -146,15 +166,41 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
+        int itemId = menuItem.getItemId();
+        if (itemId == android.R.id.home) {
             finish();
-            return true;
+        } else if (itemId == R.id.customer_info) {
+
+        } else if (itemId == R.id.end_chat) {
+
+            endChat();
+
+        } else if (itemId == R.id.change_language) {
+
         }
 
         return super.onOptionsItemSelected(menuItem);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void endChat(){
+
+        dbRef.child("Employees").child(chat.getSupportId()).child("numChats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int numChats = snapshot.getValue(Integer.class);
+                dbRef.child("Employees").child(chat.getSupportId()).child("numChats").setValue(numChats - 1);
+                dbRef.child("Chats").child(chat.getChatId()).child("isClosed").setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
     private void sendMessage(){
         String message = messageText.getText().toString();
         if (message.isEmpty()) {
@@ -171,3 +217,4 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 }
+

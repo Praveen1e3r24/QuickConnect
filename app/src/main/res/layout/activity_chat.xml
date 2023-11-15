@@ -36,6 +36,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_gchat" />
 
+    <TextView
+        android:id="@+id/chat_close_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="This Chat has been Closed"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/layout_gchat_chatbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
         android:layout_width="match_parent"
@@ -53,14 +67,15 @@
             android:layout_marginStart="10dp"
             android:layout_toStartOf="@+id/chat_send"
             android:background="@drawable/chat_outline"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="sans-serif"
+            android:foreground="@drawable/chat_outline"
             android:hint="@string/enter_message"
             android:imeOptions="actionDone"
-            android:inputType="text"
+            android:inputType="text|textMultiLine"
             android:maxLines="6"
             android:minHeight="48dp"
             android:padding="12dp"
-            android:paddingLeft="14dp"
+            android:singleLine="false"
             android:textColorHint="#8D6E63"
             tools:ignore="Autofill" />
 
@@ -78,5 +93,7 @@
             android:src="@drawable/baseline_send_24"
             tools:src="@drawable/baseline_send_24"
             app:tint="@color/red" />
+
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

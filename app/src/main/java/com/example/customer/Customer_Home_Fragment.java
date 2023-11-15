@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.snapshot.BooleanNode;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -47,6 +49,9 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
     private DatabaseReference dbRef;
 
     private List<Chat> chatList = new ArrayList<>();
+
+
+    private Boolean hasEmployee;
 
     private OnClickInterface getInterface() {
         return this;
@@ -93,35 +98,6 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
     }
 
     private void createChat(){
-
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Toast.makeText(getContext(), "lmai", Toast.LENGTH_SHORT).show();
-                    Employee employee = snapshot.getValue(Employee.class);
-                    List<Message> messages = new ArrayList<>();
-                    if(employee.getAvailable() && employee.getEmployeeRole().equals("M")){
-                        Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
-                        chat.setChatId(dbRef.child("Chats").push().getKey());
-                        dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
-                        Intent intent = new Intent(getActivity(), ChatActivity.class);
-                        intent.putExtra("chat", chat);
-                        startActivity(intent);
-                        return;
-                    }
-                    else {
-                        Toast.makeText(getContext(), "No available employees", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
         builder.setTitle("Enter topic:");
         final EditText input = new EditText(this.getContext());
@@ -131,7 +107,7 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 topic = input.getText().toString();
-                dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(valueEventListener);
+                dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(checkAndAddChatToDB());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -144,10 +120,234 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
         builder.show();
     }
 
+    public interface CheckAgentCallback {
+        void onCheckComplete(boolean isValid);
+    }
+
+
+//
+@RequiresApi(api = Build.VERSION_CODES.M)
+    private ValueEventListener checkAndAddChatToDB() {
+
+        hasEmployee = false;
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Employee employee = snapshot.getValue(Employee.class);
+                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5) {
+                            List<Message> messages = new ArrayList<>();
+                            Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+                            chat.setChatId(dbRef.child("Chats").push().getKey());
+                            dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+                            dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+                            hasEmployee = true;
+                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra("chat", chat);
+                            startActivity(intent);
+                            break;
+                        }
+                    }
+                    if (!hasEmployee)
+                    {
+                        Toast.makeText(getContext(), "No Available Employees", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        Log.d("FinalHasEmployee", "Has Employee: " + hasEmployee);
+        return valueEventListener;
+    }
+
     @Override
     public void onClick(int pos) {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra("chat",chatList.get(pos) );
         startActivity(intent);
     }
+
+
+
+
+//    private ValueEventListener checkAndAddChatToDB(){
+//        hasEmployee = false;
+//
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.O)
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    Employee employee = snapshot.getValue(Employee.class);
+//                    if (employee == null) {
+//                        continue;
+//                    }
+//
+//                    Log.d("EmployeeData", "Employee Role: " + employee.getEmployeeRole());
+//                    Log.d("EmployeeData", "Num Chats: " + employee.getNumChats());
+//
+//                    if (employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5){
+//                        CheckAgentCallback callback = new CheckAgentCallback() {
+//                            @RequiresApi(api = Build.VERSION_CODES.O)
+//                            public Boolean checkAgent(Employee employee) {
+//                                final Boolean[] isValid = {false};
+//                                dbRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        if (snapshot.exists())
+//                                        {
+//                                            for (DataSnapshot s : snapshot.getChildren()) {
+//                                                Chat schat = s.getValue(Chat.class);
+//                                                Log.d("EMPLOYEE ID", employee.getUserId());
+//                                                Log.d("CHAT SUPPORT ID", schat.getSupportId());
+//                                                if ((!schat.getCustomerId().equals(user.getUserId()) && !employee.getUserId().equals(schat.getSupportId())) || (schat == null) ){
+//                                                    isValid[0] = true;
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                        else{
+//                                            isValid[0] = false;
+//                                        }
+//
+//                                        if (isValid[0] == true)
+//                                        {
+//                                            List<Message> messages = new ArrayList<>();
+//                                            Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+//                                            chat.setChatId(dbRef.child("Chats").push().getKey());
+//                                            dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+//                                            dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+//                                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                                            intent.putExtra("chat", chat);
+//                                            startActivity(intent);
+//                                        }
+//
+//                                    }
+//
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
+//
+//                                return isValid[0];
+//                            }
+//                        };
+//
+//                        Boolean isValid =  callback.checkAgent(employee);
+//                        hasEmployee = isValid;
+//
+//                        if (isValid){
+//                            break;
+//                        }
+//
+//                    }
+//                }
+//                if (!hasEmployee){
+//                    Toast.makeText(getContext(), "No available employees", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//
+//        Log.d("FinalHasEmployee", "Has Employee: " + hasEmployee);
+//        return valueEventListener;
+//    }
+
+//    private void checkAgent(Employee employee, CheckAgentCallback callback) {
+//
+//        dbRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.O)
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                boolean isValid = false;
+//                if (snapshot.exists()) {
+//                    for (DataSnapshot s : snapshot.getChildren()) {
+//                        Chat schat = s.getValue(Chat.class);
+//                        if (schat != null && !schat.getCustomerId().equals(user.getUserId()) && !employee.getUserId().equals(schat.getSupportId())) {
+//                            isValid = true;
+//                            break;
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    isValid = true;
+//                }
+//
+//                if (isValid) {
+//                    List<Message> messages = new ArrayList<>();
+//                    Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+//                    chat.setChatId(dbRef.child("Chats").push().getKey());
+//                    dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+//                    dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+//                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                    intent.putExtra("chat", chat);
+//                    startActivity(intent);
+//                }
+//                callback.onCheckComplete(isValid);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Handle onCancelled
+//            }
+//        });
+//    }
+
+
+
+
+
+//    List<Message> messages = new ArrayList<>();
+//    Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+//                                chat.setChatId(dbRef.child("Chats").push().getKey());
+//                                dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+//                                dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+//    Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                                intent.putExtra("chat", chat);
+//    startActivity(intent);
+
+
+//    dbRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                for (DataSnapshot s : snapshot.getChildren()) {
+//
+//                                    Chat schat = s.getValue(Chat.class);
+//                                    if ((!schat.getCustomerId().equals(user.getUserId()) && !employee.getUserId().equals(schat.getSupportId())) || (schat == null) ) {
+//                                            Log.d("CHAT SUPPORT ID", schat.getSupportId());
+//                                            Log.d("EMPLOYEE ID", employee.getUserId());
+//                                            List<Message> messages = new ArrayList<>();
+//                                            Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+//                                            chat.setChatId(dbRef.child("Chats").push().getKey());
+//                                            dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+//                                            dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+//                                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                                            intent.putExtra("chat", chat);
+//                                            startActivity(intent);
+//                                            hasEmployee = true;
+//                                            break;
+//                                    }
+//                                }
+//                            }
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
+
+
+//    private interface CheckAgentCallback {
+//
+//        Boolean checkAgent(Employee employee);
+//    }
 }
