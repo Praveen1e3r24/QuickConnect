@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
@@ -38,7 +39,7 @@ import com.google.gson.Gson;
 
 public class Customer_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    ActivityCustomerMainBinding binding;
+    private ActivityCustomerMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,6 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
         User user = getUserDetailsFromSharedPreferences();
 
         updateNavHeader(user);
-
     }
 
 

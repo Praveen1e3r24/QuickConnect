@@ -19,6 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 public class Add_Employee extends AppCompatActivity {
     ActivityAddEmployeeBinding binding;
     FirebaseDatabase db;
@@ -79,13 +80,13 @@ public class Add_Employee extends AppCompatActivity {
                                             Log.d(TAG, "onComplete: 11");
 
                                             userTypeReference = employeesReference.child(userId);
-                                            user = new Employee(user, "CS", team,true);
+                                            user = new Employee(user, "CS", team, 0, true);
                                             Log.d(TAG, "onComplete: 12");
 
                                         } else if (jobRole.equals("M")) {
                                             Log.d(TAG, "onComplete: 13");
                                             userTypeReference = employeesReference.child(userId);
-                                            user = new Employee(user, "M", team,true);
+                                            user = new Employee(user, "M", team, 0, true);
 
                                         } else {
                                             Log.d(TAG, "onComplete: 14");

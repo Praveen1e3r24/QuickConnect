@@ -34,6 +34,8 @@
     <string name="quickconnect">QuickConnect</string>
     <string name="job_role">Job_Role</string>
     <string name="message">message</string>
+    <string name="end_chat">End Chat</string>
+    <string name="view_customer_s_information">View Customer\'s Information</string>
     <string name="user_information">user_information</string>
     <string name="username_profile">username_profile</string>
     <string name="about">about</string>

@@ -9,27 +9,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.OnClickInterface;
 import com.example.quickconnect.databinding.ChatItemLayoutBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
+    private final OnClickInterface onClickInterface;
     private List<Chat> dataList;
-    private final String userId;
 
-    public ChatAdapter(List<Chat> dataList) {
+    public ChatAdapter(OnClickInterface onClickInterface, List<Chat> dataList) {
+        this.onClickInterface = onClickInterface;
         this.dataList = dataList;
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_layout, parent, false);
-        return new ChatViewHolder(view);
+        return new ChatViewHolder(view, onClickInterface);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -37,14 +40,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat chat = dataList.get(position);
 
-        if (userId == chat.getCustomerId()) {
+        if (chat.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             holder.binding.chatItemTitle.setText(chat.getSupportName());
         } else {
             holder.binding.chatItemTitle.setText(chat.getCustomerName());
         }
-        holder.binding.chatItemLastmsg.setText(chat.getCategory());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddd hh:mm");
-        holder.binding.chatItemTime.setText(chat.getMessages().get(chat.getMessages().size() - 1).getTimestamp().format(formatter));
+
+        holder.binding.chatItemCategory.setText("Category: " + chat.getCategory());
+        SimpleDateFormat formatter = new SimpleDateFormat("E dd HH:mm");
+
+        if (chat.getMessages() != null && !chat.getMessages().isEmpty())
+        {
+            holder.binding.chatItemLastmsg.setText(chat.getMessages().get(chat.getMessages().size() - 1).getText());
+        }
+        else
+        {
+            holder.binding.chatItemLastmsg.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -52,12 +64,25 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         return dataList.size();
     }
 
-    public class ChatViewHolder extends RecyclerView.ViewHolder {
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
         private final ChatItemLayoutBinding binding;
 
-        public ChatViewHolder(@NonNull View itemView) {
+        public ChatViewHolder(@NonNull View itemView, OnClickInterface onClickInterface) {
             super(itemView);
             binding = ChatItemLayoutBinding.bind(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickInterface != null)
+                    {
+                        if (getAdapterPosition() != RecyclerView.NO_POSITION)
+                        {
+                            onClickInterface.onClick(getAdapterPosition());
+                        }
+                    }
+                }
+            });
         }
     }
 }

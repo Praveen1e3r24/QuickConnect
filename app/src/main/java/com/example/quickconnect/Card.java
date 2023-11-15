@@ -8,6 +8,8 @@ public class Card {
     private double cardLimit;
     private double waiverFees;
 
+    private String cardPic;
+
     public Card() {
     }
 
