@@ -72,7 +72,7 @@ public class Add_Employee extends AppCompatActivity {
 
                                         String userId = mAuth.getCurrentUser().getUid();
 
-                                        User user = new User(userId,email, firstName, lastName);
+                                        User user = new User(userId,email, firstName, lastName,"96542408", "Singapore");
 
                                         // Determine where to save the user data based on userType
                                         DatabaseReference userTypeReference;

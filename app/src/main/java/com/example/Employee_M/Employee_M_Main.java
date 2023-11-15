@@ -1,7 +1,6 @@
 package com.example.Employee_M;
 
 
-import static com.example.quickconnect.R.id.nav_e_cc_home;
 import static com.example.quickconnect.R.id.nav_m_home;
 
 import android.annotation.SuppressLint;
@@ -25,10 +24,7 @@ import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
-import com.example.quickconnect.databinding.ActivityEmployeeCallCentreMainBinding;
 import com.example.quickconnect.databinding.ActivityEmployeeMmainBinding;
-import com.example.quickconnect_employee_cc.Employee_CallCentre_Main;
-import com.example.quickconnect_employee_cc.Employee_Home_Fragment;
 import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;

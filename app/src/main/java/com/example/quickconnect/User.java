@@ -11,16 +11,26 @@ public class User {
 
     private String userType;
 
-    public User() {
-    }
+    private String phonenumber;
 
-    public User(String userId, String email, String firstName, String lastName) {
+    private String address;
+
+
+    public User(String userId, String email, String firstName, String lastName, String phonenumber, String address) {
         this.userId = userId;
         this.email = email;
         FirstName = firstName;
         LastName = lastName;
-        fullName = firstName + " " + lastName;
+        this.fullName = firstName + " " + lastName;
+        this.userType = userType;
+        this.phonenumber = phonenumber;
+        this.address = address;
     }
+
+    public User() {
+
+    }
+
 
     public String getUserId() {
         return userId;
@@ -68,5 +78,21 @@ public class User {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

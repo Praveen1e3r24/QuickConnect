@@ -12,7 +12,7 @@ public class Employee extends User {
     }
 
     public Employee(User user, String employeeRole, String department, int numChats, Boolean isAvailable) {
-        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName());
+        super(user.getUserId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhonenumber(), user.getAddress());
         this.numChats = numChats;
         this.isAvailable = isAvailable;
         this.setUserType("Employee");
@@ -20,8 +20,8 @@ public class Employee extends User {
         this.department = department;
     }
 
-    public Employee(String userId, String email, String firstName, String lastName, String employeeRole, String department, int numChats, Boolean isAvailable) {
-        super(userId, email, firstName, lastName);
+    public Employee(String userId, String email, String firstName, String lastName, String phonenumber, String address, String employeeRole, String department, int numChats, Boolean isAvailable) {
+        super(userId, email, firstName, lastName,phonenumber, address);
         this.numChats = numChats;
         this.setUserType("Employee");
         this.employeeRole = employeeRole;
