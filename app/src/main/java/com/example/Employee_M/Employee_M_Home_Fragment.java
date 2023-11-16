@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.OnClickInterface;
+import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
 import com.example.quickconnect.R;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,16 +52,14 @@ public class Employee_M_Home_Fragment extends Fragment implements OnClickInterfa
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot s : snapshot.getChildren()){
                     Chat chat = s.getValue(Chat.class);
-                    if (chat!= null)
+                    if (chat!= null && chat.getSupportId() == FirebaseAuth.getInstance().getCurrentUser().getUid())
                     {
                         chatList.add(chat);
                     }
                 }
-                if (!chatList.isEmpty())
-                {
-                    ChatAdapter adapter = new ChatAdapter(getInterface(), chatList);
-                    rv.setAdapter(adapter);
-                }
+                ChatAdapter adapter = new ChatAdapter(getInterface(), chatList, null);
+                rv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -71,9 +72,11 @@ public class Employee_M_Home_Fragment extends Fragment implements OnClickInterfa
     }
 
     @Override
-    public void onClick(int pos) {
+    public void onClick(int pos, Object o) {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
-        intent.putExtra("chat",chatList.get(pos));
+        Chat chat = (Chat) chatList.get(pos);
+        intent.putExtra("chat", chat);
         startActivity(intent);
+
     }
 }

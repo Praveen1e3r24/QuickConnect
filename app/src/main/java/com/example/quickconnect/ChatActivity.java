@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -24,6 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.customer.Customer_Home_Fragment;
 import com.example.quickconnect.databinding.ActivityChatBinding;
 import com.example.utilities.UserData;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,12 +47,14 @@ public class ChatActivity extends AppCompatActivity {
     private EditText messageText;
 
     private Chat chat;
+    private CallRequest callRequest;
 
     private DatabaseReference dbRef;
     private MessageAdapter adapter;
     private List<Message> messageList = new ArrayList<>();
     private Boolean firstenter;
     private ActivityChatBinding binding;
+    boolean isRequest;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -70,14 +76,21 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         chat = intent.getParcelableExtra("chat");
+        callRequest = intent.getParcelableExtra("callRequest");
+
+        if (callRequest == null)
+        {
+            callRequest = intent.getParcelableExtra("callRequest1");
+        }
+        isRequest =  intent.getBooleanExtra("isRequest", false);
 
         RecyclerView rv = binding.recyclerGchat;
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        dbRef.child("Chats").child(chat.getChatId()).child("isClosed").addValueEventListener(new ValueEventListener() {
+        dbRef.child("Chats").child(chat.getChatId()).child("closed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(Boolean.class) == true)
+                if (Boolean.TRUE.equals(snapshot.getValue(Boolean.class)) == true)
                 {
                     Toast.makeText(ChatActivity.this, "Chat has been closed", Toast.LENGTH_SHORT).show();
                     binding.chatMessage.setVisibility(View.GONE);
@@ -95,6 +108,7 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(ChatActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
         dbRef.child("Chats").child(chat.getChatId()).child("messages").addValueEventListener(new ValueEventListener() {
             @Override
@@ -173,10 +187,30 @@ public class ChatActivity extends AppCompatActivity {
 
         } else if (itemId == R.id.end_chat) {
 
-            endChat();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            // Set the dialog title and message
+            builder.setTitle("End Chat")
+                    .setMessage("Are you sure you want to end this chat?")
+                    .setCancelable(true)
+                    .setPositiveButton("End Chat", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Handle the button click, if needed
+                            endChat();
+                            finish();
+                        }
+                    }).
+                    setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Handle the button click, if needed
+                            dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
 
         } else if (itemId == R.id.change_language) {
-
         }
 
         return super.onOptionsItemSelected(menuItem);
@@ -184,12 +218,30 @@ public class ChatActivity extends AppCompatActivity {
 
     private void endChat(){
 
-        dbRef.child("Employees").child(chat.getSupportId()).child("numChats").addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("Users").child("Employees").child(chat.getSupportId()).child("numChats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int numChats = snapshot.getValue(Integer.class);
-                dbRef.child("Employees").child(chat.getSupportId()).child("numChats").setValue(numChats - 1);
-                dbRef.child("Chats").child(chat.getChatId()).child("isClosed").setValue(true);
+                dbRef.child("Users").child("Employees").child(chat.getSupportId()).child("numChats").setValue(numChats - 1);
+                dbRef.child("Users").child("Employees").child(chat.getSupportId()).child("available").setValue(true);
+                if (callRequest != null)
+                {
+                    dbRef.child("Requests").child(callRequest.getRequestId()).removeValue();
+                    dbRef.child("Chats").child(chat.getChatId()).removeValue();
+                    finish();
+                }
+
+                if (chat.getCallRequestId() != null)
+                {
+                    dbRef.child("Requests").child(chat.getCallRequestId()).removeValue();
+                    dbRef.child("Chats").child(chat.getChatId()).removeValue();
+                    finish();
+                }
+                else
+                {
+                    dbRef.child("Chats").child(chat.getChatId()).child("closed").setValue(true);
+                }
+
             }
 
             @Override

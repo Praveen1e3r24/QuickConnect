@@ -15,4 +15,5 @@
         <item name="colorAccent">@color/red</item>
     </style>
     <style name="Theme.QuickConnect" parent="Base.Theme.QuickConnect" />
+
 </resources>

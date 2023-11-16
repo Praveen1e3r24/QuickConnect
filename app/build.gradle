@@ -53,6 +53,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.google.firebase:firebase-database:20.3.0'
     implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation files('libs\\additionnal.jar')
     implementation files('libs\\mail.jar')
     implementation files('libs\\activation.jar')
