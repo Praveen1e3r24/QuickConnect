@@ -8,9 +8,13 @@ public class Card {
     private double cardLimit;
     private double waiverFees;
 
+
     private String status;
 
 //    private Image cardImage;
+
+    private String cardPic;
+
 
     public Card() {
     }

@@ -2,7 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/customer_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/view_customer_s_information"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/change_language"
         android:icon="@drawable/baseline_language_24"
         android:title="@string/change_language"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/end_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/end_chat"
         app:showAsAction="never" />
 </menu>
