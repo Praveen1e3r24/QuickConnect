@@ -3,6 +3,7 @@ package com.example.customer;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.R;
 import com.example.quickconnect.databinding.CustomSeriousQuickconnectPopupBinding;
 import com.example.quickconnect.databinding.FragmentCustomerProfileBinding;
@@ -273,8 +275,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
         // Handle button clicks or any other interactions
        custompopup.requestCall.setOnClickListener(v -> {
-            // Handle the "Request Call" option
-            // Implement your logic here
+           Intent intent = new Intent(getContext(), Customer_Profile.class);
+           startActivity(intent);
+
         });
 
         custompopup.requestMessage247.setOnClickListener(v -> {

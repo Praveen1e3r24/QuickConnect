@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="16dp"
-        app:cardCornerRadius="8dp">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,6 +65,12 @@
                 android:textStyle="bold"/>
 
             <!-- Add any additional information or details about the remaining time here -->
+            <TextView
+                android:id="@+id/textViewAdditionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Please patiently wait and prepare for a customer service agent to accept the request."
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

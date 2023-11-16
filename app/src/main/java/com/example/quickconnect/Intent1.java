@@ -2,14 +2,15 @@ package com.example.quickconnect;
 
 import java.util.List;
 
-public class Intent {
+public class Intent1 {
+    public static final String ACTION_CALL = "call";
     private String intentId;
     private User user;
     private String message;
     private boolean isSerious;
     private List<Attachment> attachments;
 
-    public Intent(String intentId, User user, String message, boolean isSerious, List<Attachment> attachments) {
+    public Intent1(String intentId, User user, String message, boolean isSerious, List<Attachment> attachments) {
         this.intentId = intentId;
         this.user = user;
         this.message = message;

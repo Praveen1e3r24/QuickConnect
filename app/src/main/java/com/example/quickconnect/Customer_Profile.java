@@ -3,17 +3,16 @@ package com.example.quickconnect;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.customer.Transaction;
 import com.example.quickconnect.databinding.ActivityCustomerProfileBinding;
 import com.example.quickconnect.databinding.EmailPopupBinding;
 import com.example.utilities.UserData;
@@ -40,46 +39,55 @@ public class Customer_Profile extends AppCompatActivity {
         // Now you can call the method
         userDetails = userData.getUserDetailsFromSharedPreferences(context);
 
+        Customer customer = new Customer();
+        customer= (Customer) userDetails;
+
+        binding.profileEmailaddress.setText(userDetails.getEmail());
+        binding.profileMobileNumber.setText(userDetails.getPhonenumber());
+        binding.profileTitle.setText(userDetails.getFirstName() + " " + userDetails.getLastName()+"'s Profile");
+        for (Transaction transaction : customer.getTransactions()) {
+            binding.ProfileRecentTransactionHistory.append(transaction.toString());
+        }
+
+
         binding.imageView2.setOnClickListener(view -> {
+
+            makePhoneCall();
 
         });
 
         binding.imageView4.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            // Get the layout inflater
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View view1 = inflater.inflate(R.layout.email_popup, null);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-            // Find the EditText and Button in the custom layout
-            final EditText emailMessageEditText = view.findViewById(binding2.emailEdittext.getId());
-            Button sendButton = view.findViewById(binding2.emailSubmitBtn.getId());
+            alert.setTitle(userDetails.getEmail());
+            alert.setMessage("Please enter your message");
 
-            // Set up the AlertDialog
-            builder.setView(view);
-            builder.setTitle("Send Email to Customer");
+// Set an EditText view to get user input
+            final EditText input = new EditText(this);
+            alert.setView(input);
 
-            // Set up the "Send" button click listener
-            sendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String emailMessage = emailMessageEditText.getText().toString();
-                    sendEmailToCustomer(emailMessage);
+            alert.setPositiveButton("Send Email", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                    // Do something with value!
                 }
             });
 
-            // Set up the "Cancel" button
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Canceled.
                 }
             });
 
-            // Show the AlertDialog
-            builder.show();
+            alert.show();
+
+
 
         });
+
+
+
     }
 
 
@@ -97,7 +105,7 @@ public class Customer_Profile extends AppCompatActivity {
         String mSubject = "OCBC Customer Service";
 
 // Get the custom message from another EditText (assuming you have one named "CustomMessageEditText")
-        String customMessage =emailinput;
+//        String customMessage =emailinput;
 
 // Build the email message using the custom content
         String message = "<html><body><h2>Dear Customer, this message is from OCBC Customer Service.</h2>";
@@ -113,10 +121,18 @@ public class Customer_Profile extends AppCompatActivity {
     // Method to handle the button click and make a phone call
     private void makePhoneCall() {
         // Phone number to dial
-        String phoneNumber = "tel:" + "123456789"; // Replace with the desired phone number
+
+
+        String phoneNumber = userDetails.getPhonenumber();
+
+        String phoneNumber2 = "tel:" + phoneNumber; // Replace with the desired phone number
+
+
 
         // Create an intent with the ACTION_CALL action and the phone number URI
-        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(phoneNumber));
+         Intent dialIntent = new Intent(Intent.ACTION_CALL);
+         dialIntent.setData(Uri.parse(phoneNumber2));
+         startActivity(dialIntent);
 
         // Check if the CALL_PHONE permission is granted before making the call
         if (checkSelfPermission(android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
@@ -126,5 +142,7 @@ public class Customer_Profile extends AppCompatActivity {
             // If permission is not granted, request it from the user
             requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE}, 1);
         }
+
+
     }
 }
