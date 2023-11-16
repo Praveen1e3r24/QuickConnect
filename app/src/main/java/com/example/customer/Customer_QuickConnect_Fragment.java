@@ -70,6 +70,8 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
     private boolean hasEmployee;
 
+    String topic;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -229,8 +231,28 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         List<String> seriousWords = Arrays.asList(
                 "urgent", "scam", "fraud", "stolen", "phishing", "deceived",
                 "assistance", "help", "emergency", "lost", "scammers", "identity",
-                "drain", "desperate", "swindled"
+                "drain", "desperate", "swindled", "stolen", "hacked", "hijacked",
+                "emergency", "critical", "immediate", "crisis", "danger", "threat",
+                "immediate attention", "immediate action", "immediate response",
+                "immediate assistance", "immediate help", "immediate support",
+                "escalate",
+                "assistance required"
         );
+
+        String[] topicsArray = {
+                "Account Issues",
+                "Product Information",
+                "Order Status",
+                "Billing Questions",
+                "Technical Support",
+                "Feedback and Suggestions",
+                "Returns and Exchanges",
+                "Shipping Inquiries",
+                "General Inquiries"
+        };
+
+        // Convert the array to an ArrayList
+        List<String> topicsList = new ArrayList<>(Arrays.asList(topicsArray));
 
         // Convert the user input to lowercase for case-insensitive matching
         String lowercaseInput = userInput.toLowerCase();
@@ -251,6 +273,28 @@ public class Customer_QuickConnect_Fragment extends Fragment {
             replaceFragment(new Customer_Profile_Fragment());
 
         }
+
+        if (lowercaseInput.contains("scam")) {
+            topic = "Scam";
+        }
+
+        if (lowercaseInput.contains("loan")) {
+            topic = "loan";
+        }
+
+        if (lowercaseInput.contains("transaction")) {
+            topic = "transaction";
+        }
+
+        if (lowercaseInput.contains("referral")) {
+            topic = "referral";
+        }
+
+        if (lowercaseInput.contains("waiver")) {
+            topic = "waiver fees";
+        }
+
+
 
         // The rest of your code...
     }
@@ -304,11 +348,13 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
         // Handle button clicks or any other interactions
        custompopup.requestCall.setOnClickListener(v -> {
-            dbRef.child("Users").child("Employees").addValueEventListener(addRequestToDB());
-        });
+           custompopup.requestCall.setEnabled(false);
+            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB());
+       });
 
         custompopup.requestMessage247.setOnClickListener(v -> {
-            dbRef.child("Users").child("Employees").addValueEventListener(checkAndAddChatToDB());
+            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(checkAndAddChatToDB());
+            custompopup.requestMessage247.setEnabled(false);
         });
 
         custompopup.requestBookAnAppointment.setOnClickListener(v -> {
@@ -328,7 +374,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
 
         // Add topic here :)
-        String topic = "topic here";
+        if (topic == null) {
+            topic = "General Inquiries";
+        }
         ValueEventListener valueEventListener = new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -365,6 +413,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
     private ValueEventListener addRequestToDB(){
         hasEmployee = false;
+        if (topic == null) {
+            topic = "General Inquiries";
+        }
         ValueEventListener eventListener = new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -374,7 +425,6 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                     if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("CS")) {
                         hasEmployee = true;
                         User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
-                        String topic = "topic here";
                         String query = binding.editTextComplaint.getText().toString();
 
                         dbRef.child("Requests").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -394,7 +444,8 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                                 dbRef.child("Users").child("Employees").child(employee.getUserId()).child("available").setValue(false);
                                 dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
                                 Toast.makeText(getContext(), "Call Request Sent", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getContext(), Customer_Profile.class);
+                                Intent intent = new Intent(getContext(), call_waiting_dashboard.class);
+                                intent.putExtra("callRequest", callRequest);
                                 startActivity(intent);
                             }
                             @Override

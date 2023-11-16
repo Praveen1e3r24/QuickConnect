@@ -68,6 +68,7 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
         user = new UserData().getUserDetailsFromSharedPreferences(getContext());
         dbRef = FirebaseDatabase.getInstance().getReference();
 
+
         v.findViewById(R.id.newsms).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +92,7 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
                 chatList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     Chat chat = s.getValue(Chat.class);
-                    if (chat.getCallRequestId() == null)
+                    if (chat.getCallRequestId() == null && chat.getCustomerId().equals(user.getUserId()))
                     {
                         if (chat.getClosed()) {
                             chatList.add(chat);
@@ -121,7 +122,7 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
                 callRequestList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     CallRequest request = s.getValue(CallRequest.class);
-                    if (request.getClosed())
+                    if (request.getClosed() && request.getCustomerId().equals(user.getUserId()))
                         callRequestList.add(request);
                     else
                         callRequestList.add(0, request);
@@ -209,7 +210,7 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
         if (o instanceof CallRequest)
         {
             CallRequest request = (CallRequest) callRequestList.get(pos);
-            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            Intent intent = new Intent(this.getActivity(), call_waiting_dashboard.class);
             intent.putExtra("chat", request.getChat());
             intent.putExtra("callRequest", request);
             startActivity(intent);

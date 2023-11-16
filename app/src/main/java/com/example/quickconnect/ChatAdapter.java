@@ -87,18 +87,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         {
             CallRequest callRequest = callRequestList.get(position);
 
-            holder.binding.chatItemTitle.setText(callRequest.getCustomerName());
+            if (callRequest.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                holder.binding.chatItemTitle.setText(callRequest.getSupportName());
+            } else {
+                holder.binding.chatItemTitle.setText(callRequest.getCustomerName());
+            }
             holder.binding.chatItemCategory.setText("Category: " + callRequest.getCategory());
             holder.binding.chatItemLastmsg.setText("Call Request");
 
-            if (callRequest.getClosed())
-            {
-                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#a63c3c"));
-            }
-            else
-            {
+
                 holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#fa5a5a"));
-            }
+
 
             if (callRequest.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                 holder.binding.chatItemTitle.setText(callRequest.getSupportName());
@@ -106,10 +105,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                 holder.binding.chatItemTitle.setText(callRequest.getCustomerName());
             }
 
-            if (callRequest.getClosed())
-            {
-                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#c40000"));
-            }
 
             holder.binding.chatItemCategory.setText("Category: " + callRequest.getCategory());
             SimpleDateFormat formatter = new SimpleDateFormat("E HH:mm");
@@ -117,6 +112,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             if (callRequest.getAccepted())
             {
                 holder.binding.chatItemLastmsg.setText("Accepted");
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#a63c3c"));
             }
             else
             {

@@ -1,10 +1,15 @@
 package com.example.quickconnect;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.customer.Transaction;
 
 import java.util.List;
 
-public class Customer extends User {
+public class Customer extends User implements Parcelable {
 
     private List<BankAccount> bankAccounts;
     private List<Card> cards;
@@ -34,6 +39,20 @@ public class Customer extends User {
     }
 
 
+    protected Customer(Parcel in) {
+    }
+
+    public static final Creator<Customer> CREATOR = new Creator<Customer>() {
+        @Override
+        public Customer createFromParcel(Parcel in) {
+            return new Customer(in);
+        }
+
+        @Override
+        public Customer[] newArray(int size) {
+            return new Customer[size];
+        }
+    };
 
     public List<BankAccount> getBankAccounts() {
         return bankAccounts;
@@ -57,5 +76,14 @@ public class Customer extends User {
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
     }
 }

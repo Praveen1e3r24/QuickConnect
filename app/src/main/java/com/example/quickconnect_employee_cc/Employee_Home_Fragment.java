@@ -18,6 +18,7 @@ import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
+import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +50,7 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
         dbRef.child("Requests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                callRequestList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     CallRequest callRequest = s.getValue(CallRequest.class);
                     if (callRequest!= null && Objects.equals(callRequest.getSupportId(), FirebaseAuth.getInstance().getCurrentUser().getUid()))
@@ -58,6 +60,7 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
                 }
                 ChatAdapter adapter = new ChatAdapter(getInterface(), null, callRequestList);
                 rv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -71,10 +74,9 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
 
     @Override
     public void onClick(int pos, Object o) {
-//        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        Intent intent = new Intent(getActivity(), Customer_Profile.class);
         CallRequest request = callRequestList.get(pos);
-//        intent.putExtra("chat", chat);
-//        startActivity(intent);
-
+       intent.putExtra("chatRequest", request);
+       startActivity(intent);
     }
 }

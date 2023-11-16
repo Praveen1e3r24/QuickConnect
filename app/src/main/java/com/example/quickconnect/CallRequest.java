@@ -14,7 +14,6 @@ public class CallRequest implements Parcelable {
     private String supportId;
     private String supportName;
     private Chat chat;
-
     private String query;
     private String category;
 

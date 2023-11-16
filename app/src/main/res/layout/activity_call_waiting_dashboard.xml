@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
     <!-- Title -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer Support Dashboard"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dashboard_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/baseline_arrow_back_24"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:text="QuickConnect Dashboard"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <!-- Steps to Take -->
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center_horizontal"
+        android:text="Queue Number: 10"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
     <TextView
         android:id="@+id/textViewStepsTitle"
         android:layout_width="match_parent"
@@ -98,4 +124,27 @@
         android:layout_height="wrap_content"
         android:text="Add Files/Photos"
         android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/dashboard_ready"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center_horizontal"
+        android:text="A support agent has accepted your request"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/dashboard_gotochat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/design_default_color_error"
+        android:text="Go to chat"
+        android:visibility="gone" />
+
 </LinearLayout>

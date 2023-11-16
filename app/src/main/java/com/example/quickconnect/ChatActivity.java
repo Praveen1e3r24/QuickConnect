@@ -54,6 +54,7 @@ public class ChatActivity extends AppCompatActivity {
     private List<Message> messageList = new ArrayList<>();
     private Boolean firstenter;
     private ActivityChatBinding binding;
+    boolean isRequest;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -76,6 +77,12 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         chat = intent.getParcelableExtra("chat");
         callRequest = intent.getParcelableExtra("callRequest");
+
+        if (callRequest == null)
+        {
+            callRequest = intent.getParcelableExtra("callRequest1");
+        }
+        isRequest =  intent.getBooleanExtra("isRequest", false);
 
         RecyclerView rv = binding.recyclerGchat;
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -220,6 +227,13 @@ public class ChatActivity extends AppCompatActivity {
                 if (callRequest != null)
                 {
                     dbRef.child("Requests").child(callRequest.getRequestId()).removeValue();
+                    dbRef.child("Chats").child(chat.getChatId()).removeValue();
+                    finish();
+                }
+
+                if (chat.getCallRequestId() != null)
+                {
+                    dbRef.child("Requests").child(chat.getCallRequestId()).removeValue();
                     dbRef.child("Chats").child(chat.getChatId()).removeValue();
                     finish();
                 }
