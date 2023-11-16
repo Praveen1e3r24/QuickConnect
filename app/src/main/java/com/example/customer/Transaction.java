@@ -1,21 +1,21 @@
 package com.example.customer;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Transaction {
     private String transactionId;
     private String userID;
     private String description;
-    private double amount;
-    private LocalDateTime transactionDateTime;
+    private String amount;
+    private Date transactionDateTime;
 
     // Constructors
-    public Transaction(String transactionId, String userID, String description, double amount, LocalDateTime transactionDateTime) {
+    public Transaction(String transactionId, String userID, String description, String amount) {
         this.transactionId = transactionId;
         this.userID = userID;
         this.description = description;
         this.amount = amount;
-        this.transactionDateTime = transactionDateTime;
+        this.transactionDateTime = new Date();
     }
 
     public Transaction() {
@@ -46,19 +46,19 @@ public class Transaction {
         this.description = description;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public LocalDateTime getTransactionDateTime() {
+    public Date getTransactionDateTime() {
         return transactionDateTime;
     }
 
-    public void setTransactionDateTime(LocalDateTime transactionDateTime) {
+    public void setTransactionDateTime(Date transactionDateTime) {
         this.transactionDateTime = transactionDateTime;
     }
 

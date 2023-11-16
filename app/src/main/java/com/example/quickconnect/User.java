@@ -22,7 +22,6 @@ public class User {
         FirstName = firstName;
         LastName = lastName;
         this.fullName = firstName + " " + lastName;
-        this.userType = userType;
         this.phonenumber = phonenumber;
         this.address = address;
     }

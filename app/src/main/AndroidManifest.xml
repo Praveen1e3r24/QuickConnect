@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -14,10 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name="com.example.customer.Customer_CallQWait_Activity"-->
-<!--            android:theme="@style/Theme.Material3.Light"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name="com.example.customer.call_waiting_dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".Customer_Profile"
+            android:exported="false" />
         <activity
             android:name=".Registration_Selection_Page"
             android:exported="false" />
@@ -39,6 +48,7 @@
         <activity
             android:name="com.example.quickconnect_employee_cc.QuickConnect_MainPage"
             android:exported="false" />
+
         <activity
             android:name=".ChatActivity"
             android:exported="false"
