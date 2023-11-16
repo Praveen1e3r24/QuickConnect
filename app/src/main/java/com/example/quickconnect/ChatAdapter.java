@@ -1,10 +1,13 @@
 package com.example.quickconnect;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,72 +17,153 @@ import com.example.quickconnect.databinding.ChatItemLayoutBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private final OnClickInterface onClickInterface;
-    private List<Chat> dataList;
+    private List<Chat> chatList;
+    private List<CallRequest> callRequestList;
 
-    public ChatAdapter(OnClickInterface onClickInterface, List<Chat> dataList) {
+    public ChatAdapter(OnClickInterface onClickInterface,List<Chat> chatList, List<CallRequest> callRequestList) {
         this.onClickInterface = onClickInterface;
-        this.dataList = dataList;
+        this.callRequestList = callRequestList;
+        this.chatList = chatList;
     }
 
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_layout, parent, false);
-        return new ChatViewHolder(view, onClickInterface);
+        if (chatList == null)
+        {
+            CallRequest request = new CallRequest();
+            return new ChatViewHolder(view, onClickInterface,request);
+        }
+        else
+        {
+            Chat chat = new Chat();
+            return new ChatViewHolder(view, onClickInterface,chat);
+        }
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        Chat chat = dataList.get(position);
-
-        if (chat.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-            holder.binding.chatItemTitle.setText(chat.getSupportName());
-        } else {
-            holder.binding.chatItemTitle.setText(chat.getCustomerName());
-        }
-
-        holder.binding.chatItemCategory.setText("Category: " + chat.getCategory());
-        SimpleDateFormat formatter = new SimpleDateFormat("E dd HH:mm");
-
-        if (chat.getMessages() != null && !chat.getMessages().isEmpty())
+        if (callRequestList == null)
         {
-            holder.binding.chatItemLastmsg.setText(chat.getMessages().get(chat.getMessages().size() - 1).getText());
+            Chat chat = chatList.get(position);
+
+            if (chat.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                holder.binding.chatItemTitle.setText(chat.getSupportName());
+            } else {
+                holder.binding.chatItemTitle.setText(chat.getCustomerName());
+            }
+
+            if (chat.getClosed())
+            {
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#c40000"));
+            }
+
+            holder.binding.chatItemCategory.setText("Category: " + chat.getCategory());
+            SimpleDateFormat formatter = new SimpleDateFormat("E HH:mm");
+
+            if (chat.getMessages() != null && !chat.getMessages().isEmpty())
+            {
+                holder.binding.chatItemLastmsg.setText(chat.getMessages().get(chat.getMessages().size() - 1).getText());
+                holder.binding.chatItemTime.setText(formatter.format(chat.getMessages().get(chat.getMessages().size() - 1).getTimestamp()));
+            }
+            else
+            {
+                holder.binding.chatItemLastmsg.setVisibility(View.INVISIBLE);
+                holder.binding.chatItemTime.setText(formatter.format(chat.getTimestamp()));
+            }
+
+            holder.binding.chatItemIcon.setImageResource(R.drawable.nav_message);
         }
-        else
+        else if (chatList == null)
         {
-            holder.binding.chatItemLastmsg.setVisibility(View.INVISIBLE);
+            CallRequest callRequest = callRequestList.get(position);
+
+            holder.binding.chatItemTitle.setText(callRequest.getCustomerName());
+            holder.binding.chatItemCategory.setText("Category: " + callRequest.getCategory());
+            holder.binding.chatItemLastmsg.setText("Call Request");
+
+            if (callRequest.getClosed())
+            {
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#a63c3c"));
+            }
+            else
+            {
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#fa5a5a"));
+            }
+
+            if (callRequest.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                holder.binding.chatItemTitle.setText(callRequest.getSupportName());
+            } else {
+                holder.binding.chatItemTitle.setText(callRequest.getCustomerName());
+            }
+
+            if (callRequest.getClosed())
+            {
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#c40000"));
+            }
+
+            holder.binding.chatItemCategory.setText("Category: " + callRequest.getCategory());
+            SimpleDateFormat formatter = new SimpleDateFormat("E HH:mm");
+
+            if (callRequest.getAccepted())
+            {
+                holder.binding.chatItemLastmsg.setText("Accepted");
+            }
+            else
+            {
+                holder.binding.chatItemLastmsg.setText("Queue number: "+ callRequest.getQueueNo());
+            }
+
+            holder.binding.chatItemTime.setText(formatter.format(callRequest.getRequestDate()));
+
+            holder.binding.chatItemIcon.setImageResource(R.drawable.nav_call);
         }
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        if (chatList!=null)
+        {
+            return chatList.size();
+        }
+        else
+        {
+            return callRequestList.size();
+        }
+    }
+
+    public void setChatList(List<Chat> chatList) {
+        this.chatList = chatList;
+        notifyDataSetChanged();
+    }
+
+    public void setCallRequestList(List<CallRequest> callRequestList) {
+        this.callRequestList = callRequestList;
+        notifyDataSetChanged();
     }
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
         private final ChatItemLayoutBinding binding;
 
-        public ChatViewHolder(@NonNull View itemView, OnClickInterface onClickInterface) {
+        public ChatViewHolder(@NonNull View itemView, OnClickInterface onClickInterface, Object o) {
             super(itemView);
             binding = ChatItemLayoutBinding.bind(itemView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onClickInterface != null)
+                    if (onClickInterface != null && getAdapterPosition() != RecyclerView.NO_POSITION)
                     {
-                        if (getAdapterPosition() != RecyclerView.NO_POSITION)
-                        {
-                            onClickInterface.onClick(getAdapterPosition());
-                        }
+                        onClickInterface.onClick(getAdapterPosition(), o);
                     }
                 }
             });

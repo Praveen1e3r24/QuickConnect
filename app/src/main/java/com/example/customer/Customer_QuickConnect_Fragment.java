@@ -3,6 +3,8 @@ package com.example.customer;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +17,26 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.quickconnect.CallRequest;
+import com.example.quickconnect.Chat;
+import com.example.quickconnect.ChatActivity;
+import com.example.quickconnect.Employee;
+import com.example.quickconnect.Message;
 import com.example.quickconnect.R;
+import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.CustomSeriousQuickconnectPopupBinding;
 import com.example.quickconnect.databinding.FragmentCustomerProfileBinding;
 import com.example.quickconnect.databinding.FragmentCustomerQuickConnectBinding;
+import com.example.utilities.UserData;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ml.common.FirebaseMLException;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
@@ -35,7 +50,12 @@ import com.google.firebase.ml.custom.FirebaseModelInterpreterOptions;
 
 import org.tensorflow.lite.Interpreter;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 public class Customer_QuickConnect_Fragment extends Fragment {
 
@@ -46,6 +66,10 @@ public class Customer_QuickConnect_Fragment extends Fragment {
     CustomSeriousQuickconnectPopupBinding custompopup;
     FirebaseModelInterpreter interpreter;
     FirebaseModelInputOutputOptions inputOutputOptions;
+
+    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+    private boolean hasEmployee;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -240,19 +264,16 @@ public class Customer_QuickConnect_Fragment extends Fragment {
     private void showSeriousOptionsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
-        // Inflate the layout using view binding for the custom dialog
         custompopup = CustomSeriousQuickconnectPopupBinding.inflate(getLayoutInflater());
         builder.setView(custompopup.getRoot());
 
         // Handle button clicks or any other interactions
        custompopup.requestCall.setOnClickListener(v -> {
-            // Handle the "Request Call" option
-            // Implement your logic here
+            dbRef.child("Users").child("Employees").addValueEventListener(addRequestToDB());
         });
 
         custompopup.requestMessage247.setOnClickListener(v -> {
-            // Handle the "Message 24/7 Messaging Personal" option
-            // Implement your logic here
+            dbRef.child("Users").child("Employees").addValueEventListener(checkAndAddChatToDB());
         });
 
         custompopup.requestBookAnAppointment.setOnClickListener(v -> {
@@ -263,6 +284,108 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         // Show the dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private ValueEventListener checkAndAddChatToDB() {
+
+        hasEmployee = false;
+        User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
+
+        // Add topic here :)
+        String topic = "topic here";
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Employee employee = snapshot.getValue(Employee.class);
+                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5) {
+                        List<Message> messages = new ArrayList<>();
+                        Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+                        chat.setChatId(dbRef.child("Chats").push().getKey());
+                        dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+                        dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+                        hasEmployee = true;
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("chat", chat);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+                if (!hasEmployee)
+                {
+                    Toast.makeText(getContext(), "No Available Employees", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        Log.d("FinalHasEmployee", "Has Employee: " + hasEmployee);
+        return valueEventListener;
+    }
+
+    private ValueEventListener addRequestToDB(){
+        hasEmployee = false;
+        ValueEventListener eventListener = new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    Employee employee = s.getValue(Employee.class);
+                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("CS")) {
+                        hasEmployee = true;
+                        User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
+                        String topic = "topic here";
+                        String query = binding.editTextComplaint.getText().toString();
+
+                        dbRef.child("Requests").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int queueNo = 0;
+
+                                if (snapshot.exists()) {
+                                    queueNo = (int) snapshot.getChildrenCount();
+                                }
+                                List<Message> messages = new ArrayList<>();
+                                Chat chat = new Chat(UUID.randomUUID().toString(), employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+                                CallRequest callRequest = new CallRequest(UUID.randomUUID().toString(), user.getUserId(), user.getFullName(), employee.getUserId(), employee.getFullName(), chat, query, topic, queueNo, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), false, false);
+                                callRequest.setRequestId(dbRef.child("Requests").push().getKey());
+                                callRequest.getChat().setCallRequestId(callRequest.getRequestId());
+                                dbRef.child("Requests").child(callRequest.getRequestId()).setValue(callRequest);
+                                dbRef.child("Users").child("Employees").child(employee.getUserId()).child("available").setValue(false);
+                                dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+                                Toast.makeText(getContext(), "Call Request Sent", Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                                intent.putExtra("callRequest", callRequest);
+//                                startActivity(intent);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    }
+                }
+
+                if (!hasEmployee)
+                {
+                    Toast.makeText(getContext(), "No Available Employees", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+
+        return eventListener;
     }
 
     private float[] preprocessInput(String userInput) {

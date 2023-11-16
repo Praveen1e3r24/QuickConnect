@@ -18,9 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.OnClickInterface;
+import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
@@ -34,28 +36,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.snapshot.BooleanNode;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 public class Customer_Home_Fragment extends Fragment implements OnClickInterface {
 
     private User user;
     private String topic = "";
+    private String query = "";
     private DatabaseReference dbRef;
 
     private List<Chat> chatList = new ArrayList<>();
-
-
+    private List<CallRequest> callRequestList = new ArrayList<>();
     private Boolean hasEmployee;
 
     private OnClickInterface getInterface() {
         return this;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,21 +75,36 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
             }
         });
 
-        RecyclerView recyclerView = v.findViewById(R.id.customer_allchats);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        v.findViewById(R.id.newcall).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createCallRequest();
+            }
+        });
+
+
+        RecyclerView chatRV = v.findViewById(R.id.customer_allchats);
+        chatRV.setLayoutManager(new LinearLayoutManager(getContext()));
         dbRef.child("Chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     Chat chat = s.getValue(Chat.class);
-                    chatList.add(chat);
+                    if (chat.getCallRequestId() == null)
+                    {
+                        if (chat.getClosed()) {
+                            chatList.add(chat);
+                        }
+                        else {
+                            chatList.add(0, chat);
+                        }
                     }
-                if (!chatList.isEmpty())
-                {
-                    ChatAdapter adapter = new ChatAdapter(getInterface(), chatList);
-                    recyclerView.setAdapter(adapter);
                 }
+
+                ChatAdapter adapter = new ChatAdapter(getInterface(),chatList, null);
+                chatRV.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -94,6 +112,32 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
                 Toast.makeText(getContext(), "Error Occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        RecyclerView callRV= v.findViewById(R.id.customer_allcalls);
+        callRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        dbRef.child("Requests").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                callRequestList.clear();
+                for (DataSnapshot s : snapshot.getChildren()){
+                    CallRequest request = s.getValue(CallRequest.class);
+                    if (request.getClosed())
+                        callRequestList.add(request);
+                    else
+                        callRequestList.add(0, request);
+                }
+
+                ChatAdapter adapter = new ChatAdapter(getInterface(),null, callRequestList);
+                callRV.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error Occurred: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return v;
     }
 
@@ -118,10 +162,6 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
         });
 
         builder.show();
-    }
-
-    public interface CheckAgentCallback {
-        void onCheckComplete(boolean isValid);
     }
 
 
@@ -165,11 +205,142 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
     }
 
     @Override
-    public void onClick(int pos) {
-        Intent intent = new Intent(getActivity(), ChatActivity.class);
-        intent.putExtra("chat",chatList.get(pos) );
-        startActivity(intent);
+    public void onClick(int pos, Object o) {
+        if (o instanceof CallRequest)
+        {
+            CallRequest request = (CallRequest) callRequestList.get(pos);
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            intent.putExtra("chat", request.getChat());
+            intent.putExtra("callRequest", request);
+            startActivity(intent);
+        }
+        else if (o instanceof Chat)
+        {
+            Chat chat = (Chat) chatList.get(pos);
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            intent.putExtra("chat", chat);
+            intent.putExtra("isChat", true);
+            startActivity(intent);
+        }
     }
+
+    private void createCallRequest(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+
+        // Create a LinearLayout to hold the EditTexts
+        LinearLayout layout = new LinearLayout(this.getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        // Create the first EditText
+        EditText editText1 = new EditText(this.getContext());
+        editText1.setHint("Query");
+        layout.addView(editText1);
+
+        // Create the second EditText
+        EditText editText2 = new EditText(this.getContext());
+        editText2.setHint("Category");
+        layout.addView(editText2);
+
+        builder.setView(layout)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        query = editText1.getText().toString();
+                        topic = editText2.getText().toString();
+                        dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB());
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the button click, if needed
+                        dialog.dismiss();
+                }});
+        builder.create().show();
+    }
+
+    private ValueEventListener addRequestToDB(){
+        hasEmployee = false;
+        ValueEventListener eventListener = new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    Employee employee = s.getValue(Employee.class);
+                    Log.d("EMPLOYEE ID LMAO", employee.getEmployeeRole());
+                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("CS")) {
+                        hasEmployee = true;
+
+                        dbRef.child("Requests").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int queueNo = 0;
+
+                                if (snapshot.exists()) {
+                                    queueNo = (int) snapshot.getChildrenCount();
+                                }
+                                List<Message> messages = new ArrayList<>();
+                                Chat chat = new Chat(UUID.randomUUID().toString(), employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+                                CallRequest callRequest = new CallRequest(UUID.randomUUID().toString(), user.getUserId(), user.getFullName(), employee.getUserId(), employee.getFullName(), chat, query, topic, queueNo, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), false, false);
+                                callRequest.setRequestId(dbRef.child("Requests").push().getKey());
+                                callRequest.getChat().setCallRequestId(callRequest.getRequestId());
+                                dbRef.child("Requests").child(callRequest.getRequestId()).setValue(callRequest);
+                                dbRef.child("Users").child("Employees").child(employee.getUserId()).child("available").setValue(false);
+                                dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
+                                Toast.makeText(getContext(), "Call Request Sent", Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                                intent.putExtra("callRequest", callRequest);
+//                                startActivity(intent);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    }
+                }
+
+                if (!hasEmployee)
+                {
+                    Toast.makeText(getContext(), "No Available Employees", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+
+        return eventListener;
+    }
+}
+//    public interface CheckAgentCallback {
+//        void onCheckComplete(boolean isValid);
+//    }
+
+
+// dbRef.child("Requests").addListenerForSingleValueEvent(new ValueEventListener() {
+//@Override
+//public void onDataChange(@NonNull DataSnapshot snapshot) {
+//        int queueNo = 0;
+//        if (snapshot.exists()) {
+//        queueNo = (int) snapshot.getChildrenCount();
+//        }
+//        CallRequest callRequest = new CallRequest("", user.getUserId(), user.getFullName(), "", "", null, query, category, queueNo, false, false);
+//        callRequest.setRequestId(dbRef.child("Requests").push().getKey());
+//        dbRef.child("Requests").child(callRequest.getRequestId()).setValue(callRequest);
+//        Toast.makeText
+//        }
+//        })
+//        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//@Override
+//public void onClick(DialogInterface dialog, int which) {
+//        dialog.dismiss();
+//        }
+//        });
+
 
 
 
@@ -350,4 +521,3 @@ public class Customer_Home_Fragment extends Fragment implements OnClickInterface
 //
 //        Boolean checkAgent(Employee employee);
 //    }
-}

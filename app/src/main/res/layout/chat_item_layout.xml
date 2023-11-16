@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/chat_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -81,6 +82,18 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/chat_item_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:foregroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/chat_item_title"
+                app:layout_constraintStart_toEndOf="@+id/chat_item_title"
+                app:layout_constraintTop_toTopOf="@+id/chat_item_title"
+                app:srcCompat="@drawable/nav_call"
+                app:tint="#FFFFFF" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,4 +4,6 @@
         <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/design_default_color_primary_dark</item>
     </style>
+  <!-- Base application theme. -->
+
 </resources>

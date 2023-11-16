@@ -51,7 +51,7 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
          toggle.syncState();
 
          if(savedInstanceState == null) {
-             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_Fragment()).commit();
+             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Home_Fragment()).commit();
              binding.navView.setCheckedItem(nav_m_home);
          }
 

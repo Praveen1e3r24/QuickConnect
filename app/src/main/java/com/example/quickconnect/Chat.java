@@ -1,9 +1,10 @@
 package com.example.quickconnect;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Chat implements Parcelable {
     private Date timestamp;
     private List<Message> messages;
     private Boolean isClosed;
+    private String callRequestId;
 
     public Chat(){
     }
@@ -42,6 +44,20 @@ public class Chat implements Parcelable {
     }
 
 
+    public Chat(String chatId, String supportId, String supportName, String supportTeam, String customerId, String customerName, String category, Date timestamp, List<Message> messages, Boolean isClosed, String callRequestId) {
+        this.chatId = chatId;
+        this.supportId = supportId;
+        this.supportName = supportName;
+        this.supportTeam = supportTeam;
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.category = category;
+        this.timestamp = timestamp;
+        this.messages = messages;
+        this.isClosed = isClosed;
+        this.callRequestId = callRequestId;
+    }
+
     protected Chat(Parcel in) {
         chatId = in.readString();
         supportId = in.readString();
@@ -53,6 +69,26 @@ public class Chat implements Parcelable {
         messages = in.createTypedArrayList(Message.CREATOR);
         byte tmpIsClosed = in.readByte();
         isClosed = tmpIsClosed == 0 ? null : tmpIsClosed == 1;
+        callRequestId = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(chatId);
+        dest.writeString(supportId);
+        dest.writeString(supportName);
+        dest.writeString(supportTeam);
+        dest.writeString(customerId);
+        dest.writeString(customerName);
+        dest.writeString(category);
+        dest.writeTypedList(messages);
+        dest.writeByte((byte) (isClosed == null ? 0 : isClosed ? 1 : 2));
+        dest.writeString(callRequestId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {
@@ -135,21 +171,23 @@ public class Chat implements Parcelable {
         return timestamp;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(chatId);
-        dest.writeString(supportId);
-        dest.writeString(supportName);
-        dest.writeString(supportTeam);
-        dest.writeString(customerId);
-        dest.writeString(customerName);
-        dest.writeString(category);
-        dest.writeTypedList(messages);
-        dest.writeByte((byte) (isClosed == null ? 0 : isClosed ? 1 : 2));
+    public Boolean getClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(Boolean closed) {
+        isClosed = closed;
+    }
+
+    public String getCallRequestId() {
+        return callRequestId;
+    }
+
+    public void setCallRequestId(String callRequestId) {
+        this.callRequestId = callRequestId;
     }
 }
