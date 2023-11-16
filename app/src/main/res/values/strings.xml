@@ -51,6 +51,7 @@
     <string name="profile_other">profile_other</string>
     <string name="profile_mobile_number">profile_mobile_number</string>
     <string name="profile_customer_preference">Profile_Customer_preference</string>
+    <string name="previous_queries">previous_queries</string>
 
 
 </resources>

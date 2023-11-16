@@ -19,17 +19,19 @@ public class UserData {
             Gson gson = new Gson();
             User user = gson.fromJson(userJson, User.class);
 
-            if (user.getUserType().equals("Customer")) {
-                Customer customer = gson.fromJson(userJson, Customer.class);
-                return customer;
-            } else if (user.getUserType().equals("Employee")) {
-                Employee employee = gson.fromJson(userJson, Employee.class);
-                return employee;
+            // Check user type and cast accordingly
+            if (user != null) {
+                if (user.getUserType().equals("Customer")) {
+                    return gson.fromJson(userJson, Customer.class);
+                } else if (user.getUserType().equals("Employee")) {
+                    return gson.fromJson(userJson, Employee.class);
+                }
             }
-            return null;
         }
+
         return null;
     }
+
 
     public void storeUserDetails(Context c, User user) {
         Gson gson = new Gson();

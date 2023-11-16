@@ -8,24 +8,25 @@ public class Card {
     private double cardLimit;
     private double waiverFees;
 
+
+    private String status;
+
+//    private Image cardImage;
+
     private String cardPic;
+
 
     public Card() {
     }
 
-    public Card(String cardTypeName, String cardType, String expiryDate, double cardLimit) {
-        this.cardType = cardType;
-        this.cardTypeName = cardTypeName;
-        this.expiryDate = expiryDate;
-        this.cardLimit = cardLimit;
-    }
 
-    public Card(String cardTypeName, String cardType,  String expiryDate, double cardLimit, double waiverFees) {
+    public Card(String cardTypeName, String cardType,  String expiryDate, double cardLimit, double waiverFees, String status) {
         this.cardType = cardType;
         this.cardTypeName = cardTypeName;
         this.expiryDate = expiryDate;
         this.cardLimit = cardLimit;
         this.waiverFees = waiverFees;
+        this.status = status;
     }
 
     public String getCardType() {
