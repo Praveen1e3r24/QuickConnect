@@ -85,11 +85,12 @@ public class Add_Customers extends AppCompatActivity {
                                         DatabaseReference userTypeReference;
 
                                             userTypeReference = customersReference.child(userId);
-                                            Card card = new Card("1234567890123456", "Debit", "12/24", 1000);
-                                            Card card2 = new Card("1234567890123456", "Debit", "12/24", 1000, 1000);
+                                            Card card = new Card("1234567890123456", "Credit", "12/24", 4000, 200,"Active");
+                                            Card card2 = new Card("9934567844663456", "Debit", "12/24", 2000, 100, "Active");
+                                            Card card3 = new Card("333567844663456", "Debit", "12/24", 1000, 100, "Active");
                                             BankAccount account = new BankAccount("123-4567-890", "OCBC 360 Account", 1000);
-                                           List<Transaction> t = new ArrayList<>();
-                                            user = new Customer(user,Arrays.asList(account,account), Arrays.asList(card, card2),t);
+                                            List<Transaction> transactions = createTransactionList();
+                                            user = new Customer(user,Arrays.asList(account,account), Arrays.asList(card, card2,card3),transactions);
 
 
 
@@ -112,4 +113,27 @@ public class Add_Customers extends AppCompatActivity {
 
         });
     }
+
+
+    public List<Transaction> createTransactionList() {
+        List<Transaction> transactionList = new ArrayList<>();
+
+        ArrayList<String> descriptionList = new ArrayList<>();
+        descriptionList.add("Groceries");
+        descriptionList.add("Shopping");
+        descriptionList.add("Transport");
+        descriptionList.add("Food");
+        descriptionList.add("Entertainment");
+        descriptionList.add("Bills");
+        descriptionList.add("Others");
+
+
+        for (int i = 0; i < 7; i++) {
+            Transaction t = new Transaction("1234", "1234", descriptionList.get(i), "1234");
+            transactionList.add(t); // Add the transaction to the list
+        }
+
+        return transactionList;
+    }
+
 }

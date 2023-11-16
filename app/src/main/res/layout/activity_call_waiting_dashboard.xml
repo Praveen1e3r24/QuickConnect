@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Customer Support Dashboard"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <!-- Steps to Take -->
+    <TextView
+        android:id="@+id/textViewStepsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Steps to Take"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/textViewSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Check your recent transactions to identify any discrepancies.\n2. Verify your account balance to ensure accuracy.\n3. Have your account number ready for reference."
+        android:layout_marginTop="8dp"/>
+
+    <!-- Estimated Time -->
+    <TextView
+        android:id="@+id/textViewTimeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estimated Time"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <!-- CardView for Remaining Time -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Approximately 10 minutes"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <!-- Add any additional information or details about the remaining time here -->
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Preparation Details -->
+    <TextView
+        android:id="@+id/textViewPreparationTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Preparation Details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/textViewPreparation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please have the following information ready:\n- Your account number\n- Recent transactions\n- Any relevant documents"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Button for adding files/photos -->
+    <Button
+        android:id="@+id/buttonAddFiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Files/Photos"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
