@@ -1,7 +1,6 @@
 package com.example.customer;
 
 import static com.example.quickconnect.R.id.nav_c_home;
-import static com.example.quickconnect.R.id.nav_e_cc_home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,20 +17,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.Voice_Video_Call.VV_Call_Fragment;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.ActivityCustomerMainBinding;
-import com.example.quickconnect.databinding.ActivityEmployeeCallCentreMainBinding;
-import com.example.quickconnect_employee_cc.Employee_CallCentre_Main;
-import com.example.quickconnect_employee_cc.Employee_Call_Fragment;
-import com.example.quickconnect_employee_cc.Employee_Home_Fragment;
-import com.example.quickconnect_employee_cc.Employee_Language_Fragment;
-import com.example.quickconnect_employee_cc.Employee_Profile_Fragment;
 import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,7 +71,11 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Language_Fragment()).commit();
         } else if (itemId == R.id.nav_c_profile) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Fragment()).commit();
-        } else if (itemId == R.id.nav_c_logout) {
+        }
+        else if (itemId == R.id.nav_c_vvcall) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VV_Call_Fragment()).commit();
+        }
+        else if (itemId == R.id.nav_c_logout) {
             logout();
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
         }

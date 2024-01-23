@@ -98,4 +98,34 @@
     <string name="register_as_employee">Register as Employee</string>
 
 
+    // Video Call App
+    <string name="welcome_to">Welcome To</string>
+    <string name="video_meeting_conference_app">Video meeting Conference App</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="your_example_com">123@gmail.com</string>
+    <string name="password_hint">password hint</string>
+    <string name="sign_in">sign in</string>
+    <string name="don_t_have_an_account">Dont have an account ?</string>
+    <string name="sign_up">sign up</string>
+    <string name="we_need_a_few_details_to_get_your_account_ready">we need a few details to get your account ready</string>
+    <string name="first_name_hint">first name hint</string>
+    <string name="last_name_hint">last name hint</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="already_have_an_account">already have an account</string>
+    <string name="sign_out">Sign Out\n</string>
+    <string name="incoming_meeting_invitation">incoming meeting invitation</string>
+    <string name="sending_meeting_invitation">Sending Meeting Invitation\n</string>
+
+
+    //cometchat
+    <string name="email_edt">Email</string>
+    <string name="password_edt">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="register_txt">Register</string>
+    <string name="confirm_password_edt">Confirm Password</string>
+    <string name="register_btn">Register</string>
+    <string name="user_name_edt">Username</string>
+    <string name="video_call">Video_Call</string>
+    <string name="tap_mic_and_speek">tap microphone and speak\n</string>
+
 </resources>

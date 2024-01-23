@@ -19,6 +19,11 @@
             android:icon="@drawable/nav_profile"
             android:title="@string/profile" />
 
+        <item
+            android:id="@+id/nav_c_vvcall"
+            android:icon="@drawable/nav_videocall"
+            android:title="@string/video_call" />
+
 
 
     </group>
