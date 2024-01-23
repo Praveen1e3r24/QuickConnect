@@ -5,14 +5,11 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -154,8 +151,10 @@ public class Login extends AppCompatActivity {
         });
     }
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     private void checkUserRole(String uid) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -205,22 +204,20 @@ public class Login extends AppCompatActivity {
         String employeeRole = employee.getEmployeeRole();
         if ("CS".equals(employeeRole)) {
             // Employee is assigned to call service
-            User user = getUserDetailsFromSharedPreferences();
-            String userID = user.getFirstName();
-            String userName = user.getFullName();
+
+            String userID = employee.getFirstName();
+            String userName = employee.getFirstName()+"_name";
 
             initCallInviteService(appID, appSign, userID, userName);
-
-
 
             Intent callServiceIntent = new Intent(getApplicationContext(), Employee_CallCentre_Main.class);
             startActivity(callServiceIntent);
         } else if ("M".equals(employeeRole)) {
             // Employee is assigned to chat specialist
 
-            User user = getUserDetailsFromSharedPreferences();
-            String userID = user.getFirstName();
-            String userName = user.getFullName();
+
+            String userID = employee.getFirstName();
+            String userName = employee.getFirstName()+"_name";
 
             initCallInviteService(appID, appSign, userID, userName);
 
@@ -234,7 +231,7 @@ public class Login extends AppCompatActivity {
         // User is a customer, redirect to customer activity
 
         String userID = customer.getFirstName();
-        String userName = customer.getFullName();
+        String userName = customer.getFirstName()+"_name";
 
         initCallInviteService(appID, appSign, userID, userName);
 

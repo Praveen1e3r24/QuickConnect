@@ -1,13 +1,5 @@
 package com.example.quickconnect;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -27,6 +19,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickconnect.databinding.ActivityChatBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -391,9 +391,9 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             }
         }
 
-        Log.d("RESULTCODE", resultCode + "");
-        Log.d("FILEPATHNODATA", data.getData().toString());
-        if ((requestCode == PICKFILE_RESULT_CODE || requestCode == -1)
+//        Log.d("RESULTCODE", resultCode + "");
+//        Log.d("FILEPATHNODATA", data.getData().toString());
+        else if ((requestCode == PICKFILE_RESULT_CODE || requestCode == -1)
                 && resultCode == RESULT_OK && data != null
                 && data.getData() != null) {
             try {
@@ -415,6 +415,14 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 e.printStackTrace();
             }
         }
+        else
+        {
+            filePath = null;
+            binding.chatMessage.clearFocus();
+            binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+            binding.cardView.setVisibility(View.GONE);
+            binding.chatSend.setVisibility(View.GONE);
+            binding.chatGallery.setVisibility(View.VISIBLE);}
     }
 
     private void uploadFile()
