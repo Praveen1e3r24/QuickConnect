@@ -52,7 +52,7 @@ public class Employee_M_Home_Fragment extends Fragment implements OnClickInterfa
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot s : snapshot.getChildren()){
                     Chat chat = s.getValue(Chat.class);
-                    if (chat!= null && chat.getSupportId() == FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    if (chat!= null && chat.getSupportId().equals(FirebaseAuth.getInstance().getUid()))
                     {
                         chatList.add(chat);
                     }

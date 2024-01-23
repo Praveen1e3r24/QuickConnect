@@ -390,10 +390,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 e.printStackTrace();
             }
         }
-
-        Log.d("RESULTCODE", resultCode + "");
-        Log.d("FILEPATHNODATA", data.getData().toString());
-        if ((requestCode == PICKFILE_RESULT_CODE || requestCode == -1)
+        else if ((requestCode == PICKFILE_RESULT_CODE || requestCode == -1)
                 && resultCode == RESULT_OK && data != null
                 && data.getData() != null) {
             try {
@@ -414,6 +411,15 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 // Log the exception
                 e.printStackTrace();
             }
+        }
+        else
+        {
+            filePath = null;
+            binding.chatMessage.clearFocus();
+            binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+            binding.cardView.setVisibility(View.GONE);
+            binding.chatSend.setVisibility(View.GONE);
+            binding.chatGallery.setVisibility(View.VISIBLE);
         }
     }
 
