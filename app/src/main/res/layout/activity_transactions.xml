@@ -15,7 +15,7 @@
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_back_24"
+        app:srcCompat="@drawable/ic_back"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.recyclerview.widget.RecyclerView

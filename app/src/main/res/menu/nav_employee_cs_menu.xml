@@ -23,6 +23,11 @@
             android:icon="@drawable/nav_language"
             android:title="@string/change_language" />
 
+        <item
+            android:id="@+id/nav_cs_vvcall"
+            android:icon="@drawable/nav_videocall"
+            android:title="@string/video_call" />
+
 
     </group>
 
