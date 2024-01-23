@@ -34,6 +34,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.zegocloud.uikit.components.audiovideocontainer.ZegoLayout;
+import com.zegocloud.uikit.components.audiovideocontainer.ZegoLayoutGalleryConfig;
+import com.zegocloud.uikit.components.audiovideocontainer.ZegoLayoutMode;
+import com.zegocloud.uikit.components.audiovideocontainer.ZegoLayoutPictureInPictureConfig;
+import com.zegocloud.uikit.components.common.ZegoShowFullscreenModeToggleButtonRules;
+import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.DurationUpdateListener;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoCallDurationConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoHangUpConfirmDialogInfo;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+
+import java.util.Arrays;
 
 public class Login extends AppCompatActivity {
 
@@ -48,6 +65,9 @@ public class Login extends AppCompatActivity {
     ProgressBar progressBar;
 
     TextView textView;
+
+    long appID = 479817296;
+    String appSign = "db0f7d073f55e3553552fe098454ae400f0b80572a520bce6ef56058a53d3728";
 
 
     @Override
@@ -130,6 +150,8 @@ public class Login extends AppCompatActivity {
     }
 
 
+
+
     private void checkUserRole(String uid) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -178,10 +200,25 @@ public class Login extends AppCompatActivity {
         String employeeRole = employee.getEmployeeRole();
         if ("CS".equals(employeeRole)) {
             // Employee is assigned to call service
+            User user = getUserDetailsFromSharedPreferences();
+            String userID = user.getFirstName();
+            String userName = user.getFullName();
+
+            initCallInviteService(appID, appSign, userID, userName);
+
+
+
             Intent callServiceIntent = new Intent(getApplicationContext(), Employee_CallCentre_Main.class);
             startActivity(callServiceIntent);
         } else if ("M".equals(employeeRole)) {
             // Employee is assigned to chat specialist
+
+            User user = getUserDetailsFromSharedPreferences();
+            String userID = user.getFirstName();
+            String userName = user.getFullName();
+
+            initCallInviteService(appID, appSign, userID, userName);
+
             Intent chatSpecialistIntent = new Intent(getApplicationContext(), Employee_M_Main.class);
             startActivity(chatSpecialistIntent);
         }
@@ -190,10 +227,144 @@ public class Login extends AppCompatActivity {
 
     private void handleCustomer(Customer customer) {
         // User is a customer, redirect to customer activity
+
+        String userID = customer.getFirstName();
+        String userName = customer.getFullName();
+
+        initCallInviteService(appID, appSign, userID, userName);
+
         Intent customerIntent = new Intent(getApplicationContext(), Customer_Main.class);
         startActivity(customerIntent);
         finish(); // Close the current login activity
     }
+
+
+
+    private User getUserDetailsFromSharedPreferences() {
+        // Obtain SharedPreferences instance
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", Context.MODE_PRIVATE);
+
+        // Retrieve the stored JSON string
+        String userJson = sharedPreferences.getString("UserDetails", null);
+
+        // Check if the JSON string is not null
+        if (userJson != null) {
+            // Use Gson to deserialize the JSON string into your User object
+            Gson gson = new Gson();
+            User user = gson.fromJson(userJson, User.class);
+
+            if (user.getUserType().equals("Customer")) {
+                // If the user is a Customer, store it as a Customer object
+                Customer customer = gson.fromJson(userJson, Customer.class);
+                return customer;
+            } else if (user.getUserType().equals("Employee")) {
+                // If the user is an Employee, store it as an Employee object
+                Employee employee = gson.fromJson(userJson, Employee.class); // Replace 'Employee' with your actual Employee class
+                return employee;
+            }
+
+            return null; // Return null if the user type is neither Customer nor Employee
+        }
+
+        return null; // Return null if the JSON string is null or if there's an error in deserialization
+    }
+
+
+    public void initCallInviteService(long appID, String appSign, String userID, String userName) {
+        ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
+        callInvitationConfig.innerText.incomingCallPageDeclineButton = "Decline";
+        callInvitationConfig.innerText.incomingCallPageAcceptButton = "Accept";
+        callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig config;
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                boolean isGroupCall = invitationData.invitees.size() > 1;
+                if (isVideoCall && isGroupCall) {
+
+                    Log.d("HI", "requireConfig: 1");
+                    config = ZegoUIKitPrebuiltCallConfig.groupVideoCall();
+                } else if (!isVideoCall && isGroupCall) {
+                    Log.d("HI", "requireConfig: 2");
+                    config = ZegoUIKitPrebuiltCallConfig.groupVoiceCall();
+                } else if (!isVideoCall) {
+                    Log.d("HI", "requireConfig: 3");
+                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
+                } else {
+                    Log.d("HI", "requireConfig: 4");
+                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
+                }
+                // Modify your custom calling configurations here.
+
+                if (isGroupCall) {
+                    Log.d("HI", "requireConfig: 5");
+                    ZegoLayoutGalleryConfig galleryConfig = new ZegoLayoutGalleryConfig();
+                    galleryConfig.addBorderRadiusAndSpacingBetweenView = false;
+                    config.layout.mode = ZegoLayoutMode.GALLERY;
+                    config.layout.config = galleryConfig;
+                    config.hangUpConfirmDialogInfo = new ZegoHangUpConfirmDialogInfo();
+                    config.hangUpConfirmDialogInfo.title = "Hangup confirm";
+                    config.hangUpConfirmDialogInfo.message = "Do you want to hangup?";
+                    config.hangUpConfirmDialogInfo.cancelButtonName = "Cancel";
+                    config.hangUpConfirmDialogInfo.confirmButtonName = "Confirm";
+                    config.durationConfig = new ZegoCallDurationConfig();
+                    config.durationConfig.isVisible = true;
+                    config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
+                        @Override
+                        public void onDurationUpdate(long seconds) {
+                            Log.d(TAG, "onDurationUpdate() called with: seconds = [" + seconds + "]");
+                            if (seconds == 60 * 5) {
+                                ZegoUIKitPrebuiltCallInvitationService.endCall();
+                            }
+                        }
+                    };
+                    config.bottomMenuBarConfig.buttons = Arrays.asList(ZegoMenuBarButtonName.TOGGLE_CAMERA_BUTTON,ZegoMenuBarButtonName.SWITCH_CAMERA_BUTTON, ZegoMenuBarButtonName.HANG_UP_BUTTON,ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON, ZegoMenuBarButtonName.SCREEN_SHARING_TOGGLE_BUTTON);
+                    galleryConfig.removeViewWhenAudioVideoUnavailable = true;
+                    galleryConfig.showNewScreenSharingViewInFullscreenMode = true;
+                    galleryConfig.showScreenSharingFullscreenModeToggleButtonRules = ZegoShowFullscreenModeToggleButtonRules.SHOW_WHEN_SCREEN_PRESSED;
+                    config.layout = new ZegoLayout(ZegoLayoutMode.GALLERY, galleryConfig);
+                    config.topMenuBarConfig.isVisible = true;
+                    config.topMenuBarConfig.buttons.add(ZegoMenuBarButtonName.MINIMIZING_BUTTON);
+                    return config;
+
+
+                } else {
+                    Log.d("HI", "requireConfig: 6");
+
+                    ZegoLayoutPictureInPictureConfig pipConfig = new ZegoLayoutPictureInPictureConfig();
+                    pipConfig.isSmallViewDraggable = true;
+                    pipConfig.switchLargeOrSmallViewByClick = true;
+                    config.layout.mode = ZegoLayoutMode.PICTURE_IN_PICTURE;
+                    config.layout.config = pipConfig;
+                    config.hangUpConfirmDialogInfo = new ZegoHangUpConfirmDialogInfo();
+                    config.hangUpConfirmDialogInfo.title = "Hangup confirm";
+                    config.hangUpConfirmDialogInfo.message = "Do you want to hangup?";
+                    config.hangUpConfirmDialogInfo.cancelButtonName = "Cancel";
+                    config.hangUpConfirmDialogInfo.confirmButtonName = "Confirm";
+                    config.durationConfig = new ZegoCallDurationConfig();
+                    config.durationConfig.isVisible = true;
+                    config.topMenuBarConfig.isVisible = true;
+                    config.topMenuBarConfig.buttons.add(ZegoMenuBarButtonName.MINIMIZING_BUTTON);
+                    config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
+                        @Override
+                        public void onDurationUpdate(long seconds) {
+                            Log.d(TAG, "onDurationUpdate() called with: seconds = [" + seconds + "]");
+                            if (seconds == 60 * 5) {
+                                ZegoUIKitPrebuiltCallInvitationService.endCall();
+                            }
+                        }
+
+                    };
+
+                    return config;
+                }
+            }
+        };
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(),appID,appSign,userID,userName,callInvitationConfig);
+
+
+    };
+
 
 }
 
