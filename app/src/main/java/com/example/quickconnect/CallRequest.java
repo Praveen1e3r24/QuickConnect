@@ -16,7 +16,6 @@ public class CallRequest implements Parcelable {
     private Chat chat;
     private String query;
     private String category;
-
     private int queueNo;
     private Date requestDate;
     private Boolean isAccepted;
@@ -40,7 +39,6 @@ public class CallRequest implements Parcelable {
         this.isAccepted = isAccepted;
         this.isClosed = isClosed;
     }
-
 
     protected CallRequest(Parcel in) {
         requestId = in.readString();

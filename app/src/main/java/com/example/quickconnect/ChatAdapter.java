@@ -45,8 +45,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             Chat chat = new Chat();
             return new ChatViewHolder(view, onClickInterface,chat);
         }
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -4,13 +4,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -25,22 +28,27 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class MessageAdapter extends RecyclerView.Adapter {
 
     private static final int VIEWTYPE_SENT = 1;
     private static final int VIEWTYPE_RECIEVE = 2;
 
+    private static OnFileClickListener onFileClickListener;
+
     private List<Message> messageList = new ArrayList<>();
 
-    public MessageAdapter(List<Message> messageList) {
+    public MessageAdapter(List<Message> messageList, OnFileClickListener onFileClickListener) {
         this.messageList = messageList;
+        this.onFileClickListener = onFileClickListener;
     }
 
     @Override
     public int getItemViewType(int position) {
 	        Message message = messageList.get(position);
-	        if (message.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            Log.d("SENDERID", "getItemViewType: " + message.getSenderId() + " " + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+	        if (message.getSenderId().equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
 	            return VIEWTYPE_SENT;
 	        } else {
 	            return VIEWTYPE_RECIEVE;
@@ -80,34 +88,66 @@ public class MessageAdapter extends RecyclerView.Adapter {
             newHolder.message.setText(message.getText());
             newHolder.time.setText(formattedTime);
 
+            newHolder.image.setVisibility(View.GONE);
+            newHolder.file.setVisibility(View.GONE);
+            newHolder.message.setVisibility(View.VISIBLE);
+
             if (position - 1 >= 0 && areDatesEqual(message.getTimestamp(), messageList.get(position - 1).getTimestamp())) {
                 newHolder.date.setVisibility(View.GONE);
             } else {
                 newHolder.date.setText(formattedDate);
             }
 
-            if (message.getImage() != null) {
+            if (message.getImage() != null && !message.getImage().isEmpty() ) {
                 newHolder.image.setVisibility(View.VISIBLE);
-                Picasso.get().load(message.getImage()).fit().centerCrop().into(newHolder.image);
+                Glide.with(newHolder.image.getContext()).load(message.getImage()).into(newHolder.image);
             }
+
+
+            if (message.getFile() != null && !message.getFile().isEmpty() ) {
+                newHolder.file.setVisibility(View.VISIBLE);
+                newHolder.file.setText(message.getFile().substring(message.getFile().lastIndexOf('/') + 1));
+            }
+
+
+            if (message.getText().isEmpty())
+            {
+                newHolder.message.setVisibility(View.GONE);
+            }
+
 
         } else if (holder.getItemViewType() == VIEWTYPE_RECIEVE) {
             ThemViewHolder newHolder = (ThemViewHolder) holder;
             newHolder.message.setText(message.getText());
             newHolder.time.setText(formattedTime);
 
-            if (position - 1 >= 0 && areDatesEqual(message.getTimestamp(), messageList.get(position - 1).getTimestamp())){
+            newHolder.image.setVisibility(View.GONE);
+            newHolder.file.setVisibility(View.GONE);
+            newHolder.message.setVisibility(View.VISIBLE);
+
+            if (position - 1 >= 0 && areDatesEqual(message.getTimestamp(), messageList.get(position - 1).getTimestamp())) {
                 newHolder.date.setVisibility(View.GONE);
             } else {
                 newHolder.date.setText(formattedDate);
             }
 
-            if (message.getImage() != null) {
+            if (message.getImage() != null && !message.getImage().isEmpty() ) {
                 newHolder.image.setVisibility(View.VISIBLE);
-                Picasso.get().load(message.getImage()).fit().centerCrop().into(newHolder.image);
+                Glide.with(newHolder.image.getContext()).load(message.getImage()).into(newHolder.image);
+            }
+
+
+            if (message.getFile() != null && !message.getFile().isEmpty() ) {
+                newHolder.file.setVisibility(View.VISIBLE);
+                newHolder.file.setText(message.getFile().substring(message.getFile().lastIndexOf('=') + 1));
+            }
+
+
+            if (message.getText().isEmpty())
+            {
+                newHolder.message.setVisibility(View.GONE);
             }
         }
-
     }
 
     @Override
@@ -141,6 +181,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public static class MeViewHolder extends RecyclerView.ViewHolder {
         public TextView message, date, time;
         public ImageView image;
+        public Button file;
 
         public MeViewHolder(View itemView) {
             super(itemView);
@@ -148,12 +189,23 @@ public class MessageAdapter extends RecyclerView.Adapter {
             date = itemView.findViewById(R.id.message_me_date);
             time = itemView.findViewById(R.id.message_me_time);
             image = itemView.findViewById(R.id.message_me_image);
+            file = itemView.findViewById(R.id.message_me_file);
+
+            file.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onFileClickListener != null) {
+                        onFileClickListener.onFileClick(getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 
     public static class ThemViewHolder extends RecyclerView.ViewHolder {
         public TextView message,date, time;
         public ImageView image;
+        public Button file;
 
         public ThemViewHolder(View itemView) {
             super(itemView);
@@ -161,6 +213,20 @@ public class MessageAdapter extends RecyclerView.Adapter {
             date = itemView.findViewById(R.id.message_them_date);
             time = itemView.findViewById(R.id.message_them_time);
             image = itemView.findViewById(R.id.message_them_image);
+            file = itemView.findViewById(R.id.message_them_file);
+
+            file.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onFileClickListener != null) {
+                        onFileClickListener.onFileClick(getAdapterPosition());
+                    }
+                }
+            });
         }
+    }
+
+    interface  OnFileClickListener{
+        void onFileClick(int position);
     }
 }

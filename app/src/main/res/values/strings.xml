@@ -3,7 +3,7 @@
     <string name="login">Login</string>
     <string name="Register">Register</string>
     <string name="email">Email</string>
-    <string name="password">password</string>
+    <string name="password">Password</string>
     <string name="click_to_login">click_to_login</string>
     <string name="click_to_register">click_to_register</string>
     <string name="logout">logout</string>
@@ -11,10 +11,10 @@
     <string name="change_language">Change Language</string>
     <string name="send">Send</string>
     <string name="enter_message">Enter Message</string>
-    <string name="last_name">last_name</string>
-    <string name="first_name">first_name</string>
-    <string name="user_type">user_type</string>
-    <string name="add_user">add user</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="user_type">User Type</string>
+    <string name="add_user">Register</string>
     <string name="intent">intent</string>
 
 
@@ -30,9 +30,9 @@
     <string name="Logout">Logout</string>
     <string name="settings">Settings</string>
     <string name="Home">home</string>
-    <string name="username">username</string>
+    <string name="username">Username</string>
     <string name="quickconnect">QuickConnect</string>
-    <string name="job_role">Job_Role</string>
+    <string name="job_role">Job Role</string>
     <string name="message">message</string>
     <string name="end_chat">End Chat</string>
     <string name="view_customer_s_information">View Customer\'s Information</string>
@@ -95,6 +95,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="register_as_employee">Register as Employee</string>
 
 
     // Video Call App

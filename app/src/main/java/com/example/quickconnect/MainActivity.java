@@ -14,8 +14,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     ActivityMainBinding binding;
     FirebaseAuth auth;
     Button button, smsRedirect;

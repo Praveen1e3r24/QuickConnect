@@ -53,6 +53,22 @@
                 android:visibility="gone"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+            <Button
+                android:id="@+id/message_them_file"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/material_dynamic_secondary40"
+                android:maxWidth="260dp"
+                android:text="fileextention.ext"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:icon="@drawable/baseline_cloud_download_24" />
+
             <TextView
                 android:id="@+id/message_them_text"
                 android:layout_width="wrap_content"

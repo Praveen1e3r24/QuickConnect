@@ -30,6 +30,7 @@ import com.example.quickconnect.Employee;
 import com.example.quickconnect.Message;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
+import com.example.quickconnect.WebViewer;
 import com.example.quickconnect.databinding.CustomSeriousQuickconnectPopupBinding;
 import com.example.quickconnect.databinding.FragmentCustomerProfileBinding;
 import com.example.quickconnect.databinding.FragmentCustomerQuickConnectBinding;
@@ -51,9 +52,11 @@ import com.google.firebase.ml.custom.FirebaseModelInterpreter;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Customer_QuickConnect_Fragment extends Fragment {
@@ -87,6 +90,15 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         EditText complaintEditText = binding.editTextComplaint;
         ImageView attachImageButton = binding.imageViewAttachedFile;
         Button sendButton = binding.buttonSend;
+
+        binding.tofaq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WebViewer.class);
+                intent.putExtra("url", "https://www.ocbc.com/personal-banking/help-and-support");
+                startActivity(intent);
+            }
+        });
 
 //        // For locally-bundled model
 //        FirebaseCustomLocalModel localModel = new FirebaseCustomLocalModel.Builder()
@@ -222,6 +234,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //            e.printStackTrace();
 //        }
 //    }
+
+
+
     private void performSeverityCheck(String userInput) {
         Log.d(TAG, "performSeverityCheck");
 
@@ -269,32 +284,134 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         if(isSerious){
             showSeriousOptionsDialog();
         }
+
         else{
             replaceFragment(new Customer_Profile_Fragment());
-
         }
 
-        if (lowercaseInput.contains("scam")) {
-            topic = "Scam";
+        Map<String, String> keywordTopicMap = new HashMap<>();
+        keywordTopicMap.put("scam", "Scam");
+        keywordTopicMap.put("fraud", "Scam");
+        keywordTopicMap.put("stolen", "Scam");
+        keywordTopicMap.put("phishing", "Scam");
+        keywordTopicMap.put("deceived", "Scam");
+        keywordTopicMap.put("assistance", "General Inquiries");
+        keywordTopicMap.put("loan", "Loan");
+        keywordTopicMap.put("transaction", "Transaction");
+        keywordTopicMap.put("referral", "Referral");
+        keywordTopicMap.put("help", "General Inquiries");
+        keywordTopicMap.put("emergency", "General Inquiries");
+        keywordTopicMap.put("lost", "General Inquiries");
+        keywordTopicMap.put("scammers", "Scam");
+        keywordTopicMap.put("identity", "Scam");
+        keywordTopicMap.put("waiver", "Waiver Fees");
+        keywordTopicMap.put("technical", "Technical");
+        keywordTopicMap.put("account", "Account");
+        keywordTopicMap.put("general", "General Inquiries");
+        keywordTopicMap.put("lag", "Technical");
+        keywordTopicMap.put("slow", "Technical");
+        keywordTopicMap.put("crash", "Technical");
+        keywordTopicMap.put("freeze", "Technical");
+        keywordTopicMap.put("hang", "Technical");
+
+        // Determine the topic
+        for (Map.Entry<String, String> entry : keywordTopicMap.entrySet()) {
+            if (lowercaseInput.contains(entry.getKey())) {
+                topic = entry.getValue();
+            }
         }
-
-        if (lowercaseInput.contains("loan")) {
-            topic = "loan";
-        }
-
-        if (lowercaseInput.contains("transaction")) {
-            topic = "transaction";
-        }
-
-        if (lowercaseInput.contains("referral")) {
-            topic = "referral";
-        }
-
-        if (lowercaseInput.contains("waiver")) {
-            topic = "waiver fees";
-        }
-
-
+//
+//        if (lowercaseInput.contains("scam")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("fraud")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("stolen")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("phishing")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("deceived")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("assistance")) {
+//            topic = "General Inquiries";
+//        }
+//
+//        if (lowercaseInput.contains("loan")) {
+//            topic = "Loan";
+//        }
+//
+//        if (lowercaseInput.contains("transaction")) {
+//            topic = "Transaction";
+//        }
+//
+//        if (lowercaseInput.contains("referral")) {
+//            topic = "Referral";
+//        }
+//
+//        if (lowercaseInput.contains("help")) {
+//            topic = "General Inquiries";
+//        }
+//
+//        if (lowercaseInput.contains("emergency")) {
+//            topic = "General Inquiries";
+//        }
+//
+//        if (lowercaseInput.contains("lost")) {
+//            topic = "General Inquiries";
+//        }
+//
+//        if (lowercaseInput.contains("scammers")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("identity")) {
+//            topic = "Scam";
+//        }
+//
+//        if (lowercaseInput.contains("waiver")) {
+//            topic = "Waiver Fees";
+//        }
+//
+//        if (lowercaseInput.contains("technical")) {
+//            topic = "Technical";
+//        }
+//
+//        if (lowercaseInput.contains("account")) {
+//            topic = "Account";
+//        }
+//
+//        if (lowercaseInput.contains("general")) {
+//            topic = "General Inquiries";
+//        }
+//
+//        if (lowercaseInput.contains("lag")) {
+//            topic = "Technical";
+//        }
+//
+//        if (lowercaseInput.contains("slow")) {
+//            topic = "Technical";
+//        }
+//
+//        if (lowercaseInput.contains("crash")) {
+//            topic = "Technical";
+//        }
+//
+//        if (lowercaseInput.contains("freeze")) {
+//            topic = "Technical";
+//        }
+//
+//        if (lowercaseInput.contains("hang")) {
+//            topic = "Technical";
+//        }
 
         // The rest of your code...
     }
@@ -377,6 +494,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         if (topic == null) {
             topic = "General Inquiries";
         }
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -409,6 +527,23 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
         Log.d("FinalHasEmployee", "Has Employee: " + hasEmployee);
         return valueEventListener;
+    }
+
+    private boolean checkDepartment(String department) {
+//        {"Scam & Fraud", "Technical", "Account", "General"}
+        switch (department)
+        {
+            case "Scam & Fraud":
+                return topic.equals("Scam");
+            case "Technical":
+                return topic.equals("Technical");
+            case "Account":
+                return topic.equals("loan") || topic.equals("Transaction") || topic.equals("Referral") || topic.equals("Waiver Fees");
+            case "General":
+                return topic.equals("General Inquiries");
+            default:
+                return false;
+        }
     }
 
     private ValueEventListener addRequestToDB(){

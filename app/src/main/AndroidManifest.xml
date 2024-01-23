@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".WebViewer"
+            android:exported="false" />
+        <activity
             android:name="com.example.palmchatbot.QC_ChatBot_Main"
             android:exported="false" />
         <activity
@@ -118,6 +121,10 @@
             <!-- </intent-filter> -->
 
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

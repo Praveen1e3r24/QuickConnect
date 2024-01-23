@@ -20,7 +20,8 @@
                 android:layout_height="350dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                tools:listitem="@layout/chat_item_layout" />
 
             <Button
                 android:id="@+id/newsms"

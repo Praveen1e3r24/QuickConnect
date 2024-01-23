@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="8dp">
 
     <TextView
         android:id="@+id/message_me_date"
@@ -48,9 +48,26 @@
                 android:layout_margin="5dp"
                 android:adjustViewBounds="true"
                 android:maxWidth="250dp"
-                android:maxHeight="250dp"
+                android:maxHeight="400dp"
                 android:visibility="gone"
+                app:srcCompat="@drawable/headerbkg"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <Button
+                android:id="@+id/message_me_file"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:backgroundTint="@color/design_default_color_error"
+                android:maxWidth="260dp"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.ext"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:icon="@drawable/baseline_cloud_download_24" />
 
             <TextView
                 android:id="@+id/message_me_text"
@@ -66,6 +83,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/message_me_time"
         android:layout_width="wrap_content"
