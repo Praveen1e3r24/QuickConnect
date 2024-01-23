@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,15 +43,35 @@ public class Add_Employee extends AppCompatActivity {
         customersReference = usersReference.child("Customers");
         employeesReference = usersReference.child("Employees");
 
+        String[] department = new String[] {"Scam & Fraud", "Technical", "Account", "General"};
+
+        ArrayAdapter<String> teamadapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, department);
+        teamadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner supportteam = binding.supportteam;
+        supportteam.setAdapter(teamadapter);
+
+        String[] role = new String[] {"CS", "M"};
+
+        ArrayAdapter<String> roleadapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, role);
+        roleadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner jobRoleSpinner = binding.jobRole;
+        jobRoleSpinner.setAdapter(roleadapter);
+
+
+
         binding.addUser1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String firstName = binding.firstName.getText().toString();
                 String lastName = binding.lastName.getText().toString();
                 String password = binding.password.getText().toString();
-                String jobRole = binding.jobRole.getText().toString();
+                String jobRole = jobRoleSpinner.getSelectedItem().toString();
                 String email=binding.email.getText().toString();
-                String team=binding.supportteam.getText().toString();
+                String team = supportteam.getSelectedItem().toString();
 
 
                 if(TextUtils.isEmpty(email)){
@@ -78,7 +100,6 @@ public class Add_Employee extends AppCompatActivity {
                                         DatabaseReference userTypeReference;
                                         if (jobRole.equals("CS")) {
                                             Log.d(TAG, "onComplete: 11");
-
                                             userTypeReference = employeesReference.child(userId);
                                             user = new Employee(user, "CS", team, 0, true);
                                             Log.d(TAG, "onComplete: 12");

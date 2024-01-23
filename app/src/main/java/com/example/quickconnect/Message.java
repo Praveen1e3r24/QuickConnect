@@ -13,6 +13,16 @@ public class Message implements Parcelable {
     private String recipientId;
     private String text;
     private String image;
+    private String file;
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
     private Date timestamp;
 
     public Message() {
@@ -35,12 +45,42 @@ public class Message implements Parcelable {
         this.timestamp = timestamp;
     }
 
+    public Message(String messageId, String senderId, String recipientId, String text, String image,String file, Date timestamp) {
+        this.messageId = messageId;
+        this.senderId = senderId;
+        this.recipientId = recipientId;
+        this.text = text;
+        this.image = image;
+        this.timestamp = timestamp;
+        this.file = file;
+    }
+
+
     protected Message(Parcel in) {
         messageId = in.readString();
         senderId = in.readString();
         recipientId = in.readString();
         text = in.readString();
         image = in.readString();
+        file = in.readString(); // Read file
+        long tmpTimestamp = in.readLong();
+        timestamp = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(messageId);
+        dest.writeString(senderId);
+        dest.writeString(recipientId);
+        dest.writeString(text);
+        dest.writeString(image);
+        dest.writeString(file); // Write file
+        dest.writeLong(timestamp != null ? timestamp.getTime() : -1);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Message> CREATOR = new Creator<Message>() {
@@ -103,17 +143,4 @@ public class Message implements Parcelable {
         this.timestamp = timestamp;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(messageId);
-        dest.writeString(senderId);
-        dest.writeString(recipientId);
-        dest.writeString(text);
-        dest.writeString(image);
-    }
 }

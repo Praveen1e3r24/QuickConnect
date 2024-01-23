@@ -1,45 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@drawable/singaporeimgcrop"
+    android:backgroundTint="#59000000"
+    android:backgroundTintMode="src_over">
 
     <!-- Title -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Choose Your User Type"
-        android:textSize="24sp"
-        android:textColor="#FF0000"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:contentPadding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Which account do you want to register?"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#FF0000"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/buttonCustomer"
+                style="@style/Widget.Material3.ExtendedFloatingActionButton.Tertiary"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/gothic_a1_semibold"
+                android:gravity="center"
+                android:text="Customer"
+                android:textSize="18sp"
+                app:icon="@drawable/nav_profile" />
+
+            <Button
+                android:id="@+id/buttonEmployee"
+                style="@style/Widget.Material3.ExtendedFloatingActionButton.Tertiary"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:fontFamily="@font/gothic_a1_semibold"
+                android:gravity="center"
+                android:text="Employee"
+                android:textSize="18sp"
+                app:icon="@drawable/baseline_assignment_turned_in_24" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <!-- Customer Button -->
-    <Button
-        android:id="@+id/buttonCustomer"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Customer"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:background="#FF0000"
-        android:layout_below="@id/textViewTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
 
     <!-- Employee Button -->
-    <Button
-        android:id="@+id/buttonEmployee"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Employee"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:background="#FF0000"
-        android:layout_below="@id/buttonCustomer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,49 +1,55 @@
 package com.example.quickconnect;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.telecom.Call;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.customer.Customer_Home_Fragment;
 import com.example.quickconnect.databinding.ActivityChatBinding;
-import com.example.utilities.UserData;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.time.Instant;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements MessageAdapter.OnFileClickListener {
+    private static final int PICKFILE_RESULT_CODE = 0;
     private EditText messageText;
 
     private Chat chat;
@@ -55,6 +61,12 @@ public class ChatActivity extends AppCompatActivity {
     private Boolean firstenter;
     private ActivityChatBinding binding;
     boolean isRequest;
+
+    private Uri filePath;
+    private final int PICK_IMAGE_REQUEST = 22;
+
+    private StorageReference storageReference;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -87,6 +99,8 @@ public class ChatActivity extends AppCompatActivity {
         RecyclerView rv = binding.recyclerGchat;
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         dbRef.child("Chats").child(chat.getChatId()).child("closed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -113,14 +127,16 @@ public class ChatActivity extends AppCompatActivity {
         dbRef.child("Chats").child(chat.getChatId()).child("messages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 messageList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     Message msg = s.getValue(Message.class);
                     messageList.add(msg);
                 }
+
                 if (!messageList.isEmpty())
                 {
-                    adapter = new MessageAdapter(messageList);
+                    adapter = new MessageAdapter(messageList, ChatActivity.this);
                     rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     if (firstenter == true)
@@ -140,12 +156,12 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
         if (chat.getSupportId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
         {
             actionBar.setTitle(chat.getCustomerId());
             actionBar.setSubtitle("Subject: " + chat.getCategory());
         }
+
         else
         {
             actionBar.setTitle(chat.getSupportName());
@@ -169,11 +185,55 @@ public class ChatActivity extends AppCompatActivity {
             sendMessage();
         });
 
+        binding.chatGallery.setOnClickListener(v -> {
+            showAlert();
+        });
+
+        binding.chatUploadFile.setOnClickListener(v -> {
+            selectFile();
+        });
+
+        binding.chatCancelImg.setOnClickListener(v -> {
+            filePath = null;
+            binding.chatMessage.clearFocus();
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+            binding.cardView.startAnimation(animation);
+            binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+            binding.cardView.setVisibility(View.GONE);
+            binding.chatSend.setVisibility(View.GONE);
+            binding.chatGallery.setVisibility(View.VISIBLE);
+        });
+
     }
+
+    public void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confidentiality Warning");
+        builder.setMessage("Please do not send any confidential information through this chat.\n\nThis chat is not secure and is not HIPAA compliant. Please keep caution when sending any files.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                selectImage();
+            }
+        });
+
+        // Add a Cancel button
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.chatmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -222,7 +282,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int numChats = snapshot.getValue(Integer.class);
-                dbRef.child("Users").child("Employees").child(chat.getSupportId()).child("numChats").setValue(numChats - 1);
+                if (numChats > 0)
+                {
+                    dbRef.child("Users").child("Employees").child(chat.getSupportId()).child("numChats").setValue(numChats - 1);
+                }
                 dbRef.child("Users").child("Employees").child(chat.getSupportId()).child("available").setValue(true);
                 if (callRequest != null)
                 {
@@ -237,36 +300,306 @@ public class ChatActivity extends AppCompatActivity {
                     dbRef.child("Chats").child(chat.getChatId()).removeValue();
                     finish();
                 }
+
                 else
                 {
                     dbRef.child("Chats").child(chat.getChatId()).child("closed").setValue(true);
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(ChatActivity.this, "Error ending chat: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-
     private void sendMessage(){
         String message = messageText.getText().toString();
-        if (message.isEmpty()) {
+        if ((message.isEmpty() || message == "") && filePath == null) {
             messageText.setError("Please enter a message");
             messageText.requestFocus();
         }
         else {
             String messageId = UUID.randomUUID().toString();
-            Message msg = new Message(messageId,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId(),message, new Date());
+
+            if (filePath != null)
+            {
+                uploadFile();
+            }
+            else
+            {
+                Message msg = new Message(messageId,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId(),message, new Date());
+                messageList.add(msg);
+                dbRef.child("Chats").child(chat.getChatId()).child("messages").setValue(messageList);
+                messageText.setText("");
+            }
+        }
+    }
+
+    private void selectImage()
+    {
+
+        // Defining Implicit Intent to mobile gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(
+                        intent,
+                        "Select Image from here..."),
+                PICK_IMAGE_REQUEST);
+    }
+
+    private void selectFile()
+    {
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("*/*");
+        chooseFile.createChooser(chooseFile, "Choose a file");
+        startActivityForResult(chooseFile, PICKFILE_RESULT_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("HELLO", "onActivityResult: ");
+        if (requestCode == PICK_IMAGE_REQUEST
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null) {
+
+            // Get the Uri of data
+            filePath = data.getData();
+            try {
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                binding.chatImgSend.setImageBitmap(bitmap);
+                binding.cardView.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+                binding.cardView.startAnimation(animation);
+                binding.chatSend.setVisibility(View.VISIBLE);
+                binding.layoutGchatChatbox.setBackgroundColor(Color.parseColor("#EFEFF2"));
+                binding.chatGallery.setVisibility(View.GONE);
+                binding.chatUploadFile.setVisibility(View.GONE);
+            }
+
+            catch (IOException e) {
+                // Log the exception
+                e.printStackTrace();
+            }
+        }
+
+        Log.d("RESULTCODE", resultCode + "");
+        Log.d("FILEPATHNODATA", data.getData().toString());
+        if ((requestCode == PICKFILE_RESULT_CODE || requestCode == -1)
+                && resultCode == RESULT_OK && data != null
+                && data.getData() != null) {
+            try {
+                Log.d("FILEPATHDATA", data.getData().toString());
+                Log.d("URII", "onSuccess: ");
+                filePath = data.getData();
+                binding.cardView.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+                binding.cardView.startAnimation(animation);
+                binding.chatSend.setVisibility(View.VISIBLE);
+                binding.chatFileSend.setText(filePath.toString());
+                binding.chatFileSend.setVisibility(View.VISIBLE);
+                binding.layoutGchatChatbox.setBackgroundColor(Color.parseColor("#EFEFF2"));
+                binding.chatGallery.setVisibility(View.GONE);
+                binding.chatUploadFile.setVisibility(View.GONE);
+            }
+            catch (Exception e) {
+                // Log the exception
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void uploadFile()
+    {
+        binding.chatMessage.clearFocus();
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+        binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+        binding.cardView.startAnimation(animation);
+        binding.cardView.setVisibility(View.GONE);
+
+        if (filePath != null) {
+
+            ProgressDialog progressDialog
+                    = new ProgressDialog(this);
+            progressDialog.setTitle("Sending...");
+            progressDialog.show();
+
+            String imageId = UUID.randomUUID().toString();
+            StorageReference ref;
+
+            if (filePath.toString().contains("image"))
+            {
+                ref = storageReference
+                        .child(
+                                "images/"
+                                        + chat.getChatId() + "/"
+                                        + imageId);
+                Log.d("IMAGEREF", ref.toString());
+            }
+            else
+            {
+                ref = storageReference
+                        .child(
+                                "files/"
+                                        + chat.getChatId() + "/"
+                                        + imageId);
+            }
+
+            ref.putFile(filePath)
+                    .addOnSuccessListener(
+                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                                @Override
+                                public void onSuccess(
+                                        UploadTask.TaskSnapshot taskSnapshot)
+                                {
+                                    Log.d("URII", "onSuccess: ");
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(),"Image Uploaded", Toast.LENGTH_SHORT).show();
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            addFileToDB(uri.toString());
+                                        }
+                                    });
+
+                                }
+                            })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            // Error, Image not uploaded
+                            progressDialog.dismiss();
+                            Toast
+                                    .makeText(ChatActivity.this,
+                                            "Failed " + e.getMessage(),
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    })
+                    .addOnProgressListener(
+                            new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                                @Override
+                                public void onProgress(
+                                        UploadTask.TaskSnapshot taskSnapshot)
+                                {
+                                    double progress
+                                            = (100.0
+                                            * taskSnapshot.getBytesTransferred()
+                                            / taskSnapshot.getTotalByteCount());
+                                    progressDialog.setMessage(
+                                            "Uploaded "
+                                                    + (int)progress + "%");
+                                }
+                            });
+        }
+    }
+
+
+    private void addFileToDB(String url){
+        String message = messageText.getText().toString();
+        String messageId = UUID.randomUUID().toString();
+        Message msg = new Message();
+        if (filePath.toString().contains("image"))
+        {
+           msg = new Message(messageId,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId(),message,url, new Date());
+        }
+        else
+        {
+           msg = new Message(messageId,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId(),message,null, url, new Date());
+
+        }
+
+        if (msg.getSenderId() != null) {
             messageList.add(msg);
-            
+            filePath = null;
+            binding.chatMessage.clearFocus();
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+            binding.cardView.startAnimation(animation);
+            binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+            binding.cardView.setVisibility(View.GONE);
+            binding.chatSend.setVisibility(View.GONE);
+            binding.chatGallery.setVisibility(View.VISIBLE);
             dbRef.child("Chats").child(chat.getChatId()).child("messages").setValue(messageList);
             messageText.setText("");
         }
+        else
+        {
+            Toast.makeText(this, "Error sending message", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    @Override
+    public void onFileClick(int position) {
+        Message message = messageList.get(position);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(message.getFile()));
+        startActivity(intent);
+    }
+
+    //    private void sendImage(String url){
+//        String message = messageText.getText().toString();
+//        String messageId = UUID.randomUUID().toString();
+//        Log.d("MESSAGE1", FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId());
+//        Message msg = new Message(messageId,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId(),message,url, new Date());
+//        Log.d("MESSAGE", msg.getSenderId());
+//        Log.d("SENDMESSAGE", "SEND");
+//        if (msg.getSenderId() != null)
+//        {
+//            messageList.add(msg);
+//            filePath = null;
+//            binding.chatMessage.clearFocus();
+//            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+//            binding.cardView.startAnimation(animation);
+//            binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+//            binding.cardView.setVisibility(View.GONE);
+//            binding.chatSend.setVisibility(View.GONE);
+//            binding.chatGallery.setVisibility(View.VISIBLE);
+//            dbRef.child("Chats").child(chat.getChatId()).child("messages").setValue(messageList);
+//            messageText.setText("");
+//        }
+//        else
+//        {
+//            Toast.makeText(this, "Error sending message", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+//    private void sendFile(String url){
+//        String message = messageText.getText().toString();
+//        String messageId = UUID.randomUUID().toString();
+//        Message msg = new Message(messageId,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getUid().equals(chat.getCustomerId())?chat.getSupportId():chat.getCustomerId(),message,null, url, new Date());
+//        if (msg.getSenderId() != null)
+//        {
+//            messageList.add(msg);
+//            filePath = null;
+//            binding.chatMessage.clearFocus();
+//            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+//            binding.cardView.startAnimation(animation);
+//            binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+//            binding.cardView.setVisibility(View.GONE);
+//            binding.chatSend.setVisibility(View.GONE);
+//            binding.chatGallery.setVisibility(View.VISIBLE);
+//            dbRef.child("Chats").child(chat.getChatId()).child("messages").setValue(messageList);
+//            messageText.setText("");
+//        }
+//        else
+//        {
+//            Toast.makeText(this, "Error sending message", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
 }
+
+
 

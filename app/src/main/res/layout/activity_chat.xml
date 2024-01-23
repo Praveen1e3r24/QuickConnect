@@ -11,10 +11,12 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
         app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@+id/text_gchat_indicator"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/message_item_me" />
 
     <TextView
@@ -36,6 +38,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_gchat" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
     <TextView
         android:id="@+id/chat_close_text"
         android:layout_width="wrap_content"
@@ -50,21 +59,82 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:outlineProvider="bounds"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/material_dynamic_neutral95"
+        app:cardElevation="1dp"
+        app:contentPadding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth="match_constraint">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/chat_imgSend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chat_cancelImg"
+                app:layout_constraintWidth="wrap_content_constrained"
+                app:srcCompat="@drawable/baseline_attach_file_24" />
+
+            <TextView
+                android:id="@+id/chat_fileSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gothic_a1_medium"
+                android:text="fileextention.ext"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chat_imgSend" />
+
+            <ImageButton
+                android:id="@+id/chat_cancelImg"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/chat_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
             android:layout_toStartOf="@+id/chat_send"
             android:background="@drawable/chat_outline"
             android:fontFamily="sans-serif"
@@ -79,20 +149,59 @@
             android:textColorHint="#8D6E63"
             tools:ignore="Autofill" />
 
-
         <ImageButton
             android:id="@+id/chat_send"
             style="@android:style/Widget.Material.Light.ImageButton"
-            android:layout_width="70dp"
+            android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:background="@android:drawable/list_selector_background"
+            android:layout_marginEnd="0dp"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/send"
             android:padding="6dp"
             android:scaleType="fitCenter"
             android:src="@drawable/baseline_send_24"
-            tools:src="@drawable/baseline_send_24"
-            app:tint="@color/red" />
+            android:visibility="gone"
+            app:tint="@color/red"
+            tools:src="@drawable/baseline_send_24" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/chat_message"
+            android:layout_alignEnd="@+id/chat_message"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/chat_uploadFile"
+                android:layout_width="40dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_adf_scanner_24"
+                android:visibility="visible"
+                app:tint="#F44336"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/chat_gallery"
+                android:layout_width="40dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="6dp"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:visibility="visible"
+                app:srcCompat="@drawable/baseline_image_24"
+                app:tint="@color/red"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 
