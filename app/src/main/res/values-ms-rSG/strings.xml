@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">QuickConnect</string>
+    <string name="login">Log Masuk</string>
+    <string name="Register">Daftar</string>
+    <string name="email">Emel</string>
+    <string name="password">Kata Laluan</string>
+    <string name="click_to_login">klik_untuk_log_masuk</string>
+    <string name="click_to_register">klik_untuk_daftar</string>
+    <string name="logout">Log Keluar</string>
+    <string name="go_to_sms">Pergi ke SMS</string>
+    <string name="change_language">Tukar Bahasa</string>
+    <string name="send">Hantar</string>
+    <string name="enter_message">Masukkan Mesej</string>
+    <string name="last_name">Nama Akhir</string>
+    <string name="first_name">Nama Pertama</string>
+    <string name="user_type">Jenis Pengguna</string>
+    <string name="add_user">Daftar</string>
+    <string name="intent">niat</string>
+
+    <!--    navigation drawer-->
+    <string name="open_nav">Buka laci navigasi</string>
+    <string name="close_nav">Tutup laci navigasi</string>
+    <string name="hello_blank_fragment">Halo fragmen kosong</string>
+    <string name="home">rumah</string>
+    <string name="profile">profil</string>
+    <string name="call">panggilan</string>
+    <string name="Logout">Log Keluar</string>
+    <string name="settings">Tetapan</string>
+    <string name="Home">rumah</string>
+    <string name="username">Nama Pengguna</string>
+    <string name="quickconnect">QuickConnect</string>
+    <string name="job_role">Peranan Pekerjaan</string>
+    <string name="message">mesej</string>
+    <string name="end_chat">Akhiri Sembang</string>
+    <string name="view_customer_s_information">Lihat Maklumat Pelanggan</string>
+    <string name="user_information">maklumat_pengguna</string>
+    <string name="username_profile">profil_nama_pengguna</string>
+    <string name="about">mengenai</string>
+    <string name="email_address">alamat_emel</string>
+    <string name="transaction_history">Sejarah_Transaksi</string>
+    <string name="profile_account_type">jenis_akun_profil</string>
+    <string name="customer_preferences">pilihan_pelanggan</string>
+    <string name="profile_mobile_bank_info">info_bank_mobil_profil</string>
+    <string name="_21">21</string>
+    <string name="profile_edit_account">edit_akun_profil</string>
+    <string name="profile_refereal_information">informasi_rujukan_profil</string>
+    <string name="profile_cards">kad_profil</string>
+    <string name="profile_other">profil_lainnya</string>
+    <string name="profile_mobile_number">nombor_mobil_profil</string>
+    <string name="profile_customer_preference">Kegemaran_Pelanggan_Profil</string>
+    <string name="previous_queries">pertanyaan_sebelumnya</string>
+    <string name="title_activity_customer_waiting_call">Aktiviti_MenungguPanggilan_Pelanggan</string>
+    <string name="first_fragment_label">Fragmen Pertama</string>
+    <string name="second_fragment_label">Fragmen Kedua</string>
+    <string name="next">Seterusnya</string>
+    <string name="previous">Sebelumnya</string>
+    <string name="register_as_employee">Daftar sebagai Pekerja</string>
+
+    <!-- Video Call App -->
+    <string name="welcome_to">Selamat Datang Ke</string>
+    <string name="video_meeting_conference_app">Aplikasi Persidangan Mesyuarat Video</string>
+    <string name="sign_in_to_your_account">Log masuk ke akaun anda</string>
+    <string name="your_example_com">123@gmail.com</string>
+    <string name="password_hint">petunjuk kata laluan</string>
+    <string name="sign_in">log masuk</string>
+    <string name="don_t_have_an_account">Tidak mempunyai akaun?</string>
+    <string name="sign_up">Daftar</string>
+    <string name="we_need_a_few_details_to_get_your_account_ready">kami memerlukan beberapa butiran untuk menyediakan akaun anda</string>
+    <string name="first_name_hint">petunjuk nama pertama</string>
+    <string name="last_name_hint">petunjuk nama akhir</string>
+    <string name="confirm_password">sahkan kata laluan</string>
+    <string name="already_have_an_account">sudah mempunyai akaun</string>
+    <string name="sign_out">Log Keluar</string>
+    <string name="incoming_meeting_invitation">jemputan mesyuarat masuk</string>
+    <string name="sending_meeting_invitation">Menghantar Jemputan Mesyuarat</string>
+
+    <!-- cometchat -->
+    <string name="email_edt">Emel</string>
+    <string name="password_edt">Kata Laluan</string>
+    <string name="login_btn">Log Masuk</string>
+    <string name="register_txt">Daftar</string>
+    <string name="confirm_password_edt">Sahkan Kata Laluan</string>
+    <string name="register_btn">Daftar</string>
+    <string name="user_name_edt">Nama Pengguna</string>
+    <string name="video_call">Panggilan Video</string>
+    <string name="tap_mic_and_speek">ketuk mikrofon dan cakap</string>
+    <string name="hello">"suh-lah-mat"</string>
+    <string name="remember_me">Ingat Saya</string>
+    <string name="forget_password">Lupa Kata Laluan?</string>
+    <string name="dont_have_an_account">Tidak mempunyai akaun?</string>
+
+</resources>

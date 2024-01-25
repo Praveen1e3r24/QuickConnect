@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.customer.Customer_Language_Fragment">
+    tools:context="com.example.customer.Language_Change">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
-    android:background="@android:color/background_light"
+    android:background="@color/contentBodyColor"
     tools:context="com.example.customer.Customer_QuickConnect_Fragment"
     >
 
@@ -25,7 +25,7 @@
         android:inputType="textMultiLine"
         android:outlineProvider="background"
         android:padding="12dp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/contentTextColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:layout_marginTop="8dp"
         android:backgroundTint="#F44336"
         android:text="Send"
-        android:textColor="@android:color/white"
+        android:textColor="@color/contentTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextComplaint" />
@@ -66,7 +66,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
+        android:textColor="@color/contentTextColor"
+        />
 
     <TextView
         android:id="@+id/textView12"
@@ -78,7 +80,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSend" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSend"
+        android:textColor="@color/contentTextColor"
+
+        />
 
     <Button
         android:id="@+id/newchat"
@@ -131,7 +136,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        android:textColor="@color/contentTextColor"
+        />
 
     <TextView
         android:id="@+id/textView14"
@@ -142,7 +149,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        android:textColor="@color/contentTextColor"
+        />
 
     <TextView
         android:id="@+id/textView15"
@@ -153,7 +162,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/contentTextColor"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

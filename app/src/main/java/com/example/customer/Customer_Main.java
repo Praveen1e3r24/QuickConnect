@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -29,6 +30,7 @@ import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 
 public class Customer_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -36,6 +38,11 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (new DarkModePrefManager(this).isNightMode()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         super.onCreate(savedInstanceState);
         binding = ActivityCustomerMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -59,20 +66,25 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
 
 
 
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == nav_c_home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Home_Fragment()).commit();
-        } else if (itemId == R.id.nav_c_quickconnect) {
+        }
+        else if (itemId == R.id.nav_c_Messaging) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Call_Fragment()).commit();
+        }
+        else if (itemId == R.id.nav_c_quickconnect) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_QuickConnect_Fragment()).commit();
         } else if (itemId == R.id.nav_c_language) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Language_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
         } else if (itemId == R.id.nav_c_profile) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Setting_Fragment()).commit();
         }
-        else if (itemId == R.id.nav_c_vvcall) {
+        else if (itemId == R.id.nav_c_Voice_Video_Call) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VV_Call_Fragment()).commit();
         }
         else if (itemId == R.id.nav_c_logout) {
@@ -98,7 +110,7 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
         new UserData().removeUserDetails(this);
         // Example: Clear Firebase Authentication
         FirebaseAuth.getInstance().signOut();
-
+        ZegoUIKitPrebuiltCallInvitationService.unInit();
         // Redirect to the login screen
         Intent intent = new Intent(Customer_Main.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -152,4 +164,8 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
             userContactTextView.setText(user.getFullName());
         }
     }
+
+
+
+
 }

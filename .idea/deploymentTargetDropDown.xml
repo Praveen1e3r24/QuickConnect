@@ -5,14 +5,22 @@
       <entry key="LoginVVActivity">
         <State />
       </entry>
-      <entry key="Logincc">
-        <State />
-      </entry>
-      <entry key="SignInVC">
+      <entry key="SettingsActivity">
         <State />
       </entry>
       <entry key="app">
         <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
           <targetSelectedWithDropDown>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
@@ -24,7 +32,8 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-23T09:37:24.137561600Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-01-24T22:32:17.655083900Z" />
+          <multipleDevicesSelectedInDropDown value="true" />
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
@@ -74,6 +83,9 @@
             </Target>
           </targetsSelectedWithDialog>
         </State>
+      </entry>
+      <entry key="translate_test">
+        <State />
       </entry>
     </value>
   </component>

@@ -1,9 +1,6 @@
 package com.example.customer;
 
-import static android.content.ContentValues.TAG;
-
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,10 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
@@ -40,23 +37,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ml.common.FirebaseMLException;
-import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
-import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
-import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
-import com.google.firebase.ml.custom.FirebaseCustomRemoteModel;
-import com.google.firebase.ml.custom.FirebaseModelDataType;
 import com.google.firebase.ml.custom.FirebaseModelInputOutputOptions;
 import com.google.firebase.ml.custom.FirebaseModelInterpreter;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class Customer_QuickConnect_Fragment extends Fragment {
@@ -84,6 +71,12 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (new DarkModePrefManager(getContext()).isNightMode()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize UI elements
@@ -137,7 +130,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                 String complaintText = complaintEditText.getText().toString();
 //                String cleansedText = cleanseText(complaintText);
                 // Perform machine learning model check
-                performSeverityCheck(complaintText);
+//                performSeverityCheck(complaintText);
 
 
             }
@@ -151,6 +144,8 @@ public class Customer_QuickConnect_Fragment extends Fragment {
             }
         });
     }
+
+
 
 //    private void checkModelDownloaded(FirebaseCustomRemoteModel remoteModel, FirebaseCustomLocalModel localModel) {
 //        FirebaseModelManager.getInstance().isModelDownloaded(remoteModel)
@@ -236,212 +231,117 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //    }
 
 
-
-    private void performSeverityCheck(String userInput) {
-        Log.d(TAG, "performSeverityCheck");
-
-        Log.d(TAG, "Cleansed Input: " + userInput);
-
-        // List of hardcoded words to check for severity
-        List<String> seriousWords = Arrays.asList(
-                "urgent", "scam", "fraud", "stolen", "phishing", "deceived",
-                "assistance", "help", "emergency", "lost", "scammers", "identity",
-                "drain", "desperate", "swindled", "stolen", "hacked", "hijacked",
-                "emergency", "critical", "immediate", "crisis", "danger", "threat",
-                "immediate attention", "immediate action", "immediate response",
-                "immediate assistance", "immediate help", "immediate support",
-                "escalate",
-                "assistance required"
-        );
-
-        String[] topicsArray = {
-                "Account Issues",
-                "Product Information",
-                "Order Status",
-                "Billing Questions",
-                "Technical Support",
-                "Feedback and Suggestions",
-                "Returns and Exchanges",
-                "Shipping Inquiries",
-                "General Inquiries"
-        };
-
-        // Convert the array to an ArrayList
-        List<String> topicsList = new ArrayList<>(Arrays.asList(topicsArray));
-
-        // Convert the user input to lowercase for case-insensitive matching
-        String lowercaseInput = userInput.toLowerCase();
-
-        // Check if any serious words are present in the input
-        boolean isSerious = false;
-        for (String word : seriousWords) {
-            if (lowercaseInput.contains(word)) {
-                isSerious = true;
-                break; // Break out of the loop if a serious word is found
-            }
-        }
-
-        if(isSerious){
-            showSeriousOptionsDialog();
-        }
-
-        else{
-            replaceFragment(new Customer_Profile_Fragment());
-        }
-
-        Map<String, String> keywordTopicMap = new HashMap<>();
-        keywordTopicMap.put("scam", "Scam");
-        keywordTopicMap.put("fraud", "Scam");
-        keywordTopicMap.put("stolen", "Scam");
-        keywordTopicMap.put("phishing", "Scam");
-        keywordTopicMap.put("deceived", "Scam");
-        keywordTopicMap.put("assistance", "General Inquiries");
-        keywordTopicMap.put("loan", "Loan");
-        keywordTopicMap.put("transaction", "Transaction");
-        keywordTopicMap.put("referral", "Referral");
-        keywordTopicMap.put("help", "General Inquiries");
-        keywordTopicMap.put("emergency", "General Inquiries");
-        keywordTopicMap.put("lost", "General Inquiries");
-        keywordTopicMap.put("scammers", "Scam");
-        keywordTopicMap.put("identity", "Scam");
-        keywordTopicMap.put("waiver", "Waiver Fees");
-        keywordTopicMap.put("technical", "Technical");
-        keywordTopicMap.put("account", "Account");
-        keywordTopicMap.put("general", "General Inquiries");
-        keywordTopicMap.put("lag", "Technical");
-        keywordTopicMap.put("slow", "Technical");
-        keywordTopicMap.put("crash", "Technical");
-        keywordTopicMap.put("freeze", "Technical");
-        keywordTopicMap.put("hang", "Technical");
-
-        // Determine the topic
-        for (Map.Entry<String, String> entry : keywordTopicMap.entrySet()) {
-            if (lowercaseInput.contains(entry.getKey())) {
-                topic = entry.getValue();
-            }
-        }
 //
-//        if (lowercaseInput.contains("scam")) {
-//            topic = "Scam";
+//    private void performSeverityCheck(String userInput) {
+//
+//
+//        // List of hardcoded words to check for severity
+//        List<String> seriousWords = Arrays.asList(
+//                "urgent", "scam", "fraud", "stolen", "phishing", "deceived",
+//                "assistance", "help", "emergency", "lost", "scammers", "identity",
+//                "drain", "desperate", "swindled", "stolen", "hacked", "hijacked",
+//                "emergency", "critical", "immediate", "crisis", "danger", "threat",
+//                "immediate attention", "immediate action", "immediate response",
+//                "immediate assistance", "immediate help", "immediate support",
+//                "escalate",
+//                "assistance required"
+//        );
+//
+//        String[] topicsArray = {
+//                "Account Issues",
+//                "Product Information",
+//                "Order Status",
+//                "Billing Questions",
+//                "Technical Support",
+//                "Feedback and Suggestions",
+//                "Returns and Exchanges",
+//                "Shipping Inquiries",
+//                "General Inquiries"
+//        };
+//
+//        // Convert the array to an ArrayList
+//        List<String> topicsList = new ArrayList<>(Arrays.asList(topicsArray));
+//
+//        // Convert the user input to lowercase for case-insensitive matching
+//        String lowercaseInput = userInput.toLowerCase();
+//
+//        // Check if any serious words are present in the input
+//        boolean isSerious = false;
+//        for (String word : seriousWords) {
+//            if (lowercaseInput.contains(word)) {
+//                isSerious = true;
+//                break; // Break out of the loop if a serious word is found
+//            }
 //        }
 //
-//        if (lowercaseInput.contains("fraud")) {
-//            topic = "Scam";
+//        if(isSerious){
+//            showSeriousOptionsDialog();
 //        }
 //
-//        if (lowercaseInput.contains("stolen")) {
-//            topic = "Scam";
+//        else{
+//            replaceFragment(new Customer_Profile_Fragment());
 //        }
 //
-//        if (lowercaseInput.contains("phishing")) {
-//            topic = "Scam";
+//        Map<String, String> keywordTopicMap = new HashMap<>();
+//        keywordTopicMap.put("scam", "Scam");
+//        keywordTopicMap.put("fraud", "Scam");
+//        keywordTopicMap.put("stolen", "Scam");
+//        keywordTopicMap.put("phishing", "Scam");
+//        keywordTopicMap.put("deceived", "Scam");
+//        keywordTopicMap.put("assistance", "General Inquiries");
+//        keywordTopicMap.put("loan", "Loan");
+//        keywordTopicMap.put("transaction", "Transaction");
+//        keywordTopicMap.put("referral", "Referral");
+//        keywordTopicMap.put("help", "General Inquiries");
+//        keywordTopicMap.put("emergency", "General Inquiries");
+//        keywordTopicMap.put("lost", "General Inquiries");
+//        keywordTopicMap.put("scammers", "Scam");
+//        keywordTopicMap.put("identity", "Scam");
+//        keywordTopicMap.put("waiver", "Waiver Fees");
+//        keywordTopicMap.put("technical", "Technical");
+//        keywordTopicMap.put("account", "Account");
+//        keywordTopicMap.put("general", "General Inquiries");
+//        keywordTopicMap.put("lag", "Technical");
+//        keywordTopicMap.put("slow", "Technical");
+//        keywordTopicMap.put("crash", "Technical");
+//        keywordTopicMap.put("freeze", "Technical");
+//        keywordTopicMap.put("hang", "Technical");
+//
+//        // Determine the topic
+//        for (Map.Entry<String, String> entry : keywordTopicMap.entrySet()) {
+//            if (lowercaseInput.contains(entry.getKey())) {
+//                topic = entry.getValue();
+//            }
 //        }
 //
-//        if (lowercaseInput.contains("deceived")) {
-//            topic = "Scam";
-//        }
-//
-//        if (lowercaseInput.contains("assistance")) {
-//            topic = "General Inquiries";
-//        }
-//
-//        if (lowercaseInput.contains("loan")) {
-//            topic = "Loan";
-//        }
-//
-//        if (lowercaseInput.contains("transaction")) {
-//            topic = "Transaction";
-//        }
-//
-//        if (lowercaseInput.contains("referral")) {
-//            topic = "Referral";
-//        }
-//
-//        if (lowercaseInput.contains("help")) {
-//            topic = "General Inquiries";
-//        }
-//
-//        if (lowercaseInput.contains("emergency")) {
-//            topic = "General Inquiries";
-//        }
-//
-//        if (lowercaseInput.contains("lost")) {
-//            topic = "General Inquiries";
-//        }
-//
-//        if (lowercaseInput.contains("scammers")) {
-//            topic = "Scam";
-//        }
-//
-//        if (lowercaseInput.contains("identity")) {
-//            topic = "Scam";
-//        }
-//
-//        if (lowercaseInput.contains("waiver")) {
-//            topic = "Waiver Fees";
-//        }
-//
-//        if (lowercaseInput.contains("technical")) {
-//            topic = "Technical";
-//        }
-//
-//        if (lowercaseInput.contains("account")) {
-//            topic = "Account";
-//        }
-//
-//        if (lowercaseInput.contains("general")) {
-//            topic = "General Inquiries";
-//        }
-//
-//        if (lowercaseInput.contains("lag")) {
-//            topic = "Technical";
-//        }
-//
-//        if (lowercaseInput.contains("slow")) {
-//            topic = "Technical";
-//        }
-//
-//        if (lowercaseInput.contains("crash")) {
-//            topic = "Technical";
-//        }
-//
-//        if (lowercaseInput.contains("freeze")) {
-//            topic = "Technical";
-//        }
-//
-//        if (lowercaseInput.contains("hang")) {
-//            topic = "Technical";
-//        }
-
-        // The rest of your code...
-    }
+//    }
 
 
-    private void handleModelOutput(float predictedProbability) {
-        // Modify this based on your Python model's output
-
-
-//        // Use a threshold of 0.5 to determine the severity label
-//        String severityText = (predictedProbability >= 0.5) ? "Serious" : "Not Serious";
+//    private void handleModelOutput(float predictedProbability) {
+//        // Modify this based on your Python model's output
 //
 //
-//        Log.d(TAG, "Severity Label: " + severityText);
-
-        String severityText ="Serious";
-
-        if(severityText.equals("Serious")){
-            showSeriousOptionsDialog();
-        }
-        else{
-            Toast.makeText(requireContext(), "Predicted Severity: " + severityText, Toast.LENGTH_SHORT).show();
-
-            replaceFragment(new Customer_Profile_Fragment());
-
-        }
-
-        // Handle the result, e.g., display it or take further actions
-        Toast.makeText(requireContext(), "Predicted Severity: " + severityText, Toast.LENGTH_SHORT).show();
-    }
+////        // Use a threshold of 0.5 to determine the severity label
+////        String severityText = (predictedProbability >= 0.5) ? "Serious" : "Not Serious";
+////
+////
+////        Log.d(TAG, "Severity Label: " + severityText);
+//
+//        String severityText ="Serious";
+//
+//        if(severityText.equals("Serious")){
+//            showSeriousOptionsDialog();
+//        }
+//        else{
+//            Toast.makeText(requireContext(), "Predicted Severity: " + severityText, Toast.LENGTH_SHORT).show();
+//
+//            replaceFragment(new Customer_Profile_Fragment());
+//
+//        }
+//
+//        // Handle the result, e.g., display it or take further actions
+//        Toast.makeText(requireContext(), "Predicted Severity: " + severityText, Toast.LENGTH_SHORT).show();
+//    }
 
 
 

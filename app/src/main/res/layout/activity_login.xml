@@ -75,7 +75,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="35dp"
-                android:text="Login"
+                android:text="@string/login"
                 android:textAlignment="center"
                 android:textColor="@color/red"
                 android:textSize="29dp"
@@ -96,7 +96,7 @@
                     android:background="@drawable/roundedcorners"
                     android:backgroundTint="@color/material_dynamic_neutral90"
                     android:backgroundTintMode="add"
-                    android:hint="Username"
+                    android:hint="@string/username"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -120,7 +120,7 @@
                     android:background="@drawable/roundedcorners"
                     android:backgroundTint="@color/material_dynamic_neutral90"
                     android:backgroundTintMode="add"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/design_default_color_background"
                     android:buttonTintMode="src_in"
-                    android:text="Remember Me" />
+                    android:text="@string/remember_me" />
 
                 <TextView
                     android:id="@+id/forgetpassword"
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="13dp"
-                    android:text="Forget Password?"
+                    android:text="@string/forget_password"
                     android:textColor="@color/black" />
 
             </RelativeLayout>
@@ -177,7 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dont have an account?" />
+                    android:text="@string/dont_have_an_account" />
 
                 <TextView
                     android:id="@+id/RedirectSignup"

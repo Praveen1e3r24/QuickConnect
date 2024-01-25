@@ -9,6 +9,21 @@
             android:id="@+id/nav_c_home"
             android:icon="@drawable/nav_home"
             android:title="@string/Home"/>
+        <item
+            android:id="@+id/nav_c_Voice_Video_Call"
+            android:icon="@drawable/call_icon_phone"
+            android:title="@string/voice_video_call"/>
+
+        <item
+            android:id="@+id/nav_c_Messaging"
+            android:icon="@drawable/nav_message"
+            android:title="@string/messaging"/>
+        <item
+            android:id="@+id/nav_c_ChatBot"
+            android:icon="@drawable/baseline_android_24"
+            android:title="@string/qc_chatbot"/>
+
+
 
         <item
             android:id="@+id/nav_c_quickconnect"
@@ -19,10 +34,7 @@
             android:icon="@drawable/nav_profile"
             android:title="@string/profile" />
 
-        <item
-            android:id="@+id/nav_c_vvcall"
-            android:icon="@drawable/nav_videocall"
-            android:title="@string/video_call" />
+
 
 
 

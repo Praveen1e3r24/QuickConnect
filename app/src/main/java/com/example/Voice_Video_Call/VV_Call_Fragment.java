@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentVVCallBinding;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
@@ -44,8 +46,11 @@ public class VV_Call_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        TextView yourUserID = binding.yourUserId;
-//        TextView yourUserName = binding.yourUserName;
+        TextView yourUserID = binding.yourUserId;
+        TextView yourUserName = binding.yourUserName;
+        User user =getUserDetailsFromSharedPreferences();
+        yourUserID.setText("Your User ID :" + user.getFirstName());
+        yourUserName.setText("Your User Name :" + user.getFullName());
 
 //        User user =getUserDetailsFromSharedPreferences();
 //        String userID = user.getFirstName().toString().toLowerCase();
@@ -153,6 +158,11 @@ public class VV_Call_Fragment extends Fragment {
         }
 
         return null; // Return null if the JSON string is null or if there's an error in deserialization
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ZegoUIKitPrebuiltCallInvitationService.unInit();
     }
 
 //    @Override

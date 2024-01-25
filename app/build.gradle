@@ -119,5 +119,7 @@ dependencies {
     implementation 'com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:1.4.o'    // add
     implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_call_android:+'
 
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 
 }
