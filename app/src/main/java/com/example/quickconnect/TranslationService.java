@@ -54,7 +54,7 @@ public class TranslationService {
     }
 
     public interface TranslationCallback {
-        void onTranslationSuccess(String translatedMessage);
+        String onTranslationSuccess(String translatedMessage);
 
         void onTranslationFailure(String errorMessage);
     }

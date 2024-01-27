@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.example.quickconnect.LocaleHelper;
-import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.databinding.FragmentLanguageChangeBinding;
 
@@ -88,7 +87,7 @@ public class Language_Change extends Fragment {
 
 
     private void restartApp() {
-        Intent intent = new Intent(getContext(), Login.class);
+        Intent intent = new Intent(getContext(), Language_Change.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

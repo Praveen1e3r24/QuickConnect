@@ -1,5 +1,7 @@
 package com.example.customer;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -20,6 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.palmchatbot.Palm_Ai_Service;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
@@ -130,7 +133,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                 String complaintText = complaintEditText.getText().toString();
 //                String cleansedText = cleanseText(complaintText);
                 // Perform machine learning model check
-//                performSeverityCheck(complaintText);
+                performSeverityCheck(complaintText);
 
 
             }
@@ -147,176 +150,81 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
 
 
-//    private void checkModelDownloaded(FirebaseCustomRemoteModel remoteModel, FirebaseCustomLocalModel localModel) {
-//        FirebaseModelManager.getInstance().isModelDownloaded(remoteModel)
-//                .addOnSuccessListener(isDownloaded -> {
-//                    if (isDownloaded) {
-//                        Log.d(TAG, "Using Remote Model: " + remoteModel.getModelName());
-//                    } else {
-//                        Log.d(TAG, "Using Local Model: " + localModel.getAssetFilePath());
-//                        // Download the remote model
-//                        downloadModel(remoteModel);
-//                    }
-//
-//                    FirebaseModelInterpreterOptions interpreterOptions = new FirebaseModelInterpreterOptions.Builder(remoteModel).build();
-//
-//                    try {
-//                        interpreter = FirebaseModelInterpreter.getInstance(interpreterOptions);
-//                    } catch (FirebaseMLException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
+    private void performSeverityCheck(String userInput) {
+        // ... existing code ...
+
+        new Palm_Ai_Service().sendrequestai(userInput, "EN", new Palm_Ai_Service.AIResponseCallback() {
+            @Override
+            public void onReceived(String response) {
+                if (response != null && !response.isEmpty()) {
+                    Log.d("AI Response", response);
+
+                    String[] aiResults = response.split(",");
+                    if (aiResults.length >= 4) {
+                        // Extract data from AI response
+                        String severity = aiResults[0];
+                        String resolutionMethod = aiResults[1];
+                        String department = aiResults[2];
+                        String title = aiResults[3];
+
+                        // Show the dialog with the suggested resolution method
+                        showDialogWithResolutionMethod(resolutionMethod,topic,department);
+                    } else {
+                        Log.d("AI Response1", "Invalid response format");
+                    }
+                } else {
+                    Log.d("AI Response2", "Received null or empty response");
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("AI Response Error", e.getMessage());
+                // Handle the error (e.g., show error message to the user)
+            }
+        });
+
+
+    }
+
+    private void showDialogWithResolutionMethod(String resolutionMethod,String topic,String department) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Customer_QuickConnect_Fragment.this.getContext());
+        builder.setTitle("Suggested Resolution Method");
+        builder.setMessage("We suggest resolving this issue via: " + resolutionMethod + "\nDo you want to proceed?");
+
+        builder.setPositiveButton("Proceed", (dialog, which) -> {
+            // User chose to proceed, handle the resolution method
+            Log.d(TAG, "showDialogWithResolutionMethod:1 ");
+            handleResolutionMethod(resolutionMethod,topic,department);
+        });
+
+        builder.setNegativeButton("Not Proceed", (dialog, which) -> {
+            // User chose not to proceed, dismiss the dialog
+            dialog.dismiss();
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void handleResolutionMethod(String method,String topic,String department ) {
+        if (method==" ResolutionMethod: Messaging") {
+            Log.d(TAG, "showDialogWithResolutionMethod:2 ");
+            checkAndAddChatToDB(topic, department);
+
+
+
+        }
+
+        }
+
+
+    // Mock method to represent fetching output from AI
+//    private String getAIOutput(String userInput) {
+//        // TODO: Implement the actual API call or AI processing logic
+//        return "Low,Messaging,General Inquiries,Account Inquiry";
 //    }
-
-
-
-//    private void downloadModel(FirebaseCustomRemoteModel remoteModel) {
-//        // Specify the conditions under which you want to allow downloading
-//        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
-//                .requireWifi()  // Example: Download only if connected to Wi-Fi
-//                .build();
 //
-//        // Start the model download task
-//        FirebaseModelManager.getInstance().download(remoteModel, conditions)
-//                .addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        // Model downloaded successfully
-//                        Toast.makeText(requireContext(), "Model download success", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        // Model download failed
-//                        // Handle the failure, e.g., show an error message
-//                        Toast.makeText(requireContext(), "Model download failed", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-
-//    private void performSeverityCheck(String userInput) {
-//        Log.d(TAG, "performSeverityCheck");
-//
-//        Log.d(TAG, "Cleansed Input: " + userInput);
-//        float[] inputArray = preprocessInput(userInput);
-//
-//        Log.d(TAG, "Input Array: " + Arrays.toString(inputArray));
-//
-//        try {
-//            FirebaseModelInputs inputs = new FirebaseModelInputs.Builder()
-//                    .add(new float[][]{inputArray})
-//                    .build();
-//
-//            interpreter.run(inputs, inputOutputOptions)
-//                    .addOnSuccessListener(result -> {
-//                        float[][] outputValues = result.getOutput(0);
-//                        float confidence = outputValues[0][0]; // Assuming the confidence is in the second position
-//                        Log.d(TAG, "Confidence: " + confidence);
-//                        float predictedClass = outputValues[0][0];
-//
-//                        // The confidence of the model is typically associated with the probability
-//                        // values in the output tensor. You can print these values for each class.
-//
-//                        Log.d(TAG, "performSeverityCheck:output values "+result);; // Assuming the confidence is in the second position
-//
-//                        Log.d(TAG, "Predicted Class: " + predictedClass);
-//
-//
-//                        // Handle the result
-//                        handleModelOutput(predictedClass);
-//                    })
-//                    .addOnFailureListener(e -> {
-//                        Log.e(TAG, "Inference failed", e);
-//                        Toast.makeText(requireContext(), "Inference failed", Toast.LENGTH_SHORT).show();
-//                    });
-//        } catch (FirebaseMLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
-//
-//    private void performSeverityCheck(String userInput) {
-//
-//
-//        // List of hardcoded words to check for severity
-//        List<String> seriousWords = Arrays.asList(
-//                "urgent", "scam", "fraud", "stolen", "phishing", "deceived",
-//                "assistance", "help", "emergency", "lost", "scammers", "identity",
-//                "drain", "desperate", "swindled", "stolen", "hacked", "hijacked",
-//                "emergency", "critical", "immediate", "crisis", "danger", "threat",
-//                "immediate attention", "immediate action", "immediate response",
-//                "immediate assistance", "immediate help", "immediate support",
-//                "escalate",
-//                "assistance required"
-//        );
-//
-//        String[] topicsArray = {
-//                "Account Issues",
-//                "Product Information",
-//                "Order Status",
-//                "Billing Questions",
-//                "Technical Support",
-//                "Feedback and Suggestions",
-//                "Returns and Exchanges",
-//                "Shipping Inquiries",
-//                "General Inquiries"
-//        };
-//
-//        // Convert the array to an ArrayList
-//        List<String> topicsList = new ArrayList<>(Arrays.asList(topicsArray));
-//
-//        // Convert the user input to lowercase for case-insensitive matching
-//        String lowercaseInput = userInput.toLowerCase();
-//
-//        // Check if any serious words are present in the input
-//        boolean isSerious = false;
-//        for (String word : seriousWords) {
-//            if (lowercaseInput.contains(word)) {
-//                isSerious = true;
-//                break; // Break out of the loop if a serious word is found
-//            }
-//        }
-//
-//        if(isSerious){
-//            showSeriousOptionsDialog();
-//        }
-//
-//        else{
-//            replaceFragment(new Customer_Profile_Fragment());
-//        }
-//
-//        Map<String, String> keywordTopicMap = new HashMap<>();
-//        keywordTopicMap.put("scam", "Scam");
-//        keywordTopicMap.put("fraud", "Scam");
-//        keywordTopicMap.put("stolen", "Scam");
-//        keywordTopicMap.put("phishing", "Scam");
-//        keywordTopicMap.put("deceived", "Scam");
-//        keywordTopicMap.put("assistance", "General Inquiries");
-//        keywordTopicMap.put("loan", "Loan");
-//        keywordTopicMap.put("transaction", "Transaction");
-//        keywordTopicMap.put("referral", "Referral");
-//        keywordTopicMap.put("help", "General Inquiries");
-//        keywordTopicMap.put("emergency", "General Inquiries");
-//        keywordTopicMap.put("lost", "General Inquiries");
-//        keywordTopicMap.put("scammers", "Scam");
-//        keywordTopicMap.put("identity", "Scam");
-//        keywordTopicMap.put("waiver", "Waiver Fees");
-//        keywordTopicMap.put("technical", "Technical");
-//        keywordTopicMap.put("account", "Account");
-//        keywordTopicMap.put("general", "General Inquiries");
-//        keywordTopicMap.put("lag", "Technical");
-//        keywordTopicMap.put("slow", "Technical");
-//        keywordTopicMap.put("crash", "Technical");
-//        keywordTopicMap.put("freeze", "Technical");
-//        keywordTopicMap.put("hang", "Technical");
-//
-//        // Determine the topic
-//        for (Map.Entry<String, String> entry : keywordTopicMap.entrySet()) {
-//            if (lowercaseInput.contains(entry.getKey())) {
-//                topic = entry.getValue();
-//            }
-//        }
-//
-//    }
-
-
 //    private void handleModelOutput(float predictedProbability) {
 //        // Modify this based on your Python model's output
 //
@@ -335,7 +243,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //        else{
 //            Toast.makeText(requireContext(), "Predicted Severity: " + severityText, Toast.LENGTH_SHORT).show();
 //
-//            replaceFragment(new Customer_Profile_Fragment());
+////            replaceFragment(new Customer_Profile_Fragment());
 //
 //        }
 //
@@ -357,55 +265,57 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         }
     }
 
-    private void showSeriousOptionsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-
-        custompopup = CustomSeriousQuickconnectPopupBinding.inflate(getLayoutInflater());
-        builder.setView(custompopup.getRoot());
-
-        // Handle button clicks or any other interactions
-       custompopup.requestCall.setOnClickListener(v -> {
-           custompopup.requestCall.setEnabled(false);
-            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB());
-       });
-
-        custompopup.requestMessage247.setOnClickListener(v -> {
-            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(checkAndAddChatToDB());
-            custompopup.requestMessage247.setEnabled(false);
-        });
-
-        custompopup.requestBookAnAppointment.setOnClickListener(v -> {
-            // Handle the "Book an Appointment" option
-            // Implement your logic here
-        });
-
-        // Show the dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+//    private void showSeriousOptionsDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//
+//        custompopup = CustomSeriousQuickconnectPopupBinding.inflate(getLayoutInflater());
+//        builder.setView(custompopup.getRoot());
+//
+//        // Handle button clicks or any other interactions
+//       custompopup.requestCall.setOnClickListener(v -> {
+//           custompopup.requestCall.setEnabled(false);
+//            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB());
+//       });
+//
+//        custompopup.requestMessage247.setOnClickListener(v -> {
+//            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(checkAndAddChatToDB());
+//            custompopup.requestMessage247.setEnabled(false);
+//        });
+//
+//        custompopup.requestBookAnAppointment.setOnClickListener(v -> {
+//            // Handle the "Book an Appointment" option
+//            // Implement your logic here
+//        });
+//
+//        // Show the dialog
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private ValueEventListener checkAndAddChatToDB() {
-
+    private ValueEventListener checkAndAddChatToDB(String topic,String department) {
+        Log.d(TAG, "showDialogWithResolutionMethod:3 ");
         hasEmployee = false;
         User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
 
-        // Add topic here :)
-        if (topic == null) {
-            topic = "General Inquiries";
-        }
+        Log.d(TAG, "showDialogWithResolutionMethod:4 ");
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "showDialogWithResolutionMethod:5 ");
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Employee employee = snapshot.getValue(Employee.class);
+                    Log.d(TAG, "showDialogWithResolutionMethod:6");
                     if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5) {
+                        Log.d(TAG, "showDialogWithResolutionMethod:7");
                         List<Message> messages = new ArrayList<>();
                         Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
                         chat.setChatId(dbRef.child("Chats").push().getKey());
+                        Log.d(TAG, "showDialogWithResolutionMethod:8");
                         dbRef.child("Chats").child(chat.getChatId()).setValue(chat);
                         dbRef.child("Users").child("Employees").child(employee.getUserId()).child("numChats").setValue(employee.getNumChats() + 1);
+                        Log.d(TAG, "showDialogWithResolutionMethod:9");
                         hasEmployee = true;
                         Intent intent = new Intent(getActivity(), ChatActivity.class);
                         intent.putExtra("chat", chat);
@@ -422,6 +332,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -429,22 +340,22 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         return valueEventListener;
     }
 
-    private boolean checkDepartment(String department) {
-//        {"Scam & Fraud", "Technical", "Account", "General"}
-        switch (department)
-        {
-            case "Scam & Fraud":
-                return topic.equals("Scam");
-            case "Technical":
-                return topic.equals("Technical");
-            case "Account":
-                return topic.equals("loan") || topic.equals("Transaction") || topic.equals("Referral") || topic.equals("Waiver Fees");
-            case "General":
-                return topic.equals("General Inquiries");
-            default:
-                return false;
-        }
-    }
+//    private boolean checkDepartment(String department) {
+////        {"Scam & Fraud", "Technical", "Account", "General"}
+//        switch (department)
+//        {
+//            case "Scam & Fraud":
+//                return topic.equals("Scam");
+//            case "Technical":
+//                return topic.equals("Technical");
+//            case "Account":
+//                return topic.equals("loan") || topic.equals("Transaction") || topic.equals("Referral") || topic.equals("Waiver Fees");
+//            case "General":
+//                return topic.equals("General Inquiries");
+//            default:
+//                return false;
+//        }
+//    }
 
     private ValueEventListener addRequestToDB(){
         hasEmployee = false;
@@ -508,47 +419,5 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         return eventListener;
     }
 
-    private float[] preprocessInput(String userInput) {
-        // Modify this method based on your Python preprocessing logic
-        String[] words = userInput.split("\\s+");
-        float[] inputArray = new float[100];
-
-        for (int i = 0; i < inputArray.length; i++) {
-            if (i < words.length) {
-                // Modify this part to map words to indices as done in your Python code
-                int index = Math.abs(words[i].hashCode() % inputArray.length);
-                inputArray[i] = index;
-            } else {
-                inputArray[i] = 0.0f;
-            }
-        }
-
-        return inputArray;
-    }
-
-
-
-    private String cleanseText(String text) {
-        // Placeholder implementation (replace with actual logic)
-        // Your model should internally handle the conversion of raw text to numerical values
-        // If your model expects preprocessed input, you might need to adjust this method accordingly
-
-        // This is just an example; adjust the cleaning logic based on your requirements
-        text = text.toLowerCase();
-        text = text.replaceAll("</?.*?>", " <> ");
-        text = text.replaceAll("(\\d|\\W|_)+", " ");
-
-        return text;
-    }
-
-
-
-
-    private float getOneHotEncoding(String word) {
-        // Placeholder implementation for one-hot encoding
-        // Replace this with actual logic based on your requirements
-        // For simplicity, assigning 1.0 for the presence of any word
-        return 1.0f;
-    }
 
 }
