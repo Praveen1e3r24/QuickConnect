@@ -18,4 +18,5 @@
         android:layout_height="wrap_content"
         android:title="@string/end_chat"
         app:showAsAction="never" />
+
 </menu>

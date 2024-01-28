@@ -2,16 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="LoginVVActivity">
-        <State />
-      </entry>
-      <entry key="Logincc">
-        <State />
-      </entry>
-      <entry key="SignInVC">
-        <State />
-      </entry>
-      <entry key="app">
+      <entry key="Unnamed">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -19,19 +10,19 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
+                  <value value="C:\Users\junqi\.android\avd\Pixel_3a_API_33_x86_64.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-23T09:37:24.137561600Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-01-28T15:00:03.588426800Z" />
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\Praveen\.android\avd\device_2.avd" />
+                  <value value="C:\Users\junqi\.android\avd\Pixel_6_Pro_API_33.avd" />
                 </Key>
               </deviceKey>
             </Target>
@@ -40,35 +31,7 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetsSelectedWithDialog>
-        </State>
-      </entry>
-      <entry key="palm_ai_chatbot">
-        <State />
-      </entry>
-      <entry key="s2t">
-        <State>
-          <multipleDevicesSelectedInDropDown value="true" />
-          <targetsSelectedWithDialog>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\Praveen\.android\avd\device_2.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
+                  <value value="C:\Users\junqi\.android\avd\Pixel_3a_API_33_x86_64.avd" />
                 </Key>
               </deviceKey>
             </Target>

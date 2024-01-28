@@ -190,4 +190,7 @@ public class Chat implements Parcelable {
     public void setCallRequestId(String callRequestId) {
         this.callRequestId = callRequestId;
     }
+
+    public void setUserId(String userId) {
+    }
 }

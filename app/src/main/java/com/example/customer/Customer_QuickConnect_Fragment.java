@@ -4,7 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,30 +21,24 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Message;
+import com.example.quickconnect.Profile_Fragment;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.WebViewer;
 import com.example.quickconnect.databinding.CustomSeriousQuickconnectPopupBinding;
-import com.example.quickconnect.databinding.FragmentCustomerProfileBinding;
 import com.example.quickconnect.databinding.FragmentCustomerQuickConnectBinding;
+import com.example.quickconnect.databinding.FragmentProfileBinding;
 import com.example.utilities.UserData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ml.common.FirebaseMLException;
-import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
-import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
-import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
-import com.google.firebase.ml.custom.FirebaseCustomRemoteModel;
-import com.google.firebase.ml.custom.FirebaseModelDataType;
 import com.google.firebase.ml.custom.FirebaseModelInputOutputOptions;
 import com.google.firebase.ml.custom.FirebaseModelInterpreter;
 
@@ -55,7 +48,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -63,7 +55,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
     FragmentCustomerQuickConnectBinding binding;
 
-    FragmentCustomerProfileBinding  ProfileBinding;
+    FragmentProfileBinding ProfileBinding;
 
     CustomSeriousQuickconnectPopupBinding custompopup;
     FirebaseModelInterpreter interpreter;
@@ -286,7 +278,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         }
 
         else{
-            replaceFragment(new Customer_Profile_Fragment());
+            replaceFragment(new Profile_Fragment());
         }
 
         Map<String, String> keywordTopicMap = new HashMap<>();
@@ -435,7 +427,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         else{
             Toast.makeText(requireContext(), "Predicted Severity: " + severityText, Toast.LENGTH_SHORT).show();
 
-            replaceFragment(new Customer_Profile_Fragment());
+            replaceFragment(new Profile_Fragment());
 
         }
 

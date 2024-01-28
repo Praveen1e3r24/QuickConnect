@@ -1,9 +1,13 @@
 package com.example.quickconnect;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,9 +30,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.NotificationHandler;
+import com.example.customer.Customer_Main;
 import com.example.quickconnect.databinding.ActivityChatBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,7 +77,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
 
     private StorageReference storageReference;
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +99,10 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         chat = intent.getParcelableExtra("chat");
         callRequest = intent.getParcelableExtra("callRequest");
 
-        if (callRequest == null)
-        {
+        if (callRequest == null) {
             callRequest = intent.getParcelableExtra("callRequest1");
         }
-        isRequest =  intent.getBooleanExtra("isRequest", false);
+        isRequest = intent.getBooleanExtra("isRequest", false);
 
         RecyclerView rv = binding.recyclerGchat;
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -104,15 +112,12 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         dbRef.child("Chats").child(chat.getChatId()).child("closed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (Boolean.TRUE.equals(snapshot.getValue(Boolean.class)) == true)
-                {
+                if (Boolean.TRUE.equals(snapshot.getValue(Boolean.class)) == true) {
                     Toast.makeText(ChatActivity.this, "Chat has been closed", Toast.LENGTH_SHORT).show();
                     binding.chatMessage.setVisibility(View.GONE);
                     binding.chatSend.setVisibility(View.GONE);
                     binding.chatCloseText.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     binding.chatCloseText.setVisibility(View.GONE);
                 }
             }
@@ -124,46 +129,50 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         });
 
 
+
         dbRef.child("Chats").child(chat.getChatId()).child("messages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 messageList.clear();
-                for (DataSnapshot s : snapshot.getChildren()){
+                for (DataSnapshot s : snapshot.getChildren()) {
                     Message msg = s.getValue(Message.class);
                     messageList.add(msg);
                 }
 
-                if (!messageList.isEmpty())
-                {
+                if (!messageList.isEmpty()) {
                     adapter = new MessageAdapter(messageList, ChatActivity.this);
                     rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-                    if (firstenter == true)
-                    {
+                    if (firstenter == true) {
                         binding.recyclerGchat.smoothScrollToPosition(adapter.getItemCount() - 1);
                         firstenter = false;
-                    }
-                    else
-                    {
+                    } else {
                         binding.recyclerGchat.scrollToPosition(adapter.getItemCount() - 1);
+
+//                    if (!messageList.get(messageList.size() - 1).getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+//                    {
+//                        createNotification();
+//                    }
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(ChatActivity.this, "Error sending message: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        if (chat.getSupportId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-        {
-            actionBar.setTitle(chat.getCustomerId());
-            actionBar.setSubtitle("Subject: " + chat.getCategory());
-        }
+        NotificationHandler notificationHandler = NotificationHandler.getInstance();
+        notificationHandler.initialize(this, chat);
 
-        else
-        {
+        dbRef.child("Chats").addValueEventListener(notificationHandler.checkNewMessage());
+
+        if (chat.getSupportId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            actionBar.setTitle(chat.getCustomerName());
+            actionBar.setSubtitle("Subject: " + chat.getCategory());
+        } else {
             actionBar.setTitle(chat.getSupportName());
             actionBar.setSubtitle(chat.getSupportTeam());
         }
@@ -181,16 +190,31 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             }
         });
 
+        messageText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                sendMessage();
+                return true;
+            }
+
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                sendMessage();
+                return true;
+            }
+
+            return false;
+        });
+
         binding.chatSend.setOnClickListener(v -> {
             sendMessage();
+
         });
 
         binding.chatGallery.setOnClickListener(v -> {
-            showAlert();
+            showAlert(1);
         });
 
         binding.chatUploadFile.setOnClickListener(v -> {
-            selectFile();
+            showAlert(2);
         });
 
         binding.chatCancelImg.setOnClickListener(v -> {
@@ -206,7 +230,38 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
 
     }
 
-    public void showAlert() {
+//    public void createNotification() {
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+//            return;
+//        }
+//
+//        CharSequence name = "QuickConnect";
+//        String description = "Channel for Quickconnect notifications";
+//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//        NotificationChannel channel = null;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            channel = new NotificationChannel("notify", name, importance);
+//            channel.setDescription(description);
+//        }
+//
+//        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify")
+//                .setSmallIcon(R.drawable.ic_launcher_foreground)
+//                .setContentTitle(chat.getCustomerName())
+//                .setContentText(messageList.get(messageList.size() - 1).getText())
+//                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//        notificationManager.notify(200, builder.build());
+//    }
+
+    public void showAlert(int choice) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confidentiality Warning");
         builder.setMessage("Please do not send any confidential information through this chat.\n\nThis chat is not secure and is not HIPAA compliant. Please keep caution when sending any files.");
@@ -214,7 +269,14 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                selectImage();
+                if (choice == 1)
+                {
+                    selectImage();
+                }
+                else if (choice == 2)
+                {
+                    selectFile();
+                }
             }
         });
 
@@ -340,7 +402,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
 
     private void selectImage()
     {
-
         // Defining Implicit Intent to mobile gallery
         Intent intent = new Intent();
         intent.setType("image/*");

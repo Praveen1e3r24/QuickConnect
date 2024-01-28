@@ -16,6 +16,7 @@ import com.example.OnClickInterface;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
+import com.example.quickconnect.ChatRequestItem;
 import com.example.quickconnect.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +31,7 @@ import java.util.List;
 public class Employee_M_Home_Fragment extends Fragment implements OnClickInterface {
 
     private RecyclerView rv;
-    private List<Chat> chatList = new ArrayList<>();
+    private List<ChatRequestItem> chatRequestItemList = new ArrayList<>();
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private OnClickInterface getInterface() {
@@ -47,14 +48,15 @@ public class Employee_M_Home_Fragment extends Fragment implements OnClickInterfa
         dbRef.child("Chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chatRequestItemList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     Chat chat = s.getValue(Chat.class);
                     if (chat!= null && chat.getSupportId() .equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) )
                     {
-                        chatList.add(chat);
+                        chatRequestItemList.add(new ChatRequestItem(chat, null));
                     }
                 }
-                ChatAdapter adapter = new ChatAdapter(getInterface(), chatList, null);
+                ChatAdapter adapter = new ChatAdapter(getInterface(), chatRequestItemList);
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -69,9 +71,9 @@ public class Employee_M_Home_Fragment extends Fragment implements OnClickInterfa
     }
 
     @Override
-    public void onClick(int pos, Object o) {
+    public void onClick(int pos, ChatRequestItem chatRequestItem) {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
-        Chat chat = (Chat) chatList.get(pos);
+        Chat chat = chatRequestItemList.get(pos).getChat();
         intent.putExtra("chat", chat);
         startActivity(intent);
 

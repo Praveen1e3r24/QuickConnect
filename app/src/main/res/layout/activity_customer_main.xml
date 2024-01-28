@@ -16,13 +16,13 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:id="@+id/toolbar"
+            android:background="@color/colorAccent"
             android:elevation="4dp"
-            android:background="@color/red"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Light" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -32,14 +32,15 @@
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
         android:layout_gravity="start"
+        android:visibility="visible"
         app:headerLayout="@layout/nav_customer_header"
-        app:menu="@menu/nav_customer_menu"
         app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"/>
+        app:itemTextColor="@color/black"
+        app:menu="@menu/nav_customer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

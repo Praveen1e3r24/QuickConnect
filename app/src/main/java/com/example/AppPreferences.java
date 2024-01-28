@@ -40,4 +40,14 @@ public class AppPreferences {
         editor.remove(KEY_USER_DATA);
         editor.apply();
     }
+
+    public void saveNotificationStatus(Boolean status) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("notificationStatus", status);
+        editor.apply();
+    }
+
+    public Boolean getNotificationStatus() {
+        return sharedPreferences.getBoolean("notificationStatus", true);
+    }
 }

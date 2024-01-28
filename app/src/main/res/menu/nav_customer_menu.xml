@@ -24,6 +24,10 @@
             android:icon="@drawable/nav_videocall"
             android:title="@string/video_call" />
 
+        <item
+            android:id="@+id/nav_c_chatbot"
+            android:icon="@drawable/baseline_voice_chat_24"
+            android:title="Chatbot" />
 
 
     </group>

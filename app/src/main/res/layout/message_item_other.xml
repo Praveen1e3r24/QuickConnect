@@ -52,7 +52,6 @@
                 android:maxHeight="250dp"
                 android:visibility="gone"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
             <Button
                 android:id="@+id/message_them_file"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -74,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:maxWidth="260dp"
+                android:maxWidth="300dp"
                 android:paddingLeft="12dp"
                 android:paddingTop="8dp"
                 android:paddingRight="12dp"
