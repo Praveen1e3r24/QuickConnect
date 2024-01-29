@@ -4,7 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +18,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.quickconnect.Customer_Profile;
+import com.example.palmchatbot.Palm_Ai_Service;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
@@ -32,7 +32,6 @@ import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.WebViewer;
 import com.example.quickconnect.databinding.CustomSeriousQuickconnectPopupBinding;
-import com.example.quickconnect.databinding.FragmentCustomerProfileBinding;
 import com.example.quickconnect.databinding.FragmentCustomerQuickConnectBinding;
 import com.example.utilities.UserData;
 import com.google.firebase.database.DataSnapshot;
@@ -40,30 +39,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ml.common.FirebaseMLException;
-import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
-import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
-import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
-import com.google.firebase.ml.custom.FirebaseCustomRemoteModel;
-import com.google.firebase.ml.custom.FirebaseModelDataType;
 import com.google.firebase.ml.custom.FirebaseModelInputOutputOptions;
 import com.google.firebase.ml.custom.FirebaseModelInterpreter;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class Customer_QuickConnect_Fragment extends Fragment {
 
     FragmentCustomerQuickConnectBinding binding;
 
-    FragmentCustomerProfileBinding  ProfileBinding;
+
 
     CustomSeriousQuickconnectPopupBinding custompopup;
     FirebaseModelInterpreter interpreter;

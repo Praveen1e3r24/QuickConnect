@@ -23,7 +23,7 @@ import com.example.quickconnect.Message;
 import com.example.quickconnect.MessageAdapter;
 import com.example.quickconnect.R;
 import com.example.quickconnect.databinding.ActivityChatbotBinding;
-import com.example.speechtotext.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;

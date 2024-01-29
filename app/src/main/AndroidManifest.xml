@@ -77,9 +77,7 @@
 <!--&lt;!&ndash;             <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
 <!--&lt;!&ndash;             </intent-filter>&ndash;&gt;-->
 <!--        </activity>-->
-        <activity
-            android:name="com.example.customer.practice"
-            android:exported="false" />
+
         <activity
             android:name=".transactions"
             android:exported="false" />
@@ -131,6 +129,8 @@
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"
+            android:exported="true">
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
 
@@ -143,9 +143,9 @@
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="false" />-->
 <!--        <activity-->
 <!--            android:name="com.example.Voice_Video_Call.MainVVActivity"-->
 <!--            android:exported="false" />-->
