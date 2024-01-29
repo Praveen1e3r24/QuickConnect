@@ -5,6 +5,9 @@
     android:id="@+id/sup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/singaporeimgcrop"
+    android:backgroundTint="#59000000"
+    android:backgroundTintMode="src_over"
     android:orientation="vertical"
     tools:context=".Add_Employee">
 
@@ -13,22 +16,29 @@
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/poppins_light"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/gothic_a1_semibold"
         android:text="@string/register_as_employee"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorBackground"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundedcorners"
+            android:backgroundTint="@color/material_dynamic_neutral90"
             android:hint="@string/username">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -38,13 +48,18 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundedcorners"
+            android:backgroundTint="@color/material_dynamic_neutral90"
             android:hint="@string/first_name">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -55,13 +70,18 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundedcorners"
+            android:backgroundTint="@color/material_dynamic_neutral90"
             android:hint="@string/last_name">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -87,36 +107,52 @@
         android:id="@+id/supportteam"
         style="@android:style/Widget.Spinner.DropDown"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/roundedcorners"
         android:backgroundTint="@color/material_dynamic_neutral80"
-        android:padding="8dp" />
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:pointerIcon="top_right_diagonal_double_arrow"
+        android:spinnerMode="dropdown" />
 
 
     <Spinner
         android:id="@+id/job_role"
         style="@android:style/Widget.Spinner.DropDown"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="0"
         android:background="@drawable/roundedcorners"
         android:backgroundTint="@color/material_dynamic_neutral80"
-        android:padding="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:spinnerMode="dropdown" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundedcorners"
+            android:backgroundTint="@color/material_dynamic_neutral90"
             android:hint="@string/password">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -127,13 +163,18 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/roundedcorners"
+            android:backgroundTint="@color/material_dynamic_neutral90"
             android:hint="@string/email">
 
         </com.google.android.material.textfield.TextInputEditText>

@@ -84,7 +84,7 @@ public class palm_ai_chatbot extends AppCompatActivity {
 
 
         send.setOnClickListener(v -> {
-            if (input.getText().toString().isEmpty() && spinner.getSelectedItem().toString().isEmpty()){
+            if (input.getText().toString().isEmpty()){
                 Log.e("Firestore", "Listen failed.5");
                 input.setError("Please enter a message");
 
@@ -92,7 +92,7 @@ public class palm_ai_chatbot extends AppCompatActivity {
             else {
                 send.setEnabled(false);
                 Log.e("Firestore", "Listen failed.6");
-                sendrequestai(input.getText().toString(), spinner.getSelectedItem().toString());
+                sendrequestai(input.getText().toString());
 
             }
         });
@@ -134,7 +134,7 @@ public class palm_ai_chatbot extends AppCompatActivity {
     }
 
 
-    public void sendrequestai(String message, String Language){
+    public void sendrequestai(String message){
         Map<String, Object> chatData = new HashMap<>();
         chatData.put("prompt", message);
 
@@ -155,26 +155,8 @@ public class palm_ai_chatbot extends AppCompatActivity {
                         if (documentSnapshot != null && documentSnapshot.exists()) {
                             String response = documentSnapshot.getString("response");
                             if (response != null) {
-                                TranslationService translationService = new TranslationService();
-                                translationService.translate("Hello", Language, new TranslationService.TranslationCallback() {
-                                    @Override
-                                    public String onTranslationSuccess(String translatedMessage) {
-                                        // Handle the translated message here
-                                        Log.d("Translation", "Translated Message: " + translatedMessage);
-                                        send.setEnabled(true);
-                                        response1.setText(translatedMessage);
-                                        send.setEnabled(true);
-                                        return translatedMessage;
-                                    }
-
-                                    @Override
-                                    public void onTranslationFailure(String errorMessage) {
-                                        // Handle translation failure here
-                                        Log.e("Translation", "Translation Error: " + errorMessage);
-                                    }
-                                });
-
-
+                                response1.setText(response);
+                                send.setEnabled(true);
                                 Log.d("Firestore", "Response: " + response);
                                 // Handle the response as needed in your app
                             }
@@ -192,8 +174,6 @@ public class palm_ai_chatbot extends AppCompatActivity {
 
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
@@ -205,7 +185,7 @@ public class palm_ai_chatbot extends AppCompatActivity {
                 input.setText(
                         Objects.requireNonNull(result).get(0));
 
-                sendrequestai(Objects.requireNonNull(result).get(0), "en");
+                sendrequestai(Objects.requireNonNull(result).get(0));
             }
         }
     }

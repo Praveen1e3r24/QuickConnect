@@ -18,6 +18,7 @@ import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
+import com.example.quickconnect.ChatRequestItem;
 import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +35,7 @@ import java.util.Objects;
 
 public class Employee_Home_Fragment extends Fragment implements OnClickInterface {
     private RecyclerView rv;
-    private List<CallRequest> callRequestList = new ArrayList<>();
+    private List<ChatRequestItem> chatRequestItemList= new ArrayList<>();
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private OnClickInterface getInterface() {
@@ -50,15 +51,15 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
         dbRef.child("Requests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                callRequestList.clear();
+                chatRequestItemList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     CallRequest callRequest = s.getValue(CallRequest.class);
                     if (callRequest!= null && Objects.equals(callRequest.getSupportId(), FirebaseAuth.getInstance().getCurrentUser().getUid()))
                     {
-                        callRequestList.add(callRequest);
+                        chatRequestItemList.add(new ChatRequestItem(null, callRequest));
                     }
                 }
-                ChatAdapter adapter = new ChatAdapter(getInterface(), null, callRequestList);
+                ChatAdapter adapter = new ChatAdapter(getInterface(), chatRequestItemList);
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -73,10 +74,10 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
     }
 
     @Override
-    public void onClick(int pos, Object o) {
+    public void onClick(int pos, ChatRequestItem chatRequestItem) {
         Intent intent = new Intent(getActivity(), Customer_Profile.class);
-        CallRequest request = callRequestList.get(pos);
-       intent.putExtra("chatRequest", request);
-       startActivity(intent);
+        CallRequest request = chatRequestItemList.get(pos).getCallRequest();
+        intent.putExtra("chatRequest", request);
+        startActivity(intent);
     }
 }

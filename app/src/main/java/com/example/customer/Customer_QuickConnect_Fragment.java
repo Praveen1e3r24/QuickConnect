@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,11 +19,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.palmchatbot.Palm_Ai_Service;
+import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
@@ -40,13 +40,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ml.common.FirebaseMLException;
+import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
+import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
+import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
+import com.google.firebase.ml.custom.FirebaseCustomRemoteModel;
+import com.google.firebase.ml.custom.FirebaseModelDataType;
 import com.google.firebase.ml.custom.FirebaseModelInputOutputOptions;
 import com.google.firebase.ml.custom.FirebaseModelInterpreter;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Customer_QuickConnect_Fragment extends Fragment {
@@ -148,6 +158,89 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         });
     }
 
+//    private void checkModelDownloaded(FirebaseCustomRemoteModel remoteModel, FirebaseCustomLocalModel localModel) {
+//        FirebaseModelManager.getInstance().isModelDownloaded(remoteModel)
+//                .addOnSuccessListener(isDownloaded -> {
+//                    if (isDownloaded) {
+//                        Log.d(TAG, "Using Remote Model: " + remoteModel.getModelName());
+//                    } else {
+//                        Log.d(TAG, "Using Local Model: " + localModel.getAssetFilePath());
+//                        // Download the remote model
+//                        downloadModel(remoteModel);
+//                    }
+//
+//                    FirebaseModelInterpreterOptions interpreterOptions = new FirebaseModelInterpreterOptions.Builder(remoteModel).build();
+//
+//                    try {
+//                        interpreter = FirebaseModelInterpreter.getInstance(interpreterOptions);
+//                    } catch (FirebaseMLException e) {
+//                        e.printStackTrace();
+//                    }
+//                });
+//    }
+
+
+
+//    private void downloadModel(FirebaseCustomRemoteModel remoteModel) {
+//        // Specify the conditions under which you want to allow downloading
+//        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
+//                .requireWifi()  // Example: Download only if connected to Wi-Fi
+//                .build();
+//
+//        // Start the model download task
+//        FirebaseModelManager.getInstance().download(remoteModel, conditions)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        // Model downloaded successfully
+//                        Toast.makeText(requireContext(), "Model download success", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        // Model download failed
+//                        // Handle the failure, e.g., show an error message
+//                        Toast.makeText(requireContext(), "Model download failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+
+//    private void performSeverityCheck(String userInput) {
+//        Log.d(TAG, "performSeverityCheck");
+//
+//        Log.d(TAG, "Cleansed Input: " + userInput);
+//        float[] inputArray = preprocessInput(userInput);
+//
+//        Log.d(TAG, "Input Array: " + Arrays.toString(inputArray));
+//
+//        try {
+//            FirebaseModelInputs inputs = new FirebaseModelInputs.Builder()
+//                    .add(new float[][]{inputArray})
+//                    .build();
+//
+//            interpreter.run(inputs, inputOutputOptions)
+//                    .addOnSuccessListener(result -> {
+//                        float[][] outputValues = result.getOutput(0);
+//                        float confidence = outputValues[0][0]; // Assuming the confidence is in the second position
+//                        Log.d(TAG, "Confidence: " + confidence);
+//                        float predictedClass = outputValues[0][0];
+//
+//                        // The confidence of the model is typically associated with the probability
+//                        // values in the output tensor. You can print these values for each class.
+//
+//                        Log.d(TAG, "performSeverityCheck:output values "+result);; // Assuming the confidence is in the second position
+//
+//                        Log.d(TAG, "Predicted Class: " + predictedClass);
+//
+//
+//                        // Handle the result
+//                        handleModelOutput(predictedClass);
+//                    })
+//                    .addOnFailureListener(e -> {
+//                        Log.e(TAG, "Inference failed", e);
+//                        Toast.makeText(requireContext(), "Inference failed", Toast.LENGTH_SHORT).show();
+//                    });
+//        } catch (FirebaseMLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
 
     private void performSeverityCheck(String userInput) {
@@ -228,6 +321,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //    private void handleModelOutput(float predictedProbability) {
 //        // Modify this based on your Python model's output
 //
+//        if (lowercaseInput.contains("referral")) {
+//            topic = "Referral";
+//        }
 //
 ////        // Use a threshold of 0.5 to determine the severity label
 ////        String severityText = (predictedProbability >= 0.5) ? "Serious" : "Not Serious";
