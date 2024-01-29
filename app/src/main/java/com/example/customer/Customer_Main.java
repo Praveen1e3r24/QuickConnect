@@ -91,6 +91,12 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
         chatDbRef.addValueEventListener(notificationHandler.checkNewMessage());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NotificationHandler notificationHandler = NotificationHandler.getInstance();
+        notificationHandler.initialize(this);
+    }
 
     @SuppressLint("NonConstantResourceId")
     @Override

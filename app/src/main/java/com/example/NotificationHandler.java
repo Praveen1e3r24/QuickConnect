@@ -70,6 +70,7 @@ public class NotificationHandler {
 
     public void initialize(Activity activity) {
         this.activity = activity;
+        this.currentChat = null;
         setupNotificationStatus(activity);
     }
 
@@ -103,22 +104,14 @@ public class NotificationHandler {
                         {
                             if (oldMessages.size() < newMessages.size() && (chat.getCustomerId().equals(userId) || chat.getSupportId().equals(userId)) && notificationStatus)
                             {
-                                if (currentChat != null && currentChat.getChatId().equals(chat.getChatId()))
+                                if (currentChat == null || !currentChat.getChatId().equals(chat.getChatId()))
                                 {
-                                    return;
-                                }
-                                else
-                                {
-                                    chatMap.replace(s.getKey(), chat);
                                     createMessageNotification(chat);
                                 }
                             }
                         }
                     }
-                    else
-                    {
-                        chatMap.put(s.getKey(), chat);
-                    }
+                    chatMap.put(s.getKey(), chat);
                 }
             }
             @Override
