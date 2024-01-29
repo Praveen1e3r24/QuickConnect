@@ -2,6 +2,9 @@ package com.example.quickconnect;
 
 import static android.content.ContentValues.TAG;
 
+import static androidx.core.app.ActivityCompat.requestPermissions;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -77,6 +80,8 @@ public class Login extends AppCompatActivity {
         setContentView(binding.getRoot());
         db = FirebaseDatabase.getInstance();
 
+
+        requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
 
 
         FirebaseUser currentUser = mAuth.getCurrentUser();

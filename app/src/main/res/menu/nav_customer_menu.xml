@@ -22,11 +22,12 @@
             android:id="@+id/nav_c_Messaging"
             android:icon="@drawable/nav_message"
             android:title="@string/messaging"/>
-        <item
-            android:id="@+id/nav_c_ChatBot"
-            android:icon="@drawable/baseline_android_24"
-            android:title="@string/qc_chatbot"/>
 
+
+        <item
+            android:id="@+id/nav_c_chatbot"
+            android:icon="@drawable/baseline_voice_chat_24"
+            android:title="Chatbot" />
 
 
         <item

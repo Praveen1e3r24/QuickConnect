@@ -17,42 +17,34 @@ import com.example.quickconnect.databinding.ChatItemLayoutBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private final OnClickInterface onClickInterface;
-    private List<Chat> chatList;
-    private List<CallRequest> callRequestList;
+    private static List<ChatRequestItem> chatRequestItemList;
 
-    public ChatAdapter(OnClickInterface onClickInterface,List<Chat> chatList, List<CallRequest> callRequestList) {
+    public ChatAdapter(OnClickInterface onClickInterface, List<ChatRequestItem> chatRequestItemList) {
         this.onClickInterface = onClickInterface;
-        this.callRequestList = callRequestList;
-        this.chatList = chatList;
+        this.chatRequestItemList = chatRequestItemList;
     }
 
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_layout, parent, false);
-        if (chatList == null)
-        {
-            CallRequest request = new CallRequest();
-            return new ChatViewHolder(view, onClickInterface,request);
-        }
-        else
-        {
-            Chat chat = new Chat();
-            return new ChatViewHolder(view, onClickInterface,chat);
-        }
+        return new ChatViewHolder(view, onClickInterface);
     }
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        if (callRequestList == null)
+        ChatRequestItem item = chatRequestItemList.get(position);
+        if (item.isChat())
         {
-            Chat chat = chatList.get(position);
+            Chat chat = item.getChat();
 
             if (chat.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                 holder.binding.chatItemTitle.setText(chat.getSupportName());
@@ -62,7 +54,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             if (chat.getClosed())
             {
-                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#c40000"));
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#949494"));
             }
 
             holder.binding.chatItemCategory.setText("Category: " + chat.getCategory());
@@ -81,9 +73,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             holder.binding.chatItemIcon.setImageResource(R.drawable.nav_message);
         }
-        else if (chatList == null)
+        else if (item.isCallRequest())
         {
-            CallRequest callRequest = callRequestList.get(position);
+            CallRequest callRequest = item.getCallRequest();
 
             if (callRequest.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                 holder.binding.chatItemTitle.setText(callRequest.getSupportName());
@@ -94,7 +86,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             holder.binding.chatItemLastmsg.setText("Call Request");
 
 
-                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#fa5a5a"));
+//                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#057af7"));
 
 
             if (callRequest.getCustomerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
@@ -110,7 +102,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             if (callRequest.getAccepted())
             {
                 holder.binding.chatItemLastmsg.setText("Accepted");
-                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#a63c3c"));
+                holder.binding.chatItemCard.setCardBackgroundColor(Color.parseColor("#949494"));
             }
             else
             {
@@ -125,39 +117,29 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public int getItemCount() {
-        if (chatList!=null)
-        {
-            return chatList.size();
-        }
-        else
-        {
-            return callRequestList.size();
-        }
+        return chatRequestItemList.size();
     }
 
-    public void setChatList(List<Chat> chatList) {
-        this.chatList = chatList;
-        notifyDataSetChanged();
-    }
-
-    public void setCallRequestList(List<CallRequest> callRequestList) {
-        this.callRequestList = callRequestList;
+    public void setChatRequestItemList(List<ChatRequestItem> chatRequestItemList) {
+        this.chatRequestItemList = chatRequestItemList;
         notifyDataSetChanged();
     }
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
         private final ChatItemLayoutBinding binding;
 
-        public ChatViewHolder(@NonNull View itemView, OnClickInterface onClickInterface, Object o) {
+        public ChatViewHolder(@NonNull View itemView, OnClickInterface onClickInterface) {
             super(itemView);
             binding = ChatItemLayoutBinding.bind(itemView);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onClickInterface != null && getAdapterPosition() != RecyclerView.NO_POSITION)
                     {
-                        onClickInterface.onClick(getAdapterPosition(), o);
+                        ChatRequestItem item = chatRequestItemList.get(getBindingAdapterPosition());
+                        onClickInterface.onClick(getBindingAdapterPosition(), item);
                     }
                 }
             });

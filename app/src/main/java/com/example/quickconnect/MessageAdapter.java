@@ -39,6 +39,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     private List<Message> messageList = new ArrayList<>();
 
+    public MessageAdapter(List<Message> messageList) {
+        this.messageList = messageList;
+        this.onFileClickListener = onFileClickListener;
+    }
+
     public MessageAdapter(List<Message> messageList, OnFileClickListener onFileClickListener) {
         this.messageList = messageList;
         this.onFileClickListener = onFileClickListener;
@@ -46,14 +51,15 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-	        Message message = messageList.get(position);
-            Log.d("SENDERID", "getItemViewType: " + message.getSenderId() + " " + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-	        if (message.getSenderId().equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
-	            return VIEWTYPE_SENT;
-	        } else {
-	            return VIEWTYPE_RECIEVE;
-	        }
-	    }
+
+        Message message = messageList.get(position);
+        Log.d("SENDERID", "getItemViewType: " + message.getSenderId() + " " + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+        if (message.getSenderId().equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
+            return VIEWTYPE_SENT;
+        } else {
+            return VIEWTYPE_RECIEVE;
+        }
+    }
 
     @NonNull
     @Override

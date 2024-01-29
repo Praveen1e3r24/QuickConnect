@@ -32,7 +32,6 @@ import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.WebViewer;
 import com.example.quickconnect.databinding.CustomSeriousQuickconnectPopupBinding;
-import com.example.quickconnect.databinding.FragmentCustomerProfileBinding;
 import com.example.quickconnect.databinding.FragmentCustomerQuickConnectBinding;
 import com.example.utilities.UserData;
 import com.google.firebase.database.DataSnapshot;
@@ -53,7 +52,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 
     FragmentCustomerQuickConnectBinding binding;
 
-    FragmentCustomerProfileBinding  ProfileBinding;
+
 
     CustomSeriousQuickconnectPopupBinding custompopup;
     FirebaseModelInterpreter interpreter;
@@ -148,6 +147,89 @@ public class Customer_QuickConnect_Fragment extends Fragment {
         });
     }
 
+//    private void checkModelDownloaded(FirebaseCustomRemoteModel remoteModel, FirebaseCustomLocalModel localModel) {
+//        FirebaseModelManager.getInstance().isModelDownloaded(remoteModel)
+//                .addOnSuccessListener(isDownloaded -> {
+//                    if (isDownloaded) {
+//                        Log.d(TAG, "Using Remote Model: " + remoteModel.getModelName());
+//                    } else {
+//                        Log.d(TAG, "Using Local Model: " + localModel.getAssetFilePath());
+//                        // Download the remote model
+//                        downloadModel(remoteModel);
+//                    }
+//
+//                    FirebaseModelInterpreterOptions interpreterOptions = new FirebaseModelInterpreterOptions.Builder(remoteModel).build();
+//
+//                    try {
+//                        interpreter = FirebaseModelInterpreter.getInstance(interpreterOptions);
+//                    } catch (FirebaseMLException e) {
+//                        e.printStackTrace();
+//                    }
+//                });
+//    }
+
+
+
+//    private void downloadModel(FirebaseCustomRemoteModel remoteModel) {
+//        // Specify the conditions under which you want to allow downloading
+//        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
+//                .requireWifi()  // Example: Download only if connected to Wi-Fi
+//                .build();
+//
+//        // Start the model download task
+//        FirebaseModelManager.getInstance().download(remoteModel, conditions)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        // Model downloaded successfully
+//                        Toast.makeText(requireContext(), "Model download success", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        // Model download failed
+//                        // Handle the failure, e.g., show an error message
+//                        Toast.makeText(requireContext(), "Model download failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+
+//    private void performSeverityCheck(String userInput) {
+//        Log.d(TAG, "performSeverityCheck");
+//
+//        Log.d(TAG, "Cleansed Input: " + userInput);
+//        float[] inputArray = preprocessInput(userInput);
+//
+//        Log.d(TAG, "Input Array: " + Arrays.toString(inputArray));
+//
+//        try {
+//            FirebaseModelInputs inputs = new FirebaseModelInputs.Builder()
+//                    .add(new float[][]{inputArray})
+//                    .build();
+//
+//            interpreter.run(inputs, inputOutputOptions)
+//                    .addOnSuccessListener(result -> {
+//                        float[][] outputValues = result.getOutput(0);
+//                        float confidence = outputValues[0][0]; // Assuming the confidence is in the second position
+//                        Log.d(TAG, "Confidence: " + confidence);
+//                        float predictedClass = outputValues[0][0];
+//
+//                        // The confidence of the model is typically associated with the probability
+//                        // values in the output tensor. You can print these values for each class.
+//
+//                        Log.d(TAG, "performSeverityCheck:output values "+result);; // Assuming the confidence is in the second position
+//
+//                        Log.d(TAG, "Predicted Class: " + predictedClass);
+//
+//
+//                        // Handle the result
+//                        handleModelOutput(predictedClass);
+//                    })
+//                    .addOnFailureListener(e -> {
+//                        Log.e(TAG, "Inference failed", e);
+//                        Toast.makeText(requireContext(), "Inference failed", Toast.LENGTH_SHORT).show();
+//                    });
+//        } catch (FirebaseMLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
 
     private void performSeverityCheck(String userInput) {
@@ -228,6 +310,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //    private void handleModelOutput(float predictedProbability) {
 //        // Modify this based on your Python model's output
 //
+//        if (lowercaseInput.contains("referral")) {
+//            topic = "Referral";
+//        }
 //
 ////        // Use a threshold of 0.5 to determine the severity label
 ////        String severityText = (predictedProbability >= 0.5) ? "Serious" : "Not Serious";
@@ -293,7 +378,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private ValueEventListener checkAndAddChatToDB(String topic,String department) {
+    private ValueEventListener   checkAndAddChatToDB(String topic,String department) {
         Log.d(TAG, "showDialogWithResolutionMethod:3 ");
         hasEmployee = false;
         User user = new UserData().getUserDetailsFromSharedPreferences(getContext());

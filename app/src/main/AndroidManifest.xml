@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
 
     <application
         android:allowBackup="true"
@@ -42,17 +44,16 @@
             android:name=".WebViewer"
             android:exported="false" />
         <activity
-            android:name="com.example.palmchatbot.QC_ChatBot_Main"
-            android:exported="true">
+            android:name="com.example.palmchatbot.Chatbot_Activity"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.Light" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
-
-        </activity>
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
 
         <activity
             android:name="com.example.palmchatbot.palm_ai_chatbot"
@@ -66,8 +67,17 @@
             <!-- </intent-filter> -->
         </activity>
 <!--        <activity-->
-<!--            android:name="com.example.customer.practice"-->
-<!--            android:exported="false" />-->
+<!--            android:name="com.example.palmchatbot.Chatbot_OLD_Fragment"-->
+<!--            android:exported="true">-->
+
+<!--&lt;!&ndash;             <intent-filter>&ndash;&gt;-->
+<!--&lt;!&ndash;             <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;             <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+<!--&lt;!&ndash;             </intent-filter>&ndash;&gt;-->
+<!--        </activity>-->
+
         <activity
             android:name=".transactions"
             android:exported="false" />
@@ -91,7 +101,8 @@
             android:exported="false" />
         <activity
             android:name="com.example.customer.Customer_Main"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name="com.example.quickconnect_employee_cc.Employee_CallCentre_Main"
             android:exported="false" />
@@ -101,7 +112,8 @@
         <activity
             android:name=".ChatActivity"
             android:exported="false"
-            android:theme="@style/Theme.Material3.Light" />
+            android:theme="@style/Theme.Material3.Light"
+            android:hardwareAccelerated="true"/>
         <activity
             android:name=".registration"
             android:exported="false"
@@ -117,14 +129,23 @@
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"
+            android:exported="true">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
 
 
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="false" />-->
 <!--        <activity-->
 <!--            android:name="com.example.Voice_Video_Call.MainVVActivity"-->
 <!--            android:exported="false" />-->
