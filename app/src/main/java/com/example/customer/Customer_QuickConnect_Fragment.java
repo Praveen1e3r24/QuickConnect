@@ -377,6 +377,8 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //        dialog.show();
 //    }
 
+
+    // ifx praveen stuff
     @RequiresApi(api = Build.VERSION_CODES.M)
     private ValueEventListener   checkAndAddChatToDB(String topic,String department) {
         Log.d(TAG, "showDialogWithResolutionMethod:3 ");
