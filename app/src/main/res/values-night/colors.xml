@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--colors for dark mode-->
+
+
+    #Nav Bar
+    <color name="nav_bar_color">#5DC0D1</color>
+
+    #Menu
+    <color name="menu_background_color">#454545</color>
+
+    <color name="menu_text_color">#FFFFFF</color>
+
+
+    #colors for the nav header
+
+    <color name="centerColor">#7F5CDD</color>
+    <color name="endColor">#84CFF1</color>
+    <color name="startColor">#2C2737</color>
+
+    <color name="colorPrimary">#6BD3BE</color>
+
+
+
+
+
     <color name="contentBodyColor">#000</color>
     <color name="contentTextColor">#fff</color>
     <color name="miniTitle">#fff</color>
+
 </resources>

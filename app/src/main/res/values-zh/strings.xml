@@ -58,42 +58,7 @@
     <string name="next">下一个</string>
     <string name="previous">上一个</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
+
     <string name="register_as_employee">以雇员身份注册</string>
 
     <!-- Video Call App -->
@@ -128,5 +93,75 @@
     <string name="remember_me">记住我</string>
     <string name="forget_password">忘记密码？</string>
     <string name="dont_have_an_account">还没有账号？</string>
+
+
+
+    <string name="voice_video_call">语音/视频通话</string>
+    <string name="messaging">消息传递</string>
+    <string name="qc_chatbot">QC 聊天机器人</string>
+    <string name="quickconnect_dashboard">QuickConnect 控制面板</string>
+    <string name="queue_number_10">排队号码：10</string>
+    <string name="steps_to_take">采取的步骤</string>
+    <string name="_1_check_your_recent_transactions_to_identify_any_discrepancies_n2_verify_your_account_balance_to_ensure_accuracy_n3_have_your_account_number_ready_for_reference">1. 检查您最近的交易以识别任何不符之处。\n2. 验证您的账户余额以确保准确性。\n3. 准备好您的账号以供参考。</string>
+    <string name="estimated_time">预计时间</string>
+    <string name="approximately_10_minutes">大约 10 分钟</string>
+    <string name="please_patiently_wait_and_prepare_for_a_customer_service_agent_to_accept_the_request">请耐心等待并准备好让客服代表接受请求。</string>
+    <string name="preparation_details">准备详情</string>
+    <string name="please_have_the_following_information_ready_n_your_account_number_n_recent_transactions_n_any_relevant_documents">请准备好以下信息：\n- 您的账号\n- 最近的交易\n- 任何相关文件</string>
+    <string name="add_files_photos">添加文件/照片</string>
+    <string name="a_support_agent_has_accepted_your_request">一名支持代理已接受您的请求</string>
+    <string name="go_to_chat">前往聊天</string>
+    <string name="this_chat_has_been_closed">此聊天已关闭</string>
+    <string name="which_account_do_you_want_to_register">您想注册哪个账户？</string>
+    <string name="customer">客户</string>
+    <string name="employee">员工</string>
+    <string name="helloq">您好，</string>
+    <string name="quick_nconnect">快速\n连接</string>
+    <string name="instant_customer_service_assistance">即时客服协助</string>
+    <string name="message_nus">消息\n我们</string>
+    <string name="get_in_touch_with_out_team">与我们团队取得联系</string>
+    <string name="voice_video_call_">语音/视频通话</string>
+    <string name="get_in_touch_with_out_team_">与我们团队取得联系</string>
+    <string name="qc_nchatbot">QC\n聊天机器人</string>
+    <string name="ai_powered_quickconnect_chatbot">AI 驱动的 QuickConnect 聊天机器人</string>
+    <string name="profile_">个人资料</string>
+    <string name="user_profile_and_settings">用户资料和设置</string>
+    <string name="reconnect_and_chat">重新连接并聊天</string>
+    <string name="reconnect_with_ease">轻松重新连接</string>
+    <string name="profile_and_settings">个人资料和设置</string>
+    <string name="name">姓名</string>
+    <string name="edit_personal_details">编辑个人详情</string>
+    <string name="profile__">个人资料</string>
+    <string name="edit_profile">编辑个人资料</string>
+    <string name="change_password">更改密码</string>
+    <string name="notifications">通知</string>
+    <string name="notifications__">通知</string>
+    <string name="regional">地区</string>
+    <string name="language">语言</string>
+    <string name="logout_">登出</string>
+    <string name="describe_your_enquiry">描述您的查询</string>
+    <string name="send_">发送</string>
+    <string name="enter_an_enquiry_here_for_us_to_suggest_a_channel_for_you">在此输入查询，以便我们为您推荐一个渠道：</string>
+    <string name="or_n_choose_one_yourself">或\n 自行选择</string>
+    <string name="create_new_chat">创建新聊天</string>
+    <string name="create_a_call_request">创建通话请求</string>
+    <string name="go_to_faq">前往常见问题</string>
+    <string name="help_channels">帮助渠道</string>
+    <string name="enquiry_helper">查询助手</string>
+    <string name="chats">聊天</string>
+    <string name="call_requests">通话请求</string>
+    <string name="new_call">新通话</string>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </resources>

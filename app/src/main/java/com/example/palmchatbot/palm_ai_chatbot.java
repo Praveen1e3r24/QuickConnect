@@ -158,12 +158,13 @@ public class palm_ai_chatbot extends AppCompatActivity {
                                 TranslationService translationService = new TranslationService();
                                 translationService.translate("Hello", Language, new TranslationService.TranslationCallback() {
                                     @Override
-                                    public void onTranslationSuccess(String translatedMessage) {
+                                    public String onTranslationSuccess(String translatedMessage) {
                                         // Handle the translated message here
                                         Log.d("Translation", "Translated Message: " + translatedMessage);
                                         send.setEnabled(true);
                                         response1.setText(translatedMessage);
                                         send.setEnabled(true);
+                                        return translatedMessage;
                                     }
 
                                     @Override

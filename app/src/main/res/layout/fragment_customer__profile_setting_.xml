@@ -16,7 +16,7 @@
 
         <TextView
             style="@style/viewParent.headerText"
-            android:text="Profile and Settings" />
+            android:text="@string/profile_and_settings" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,14 +35,14 @@
             <TextView
                 android:id="@+id/usernameTextView"
                 style="@style/viewParent.headerText"
-                android:text="Name"
+                android:text="@string/name"
                 android:textSize="18sp"
                 android:layout_toRightOf="@id/profileCircleImageView"
                 android:layout_marginTop="20dp"/>
 
             <TextView
                 style="@style/viewParent.headerText"
-                android:text="Edit personal details"
+                android:text="@string/edit_personal_details"
                 android:textSize="16sp"
                 android:textColor="#5D5C5C"
                 android:layout_below="@id/usernameTextView"
@@ -64,49 +64,49 @@
 
         <TextView
             style="@style/viewParent.headerText.settingsMiniTitle"
-            android:text="Profile"/>
+            android:text="@string/profile__"/>
 
         <TextView
             style="@style/viewParent.headerText.settingsTextIcon"
             android:drawableLeft="@drawable/ic_edit_profile"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile"
             android:id="@+id/edit_profile"/>
 
         <TextView
             style="@style/viewParent.headerText.settingsTextIcon"
             android:drawableLeft="@drawable/ic_edit_password"
             android:layout_marginTop="10dp"
-            android:text="Change Password"
+            android:text="@string/change_password"
             android:id="@+id/change_password" />
             />
 
         <TextView
             style="@style/viewParent.headerText.settingsMiniTitle"
-            android:text="Notifications"/>
+            android:text="@string/notifications"/>
 
         <Switch
             style="@style/settingsText"
             android:checked="true"
             android:drawableLeft="@drawable/ic_notifications"
-            android:text="Notifications"
+            android:text="@string/notifications__"
             android:id="@+id/notificationsSwitch" />
             />
 
         <TextView
             style="@style/viewParent.headerText.settingsMiniTitle"
-            android:text="Regional"/>
+            android:text="@string/regional"/>
 
         <TextView
             style="@style/viewParent.headerText.settingsTextIcon"
             android:drawableLeft="@drawable/ic_languages"
-            android:text="Language"
+            android:text="@string/language"
             android:id="@+id/languageTextView"
             />
 
         <TextView
             style="@style/viewParent.headerText.settingsTextIcon"
             android:drawableLeft="@drawable/ic_logout"
-            android:text="Logout"
+            android:text="@string/logout_"
             android:id="@+id/logoutTextView"
             />
 

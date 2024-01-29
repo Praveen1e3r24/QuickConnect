@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semibold"
-        android:text="This Chat has been Closed"
+        android:text="@string/this_chat_has_been_closed"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/red"
         android:visibility="gone"

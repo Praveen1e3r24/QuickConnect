@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:text="QuickConnect Dashboard"
+            android:text="@string/quickconnect_dashboard"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -40,14 +40,14 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center_horizontal"
-        android:text="Queue Number: 10"
+        android:text="@string/queue_number_10"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <TextView
         android:id="@+id/textViewStepsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Steps to Take"
+        android:text="@string/steps_to_take"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
@@ -56,7 +56,7 @@
         android:id="@+id/textViewSteps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1. Check your recent transactions to identify any discrepancies.\n2. Verify your account balance to ensure accuracy.\n3. Have your account number ready for reference."
+        android:text="@string/_1_check_your_recent_transactions_to_identify_any_discrepancies_n2_verify_your_account_balance_to_ensure_accuracy_n3_have_your_account_number_ready_for_reference"
         android:layout_marginTop="8dp"/>
 
     <!-- Estimated Time -->
@@ -64,7 +64,7 @@
         android:id="@+id/textViewTimeTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Estimated Time"
+        android:text="@string/estimated_time"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
@@ -86,7 +86,7 @@
                 android:id="@+id/textViewTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Approximately 10 minutes"
+                android:text="@string/approximately_10_minutes"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -95,7 +95,7 @@
                 android:id="@+id/textViewAdditionalInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please patiently wait and prepare for a customer service agent to accept the request."
+                android:text="@string/please_patiently_wait_and_prepare_for_a_customer_service_agent_to_accept_the_request"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -105,7 +105,7 @@
         android:id="@+id/textViewPreparationTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Preparation Details"
+        android:text="@string/preparation_details"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
@@ -114,7 +114,7 @@
         android:id="@+id/textViewPreparation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please have the following information ready:\n- Your account number\n- Recent transactions\n- Any relevant documents"
+        android:text="@string/please_have_the_following_information_ready_n_your_account_number_n_recent_transactions_n_any_relevant_documents"
         android:layout_marginTop="8dp"/>
 
     <!-- Button for adding files/photos -->
@@ -122,7 +122,7 @@
         android:id="@+id/buttonAddFiles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Files/Photos"
+        android:text="@string/add_files_photos"
         android:layout_marginTop="16dp"/>
 
     <TextView
@@ -132,7 +132,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center_horizontal"
-        android:text="A support agent has accepted your request"
+        android:text="@string/a_support_agent_has_accepted_your_request"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/red"
         android:textStyle="bold"
@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/design_default_color_error"
-        android:text="Go to chat"
+        android:text="@string/go_to_chat"
         android:visibility="gone" />
 
 </LinearLayout>
