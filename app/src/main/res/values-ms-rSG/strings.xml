@@ -89,4 +89,62 @@
     <string name="forget_password">Lupa Kata Laluan?</string>
     <string name="dont_have_an_account">Tidak mempunyai akaun?</string>
 
+
+    <string name="voice_video_call">Panggilan Suara/Video</string>
+    <string name="messaging">Pemesejan</string>
+    <string name="qc_chatbot">QC ChatBot</string>
+    <string name="quickconnect_dashboard">Papan Pemuka QuickConnect</string>
+    <string name="queue_number_10">Nombor Giliran: 10</string>
+    <string name="steps_to_take">Langkah-langkah yang Perlu Diambil</string>
+    <string name="_1_check_your_recent_transactions_to_identify_any_discrepancies_n2_verify_your_account_balance_to_ensure_accuracy_n3_have_your_account_number_ready_for_reference">1. Semak transaksi terkini anda untuk mengenal pasti sebarang ketidaksesuaian.\n2. Sahkan baki akaun anda untuk memastikan ketepatan.\n3. Sediakan nombor akaun anda untuk rujukan.</string>
+    <string name="estimated_time">Anggaran Masa</string>
+    <string name="approximately_10_minutes">Kira-kira 10 minit</string>
+    <string name="please_patiently_wait_and_prepare_for_a_customer_service_agent_to_accept_the_request">Sila tunggu dengan sabar dan bersiap sedia untuk ejen perkhidmatan pelanggan menerima permintaan anda.</string>
+    <string name="preparation_details">Butiran Persiapan</string>
+    <string name="please_have_the_following_information_ready_n_your_account_number_n_recent_transactions_n_any_relevant_documents">Sila sediakan maklumat berikut:\n- Nombor akaun anda\n- Transaksi terkini\n- Sebarang dokumen berkaitan</string>
+    <string name="add_files_photos">Tambah Fail/Foto</string>
+    <string name="a_support_agent_has_accepted_your_request">Ejen sokongan telah menerima permintaan anda</string>
+    <string name="go_to_chat">Pergi ke sembang</string>
+    <string name="this_chat_has_been_closed">Sembang ini telah ditutup</string>
+    <string name="which_account_do_you_want_to_register">Akaun mana yang anda ingin daftar?</string>
+    <string name="customer">Pelanggan</string>
+    <string name="employee">Pekerja</string>
+    <string name="helloq">Halo,</string>
+    <string name="quick_nconnect">Quick \nConnect</string>
+    <string name="instant_customer_service_assistance">Bantuan Perkhidmatan Pelanggan Segera</string>
+    <string name="message_nus">Mesej \nKami</string>
+    <string name="get_in_touch_with_out_team">Bersentuhan dengan pasukan kami</string>
+    <string name="voice_video_call_">Panggilan Suara/Video</string>
+    <string name="get_in_touch_with_out_team_">Bersentuhan dengan pasukan kami</string>
+    <string name="qc_nchatbot">QC\nChatBot</string>
+    <string name="ai_powered_quickconnect_chatbot">Chatbot QuickConnect Berkuasa AI</string>
+    <string name="profile_">Profil</string>
+    <string name="user_profile_and_settings">Profil Pengguna dan Tetapan</string>
+    <string name="reconnect_and_chat">Sambung semula dan Sembang</string>
+    <string name="reconnect_with_ease">Sambung semula dengan Mudah</string>
+    <string name="profile_and_settings">Profil dan Tetapan</string>
+    <string name="name">Nama</string>
+    <string name="edit_personal_details">Edit Butiran Peribadi</string>
+    <string name="profile__">Profil</string>
+    <string name="edit_profile">Edit Profil</string>
+    <string name="change_password">Tukar Kata Laluan</string>
+    <string name="notifications">Pemberitahuan</string>
+    <string name="notifications__">Pemberitahuan</string>
+    <string name="regional">Serantau</string>
+    <string name="language">Bahasa</string>
+    <string name="logout_">Log Keluar</string>
+    <string name="describe_your_enquiry">Huraikan pertanyaan anda</string>
+    <string name="send_">Hantar</string>
+    <string name="enter_an_enquiry_here_for_us_to_suggest_a_channel_for_you">Masukkan pertanyaan di sini untuk kami mencadangkan saluran untuk anda:</string>
+    <string name="or_n_choose_one_yourself">ATAU \n pilih sendiri</string>
+    <string name="create_new_chat">Buat Sembang Baru</string>
+    <string name="create_a_call_request">Buat Permintaan Panggilan</string>
+    <string name="go_to_faq">Pergi ke FAQ</string>
+    <string name="help_channels">Saluran Bantuan</string>
+    <string name="enquiry_helper">Pembantu Pertanyaan</string>
+    <string name="chats">Sembang</string>
+    <string name="call_requests">Permintaan Panggilan</string>
+    <string name="new_call">Panggilan Baru</string>
+
+
 </resources>

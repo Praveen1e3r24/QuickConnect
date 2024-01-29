@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    #Nav Bar
+    <color name="nav_bar_color">#FF390F</color>
+
+    #Menu
+    <color name="menu_background_color">#FFFFFF</color>
+
+    <color name="menu_text_color">#000000</color>
+
+    #colors for the nav header
+
+    <color name="centerColor">#F36379</color>
+    <color name="endColor">#84CFF1</color>
+    <color name="startColor">#2074DA</color>
+
+
+
+
+
+
+
+
+
+
+
     <color name="red">#FF390F</color>
-    <color name="colorPrimary">#3F5185</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#4C853F</color>
+    <color name="colorPrimaryDark">#9F303D</color>
     <color name="colorAccent">#FF5722</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
