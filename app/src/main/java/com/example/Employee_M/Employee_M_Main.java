@@ -149,8 +149,6 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
 //                notificationManager.notify(200, builder.build());
 //        }
 //}
-
-
         @Override
         protected void onResume() {
                 dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
