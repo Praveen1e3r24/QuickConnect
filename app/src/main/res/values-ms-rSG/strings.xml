@@ -147,4 +147,17 @@
     <string name="new_call">Panggilan Baru</string>
 
 
+    <string-array name="department_array">
+        <item>Pertanyaan dan Bantuan Umum</item>
+        <item>Perkhidmatan Akaun</item>
+        <item>Perkhidmatan Pinjaman dan Kredit</item>
+        <item>Sokongan Perbankan Digital</item>
+        <item>Penyelesaian Aduan</item>
+        <item>Perkhidmatan VIP dan Premium</item>
+        <item>Latihan dan Pembangunan</item>
+        <item>Sokongan Pelbagai Bahasa dan Antarabangsa</item>
+        <item>Pengesanan dan Pencegahan Penipuan</item>
+    </string-array>
+
+
 </resources>

@@ -152,6 +152,17 @@
     <string name="call_requests">通话请求</string>
     <string name="new_call">新通话</string>
 
+    <string-array name="department_array">
+        <item>查询和一般帮助</item>
+        <item>账户服务</item>
+        <item>贷款和信用服务</item>
+        <item>数字银行支持</item>
+        <item>投诉解决</item>
+        <item>VIP和高级服务</item>
+        <item>培训和发展</item>
+        <item>多语种和国际支持</item>
+        <item>欺诈检测和预防</item>
+    </string-array>
 
 
 
