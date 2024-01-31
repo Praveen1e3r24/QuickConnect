@@ -41,6 +41,8 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
     private OnClickInterface getInterface() {
         return this;
     }
+
+    String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,13 +50,14 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
         rv = v.findViewById(R.id.csSupport_home);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         dbRef.child("Requests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatRequestItemList.clear();
                 for (DataSnapshot s : snapshot.getChildren()){
                     CallRequest callRequest = s.getValue(CallRequest.class);
-                    if (callRequest!= null && Objects.equals(callRequest.getSupportId(), FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                    if (callRequest!= null && callRequest.getSupportId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                     {
                         chatRequestItemList.add(new ChatRequestItem(null, callRequest));
                     }
@@ -70,6 +73,7 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
             }
         });
 
+        dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
         return v;
     }
 
