@@ -1,8 +1,8 @@
 <!-- res/drawable/voice_call_selector.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- When the button is selected -->
-    <item android:drawable="@color/voice_call_selected1" android:state_selected="true"/>
+    <item android:drawable="@drawable/call_request_vc_vc_not_selected" android:state_selected="true"/>
 
     <!-- Default appearance -->
-    <item android:drawable="@color/voice_call_normal"/>
+    <item android:drawable="@drawable/call_request_vc_vv_selected"/>
 </selector>

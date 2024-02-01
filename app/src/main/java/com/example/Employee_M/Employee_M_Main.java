@@ -1,17 +1,12 @@
 package com.example.Employee_M;
 
 
-import static com.example.quickconnect.R.id.nav_m_home;
+import static com.example.quickconnect.R.id.nav_e_m_home;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -21,8 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -31,7 +24,6 @@ import com.example.quickconnect.Chat;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
-import com.example.quickconnect.Message;
 import com.example.quickconnect.Profile_Fragment;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
@@ -45,8 +37,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 public class Employee_M_Main extends  AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -73,8 +63,8 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                 toggle.syncState();
 
                 if(savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_Fragment()).commit();
-                binding.navView.setCheckedItem(nav_m_home);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Requests_Fragment()).commit();
+                binding.navView.setCheckedItem(nav_e_m_home);
                 }
                 User user = getUserDetailsFromSharedPreferences();
 
@@ -173,15 +163,23 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
-                if (itemId == nav_m_home) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_Fragment()).commit();
-                } else if (itemId == R.id.nav_m_message) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Message_Fragment()).commit();
-                } else if (itemId == R.id.nav_m_language) {
+                if (itemId == nav_e_m_home) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_()).commit();
+                } else if (itemId == R.id.nav_e_m_requests) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Requests_Fragment()).commit();
+                } else if (itemId == R.id.nav_e_m_chatbot) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Language_Fragment()).commit();
-                } else if (itemId == R.id.nav_m_profile) {
+                } else if (itemId == R.id.nav_e_m_language) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Profile_Fragment()).commit();
-                } else if (itemId == R.id.nav_m_logout) {
+                }
+                else if (itemId == R.id.nav_e_m_language) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Profile_Fragment()).commit();
+                }
+                else if (itemId == R.id.nav_e_m_profile_settings) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Settings_Profile_Fragment()).commit();
+                }
+
+                else if (itemId == R.id.nav_e_m_logout) {
                         logout();
                         Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
                 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Message;
+import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentCustomerCallRequestBinding;
 import com.example.utilities.UserData;
@@ -61,6 +64,10 @@ public class Customer_Call_Request extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        AutoCompleteTextView departmentSpinnerText = binding.departmentSpinnerText;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.department_array));
+        departmentSpinnerText.setAdapter(adapter);
+
 
         binding.voiceCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +91,10 @@ public class Customer_Call_Request extends Fragment {
         binding.connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.departmentSpinner.getSelectedItem().toString().equals("Select Department")){
+                if (binding.departmentSpinnerText.getText().toString().equals("Department")){
                     binding.departmenterrorText.setVisibility(View.VISIBLE);
                     return;
-                } else if (binding.callDescription.getText().toString().trim().isEmpty()) {
+                } else if (binding.callDescriptionEdittext.getText().toString().isEmpty()) {
                     binding.descriptionerrorText.setVisibility(View.VISIBLE);
                     return;
 
@@ -98,9 +105,9 @@ public class Customer_Call_Request extends Fragment {
 
                     binding.descriptionerrorText.setVisibility(View.GONE);
                     binding.departmenterrorText.setVisibility(View.GONE);
-                    String department = binding.departmentSpinner.getSelectedItem().toString();
+                    String department = binding.departmentSpinnerText.getText().toString();
                     topic=binding.descriptionText.getText().toString();
-                    dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB(topic, department ));
+                    dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB(topic, department,isVoiceCallSelected ? "Voice" : "Video"));
 
                 }
             }
@@ -113,7 +120,7 @@ public class Customer_Call_Request extends Fragment {
 
 
 
-    private ValueEventListener addRequestToDB(String topic, String department){
+    private ValueEventListener addRequestToDB(String topic, String department, String callType){
         hasEmployee = false;
         if (topic == null) {
             topic = "General Inquiries";
@@ -140,7 +147,7 @@ public class Customer_Call_Request extends Fragment {
                                 }
                                 List<Message> messages = new ArrayList<>();
                                 Chat chat = new Chat(UUID.randomUUID().toString(), employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), finalTopic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
-                                CallRequest callRequest = new CallRequest(UUID.randomUUID().toString(), user.getUserId(), user.getFullName(), employee.getUserId(), employee.getFullName(), chat, query, finalTopic, queueNo, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), false, false);
+                                CallRequest callRequest = new CallRequest(UUID.randomUUID().toString(), user.getUserId(), user.getFullName(), employee.getUserId(), employee.getFullName(), chat, query, finalTopic, queueNo, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), false, false,callType);
                                 callRequest.setRequestId(dbRef.child("Requests").push().getKey());
                                 callRequest.getChat().setCallRequestId(callRequest.getRequestId());
                                 dbRef.child("Requests").child(callRequest.getRequestId()).setValue(callRequest);

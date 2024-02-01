@@ -1,66 +1,98 @@
 package com.example.Employee_M;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+
+import com.example.customer.DarkModePrefManager;
+import com.example.quickconnect.LocaleHelper;
+import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
+import com.example.quickconnect.databinding.FragmentEmployeeMLanguageBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Employee_M_Language_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Employee_M_Language_Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Employee_M_Language_Fragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Employee_M_Language_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Employee_M_Language_Fragment newInstance(String param1, String param2) {
-        Employee_M_Language_Fragment fragment = new Employee_M_Language_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    FragmentEmployeeMLanguageBinding binding;
+    private boolean userIsInteracting;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_employee__m__language_, container, false);
+        binding = FragmentEmployeeMLanguageBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        if (new DarkModePrefManager(getContext()).isNightMode()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        super.onViewCreated(view, savedInstanceState);
+        LocaleHelper.loadLocale(getActivity());  // Load the locale first
+
+
+        Spinner languageSpinner = binding.languageSpinner;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.language_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(adapter);
+
+        // Restore the spinner position
+        SharedPreferences prefs = getContext().getSharedPreferences("Settings", MODE_PRIVATE);
+        int spinnerPosition = prefs.getInt("Spinner_Position", 0);
+        languageSpinner.setSelection(spinnerPosition, false);  // Set the position without triggering the listener
+        languageSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                userIsInteracting = true;
+                return false; // let the event pass to the spinner
+            }
+        });
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (userIsInteracting) {
+                    String[] languageCodes = getResources().getStringArray(R.array.language_codes);
+                    String selectedLanguageCode = languageCodes[position];
+                    LocaleHelper.setLocale(getActivity(), selectedLanguageCode, position);
+                    restartApp();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    public void setUserIsInteracting(boolean isInteracting) {
+        this.userIsInteracting = isInteracting;
+    }
+
+
+
+    private void restartApp() {
+        Intent intent = new Intent(getContext(), Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
 }

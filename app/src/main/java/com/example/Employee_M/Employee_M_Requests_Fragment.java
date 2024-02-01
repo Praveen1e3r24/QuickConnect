@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Employee_M_Home_Fragment extends Fragment implements OnClickInterface {
+public class Employee_M_Requests_Fragment extends Fragment implements OnClickInterface {
 
     private RecyclerView rv;
     private List<ChatRequestItem> chatRequestItemList = new ArrayList<>();
@@ -41,7 +41,7 @@ public class Employee_M_Home_Fragment extends Fragment implements OnClickInterfa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_employee__m__home_, container, false);
+        View v = inflater.inflate(R.layout.fragment_employee__m__requests_, container, false);
         rv = v.findViewById(R.id.msupport_home_rv);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 

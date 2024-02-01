@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +8,9 @@
     android:padding="16dp"
     tools:context="com.example.customer.Customer_Call_Request">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
@@ -23,32 +27,40 @@
         android:id="@+id/subtitleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:text="Choose your preferred way to connect with us."
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
     <LinearLayout
         android:id="@+id/voiceCallButtonLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/subtitleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/subtitleText">
 
         <!-- Voice Call Button -->
         <ImageButton
             android:id="@+id/voiceCallButton"
-            android:layout_width="0dp"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/voice_call_selector"
+            android:background="@drawable/video_call_selector"
             android:contentDescription="@string/voice_call"
-            android:src="@drawable/nav_videocall" />
+            android:src="@drawable/nav_call" />
+
+        <View
+            android:layout_width="16dp"
+        android:layout_height="1dp"
+        />
 
         <!-- Video Call Button -->
         <ImageButton
@@ -58,85 +70,123 @@
             android:layout_weight="1"
             android:background="@drawable/video_call_selector"
             android:contentDescription="@string/video_call"
-            android:src="@drawable/nav_call" />
+            android:src="@drawable/nav_videocall" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/callTypeerrorText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Please select a call type"
         android:textColor="@color/red"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/voiceCallButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/voiceCallButtonLayout" />
+
+    <TextView
+        android:id="@+id/department_text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Choose the department you would like to contact"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/callTypeerrorText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Spinner
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/departmentSpinner"
-        android:layout_width="0dp"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/department_array"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/callTypeerrorText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/department_text_title"
+        android:hint="Department">
+
+        <AutoCompleteTextView
+            android:id="@+id/departmentSpinnerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <TextView
         android:id="@+id/departmenterrorText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="Please select your department"
-        android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textColor="@color/red"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/departmentSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/departmentSpinner" />
 
     <TextView
         android:id="@+id/descriptionText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:text="Describe your issue"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/departmenterrorText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/call_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Describe your issue"
-        app:layout_constraintTop_toBottomOf="@id/descriptionText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/departmenterrorText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/call_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:hint="Describe your issue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/call_description_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/descriptionerrorText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Please describe your issue"
         android:textAlignment="center"
         android:textColor="@color/red"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/call_description"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/connectButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Connect Now"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/descriptionerrorText"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/call_description" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/connectButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
+            android:text="Connect Now"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionerrorText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

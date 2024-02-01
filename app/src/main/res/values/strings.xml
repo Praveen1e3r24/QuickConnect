@@ -151,6 +151,9 @@
     <string name="call_requests">Call Requests</string>
     <string name="new_call">New Call</string>
     <string name="voice_call">voice call</string>
+    <string name="Request">Request</string>
+    <string name="profile_and_settings_">Profile and Settings</string>
+    <string name="address">Address</string>
 
 
     <string-array name="language_array">
@@ -169,7 +172,6 @@
 
 
     <string-array name="department_array">
-        <item>Select Department</item>
         <item>Inquiry and General Assistance</item>
         <item>Account Services</item>
         <item>Loan and Credit Services</item>
@@ -180,7 +182,6 @@
         <item>Multilingual and International Support</item>
         <item>Fraud Detection and Prevention</item>
     </string-array>
-
 
 
 </resources>

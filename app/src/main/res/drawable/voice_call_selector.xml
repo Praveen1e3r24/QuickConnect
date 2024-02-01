@@ -3,6 +3,7 @@
     <!-- When the button is selected -->
     <item android:drawable="@color/voice_call_selected1" android:state_selected="true"/>
 
+
     <!-- Default appearance -->
     <item android:drawable="@color/voice_call_normal"/>
 </selector>
