@@ -11,22 +11,19 @@
             android:title="@string/Home"/>
 
         <item
-            android:id="@+id/nav_e_cc_call"
-            android:icon="@drawable/nav_call"
-            android:title="@string/call" />
+            android:id="@+id/nav_e_requests"
+            android:icon="@drawable/nav_about"
+            android:title="@string/Request"/>
         <item
-            android:id="@+id/nav_e_cc_profile"
-            android:icon="@drawable/nav_profile"
+            android:id="@+id/nav_e_cc_chatbot"
+            android:icon="@drawable/nav_message"
             android:title="@string/profile" />
         <item
             android:id="@+id/nav_e_cc_language"
             android:icon="@drawable/nav_language"
             android:title="@string/change_language" />
 
-        <item
-            android:id="@+id/nav_cs_vvcall"
-            android:icon="@drawable/nav_videocall"
-            android:title="@string/video_call" />
+
 
 
     </group>
@@ -36,9 +33,9 @@
 
         <menu>
             <item
-                android:id="@+id/nav_e_cc_settings"
+                android:id="@+id/nav_e_cc_profile_settings"
                 android:icon="@drawable/nav_setting"
-                android:title="@string/settings" />
+                android:title="@string/profile_and_settings_" />
             <item
                 android:id="@+id/nav_e_cc_logout"
                 android:icon="@drawable/nav_logout"

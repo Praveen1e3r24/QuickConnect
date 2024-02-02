@@ -1,7 +1,6 @@
-package com.example.customer;
+package com.example.Employee_M;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,22 +12,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
-import com.example.palmchatbot.Chatbot_Activity;
+import com.example.customer.DarkModePrefManager;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
-import com.example.quickconnect.R;
 import com.example.quickconnect.User;
-import com.example.quickconnect.databinding.FragmentCustomerHomeBinding;
+import com.example.quickconnect.databinding.FragmentEmployeeMHomeBinding;
 import com.google.gson.Gson;
 
 
-public class Customer_Home_Fragment extends Fragment {
-    private FragmentCustomerHomeBinding binding;
+public class Employee_M_Home_ extends Fragment {
+    FragmentEmployeeMHomeBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
+        binding = FragmentEmployeeMHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -43,41 +41,6 @@ public class Customer_Home_Fragment extends Fragment {
         User user = getUserDetailsFromSharedPreferences();
         binding.name.setText("Welcome, " + user.getFullName());
 
-        binding.firstbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_QuickConnect_Fragment()).commit();
-            }
-        });
-        binding.secondbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Call_Fragment()).commit();
-            }
-        });
-        binding.thirdbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Call_Request()).commit();
-            }
-        });
-
-        binding.fourthbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Chatbot_Activity.class);
-                startActivity(intent);
-            }
-        });
-
-//        for customers previous requests
-
-//        binding.fifthbox.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Fragment()).commit();
-//            }
-//        });
 
 
 
@@ -111,6 +74,5 @@ public class Customer_Home_Fragment extends Fragment {
 
         return null; // Return null if the JSON string is null or if there's an error in deserialization
     }
-
 
 }

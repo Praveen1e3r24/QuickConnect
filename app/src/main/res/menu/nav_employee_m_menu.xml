@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_m_home"
+            android:id="@+id/nav_e_m_home"
             android:icon="@drawable/nav_home"
             android:title="@string/Home"/>
 
         <item
-            android:id="@+id/nav_m_message"
-            android:icon="@drawable/nav_message"
-            android:title="@string/message" />
+            android:id="@+id/nav_e_m_requests"
+            android:icon="@drawable/nav_about"
+            android:title="@string/Request"/>
         <item
-            android:id="@+id/nav_m_profile"
-            android:icon="@drawable/nav_profile"
+            android:id="@+id/nav_e_m_chatbot"
+            android:icon="@drawable/nav_message"
             android:title="@string/profile" />
         <item
-            android:id="@+id/nav_m_language"
+            android:id="@+id/nav_e_m_language"
             android:icon="@drawable/nav_language"
             android:title="@string/change_language" />
+
+
 
 
     </group>
@@ -31,11 +34,11 @@
 
         <menu>
             <item
-                android:id="@+id/nav_m_settings"
+                android:id="@+id/nav_e_m_profile_settings"
                 android:icon="@drawable/nav_setting"
-                android:title="@string/settings" />
+                android:title="@string/profile_and_settings_" />
             <item
-                android:id="@+id/nav_m_logout"
+                android:id="@+id/nav_e_m_logout"
                 android:icon="@drawable/nav_logout"
                 android:title="@string/Logout" />
 

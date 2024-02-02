@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.palmchatbot.Chatbot_Activity;
 import com.example.palmchatbot.Palm_Ai_Service;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
@@ -248,7 +249,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                         String resolutionMethod = aiResults[1];
                         String department = aiResults[2];
                         String title = aiResults[3];
-
+                        Log.d("DEPARTMENT", resolutionMethod);
                         // Show the dialog with the suggested resolution method
                         showDialogWithResolutionMethod(resolutionMethod,topic,department);
                     } else {
@@ -290,15 +291,20 @@ public class Customer_QuickConnect_Fragment extends Fragment {
     }
 
     private void handleResolutionMethod(String method,String topic,String department ) {
-        if (method==" ResolutionMethod: Messaging") {
+//        if (method.trim().toLowerCase()==" ResolutionMethod: Messaging".trim().toLowerCase()) {
+//            Log.d(TAG, "showDialogWithResolutionMethod:2 ");
+//            checkAndAddChatToDB(topic, department);
+        if (method.contains("Messaging")) {
             Log.d(TAG, "showDialogWithResolutionMethod:2 ");
-            checkAndAddChatToDB(topic, department);
-
-
-
+            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(checkAndAddChatToDB(topic, department));
+        } else if (method.contains("Voice Call")) {
+            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB("Voice Call", department));
+        } else if (method.contains("Video Call")) {
+            dbRef.child("Users").child("Employees").addListenerForSingleValueEvent(addRequestToDB("Video Call", department));
+        } else if (method.contains("Chatbot")) {
+            startActivity(new Intent(getActivity(), Chatbot_Activity.class));
         }
-
-        }
+    }
 
 
     // Mock method to represent fetching output from AI
@@ -377,8 +383,9 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //        dialog.show();
 //    }
 
+    
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private ValueEventListener   checkAndAddChatToDB(String topic,String department) {
+    private ValueEventListener checkAndAddChatToDB(String topic,String department) {
         Log.d(TAG, "showDialogWithResolutionMethod:3 ");
         hasEmployee = false;
         User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
@@ -392,7 +399,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Employee employee = snapshot.getValue(Employee.class);
                     Log.d(TAG, "showDialogWithResolutionMethod:6");
-                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5) {
+                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5 && employee.getDepartment().equals(department)){
                         Log.d(TAG, "showDialogWithResolutionMethod:7");
                         List<Message> messages = new ArrayList<>();
                         Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
@@ -442,7 +449,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
 //        }
 //    }
 
-    private ValueEventListener addRequestToDB(){
+    private ValueEventListener addRequestToDB(String CallType, String department){
         hasEmployee = false;
         if (topic == null) {
             topic = "General Inquiries";
@@ -453,7 +460,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot s : snapshot.getChildren()) {
                     Employee employee = s.getValue(Employee.class);
-                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("CS")) {
+                    if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("CS") && employee.getDepartment().equals(department)) {
                         hasEmployee = true;
                         User user = new UserData().getUserDetailsFromSharedPreferences(getContext());
                         String query = binding.editTextComplaint.getText().toString();
@@ -468,7 +475,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                                 }
                                 List<Message> messages = new ArrayList<>();
                                 Chat chat = new Chat(UUID.randomUUID().toString(), employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
-                                CallRequest callRequest = new CallRequest(UUID.randomUUID().toString(), user.getUserId(), user.getFullName(), employee.getUserId(), employee.getFullName(), chat, query, topic, queueNo, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), false, false);
+                                CallRequest callRequest = new CallRequest(UUID.randomUUID().toString(), user.getUserId(), user.getFullName(), employee.getUserId(), employee.getFullName(), chat, query, topic, queueNo, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), false, false, CallType);
                                 callRequest.setRequestId(dbRef.child("Requests").push().getKey());
                                 callRequest.getChat().setCallRequestId(callRequest.getRequestId());
                                 dbRef.child("Requests").child(callRequest.getRequestId()).setValue(callRequest);

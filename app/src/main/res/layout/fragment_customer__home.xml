@@ -68,7 +68,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/start"
+                    android:id="@+id/firstbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient_1"
@@ -127,7 +127,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/start2"
+                    android:id="@+id/secondbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient_2"
@@ -194,7 +194,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/start6"
+                    android:id="@+id/thirdbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient_5"
@@ -280,7 +280,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/start3"
+                    android:id="@+id/fourthbox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/gradient_3"
@@ -339,7 +339,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/start4"
+                    android:id="@+id/fifthbox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/gradient_4"
@@ -409,7 +409,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
-                    android:id="@+id/start8"
+                    android:id="@+id/sixthbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient_6"

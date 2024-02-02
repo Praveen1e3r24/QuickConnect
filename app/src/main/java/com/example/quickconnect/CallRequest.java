@@ -20,12 +20,12 @@ public class CallRequest implements Parcelable {
     private Date requestDate;
     private Boolean isAccepted;
     private Boolean isClosed;
+    private String callType;
 
     public CallRequest() {
     }
 
-
-    public CallRequest(String requestId, String customerId, String customerName, String supportId, String supportName, Chat chat, String query, String category, int queueNo, Date requestDate, Boolean isAccepted, Boolean isClosed) {
+    public CallRequest(String requestId, String customerId, String customerName, String supportId, String supportName, Chat chat, String query, String category, int queueNo, Date requestDate, Boolean isAccepted, Boolean isClosed, String callType) {
         this.requestId = requestId;
         this.customerId = customerId;
         this.customerName = customerName;
@@ -38,7 +38,9 @@ public class CallRequest implements Parcelable {
         this.requestDate = requestDate;
         this.isAccepted = isAccepted;
         this.isClosed = isClosed;
+        this.callType = callType;
     }
+
 
     protected CallRequest(Parcel in) {
         requestId = in.readString();
@@ -54,6 +56,28 @@ public class CallRequest implements Parcelable {
         isAccepted = tmpIsAccepted == 0 ? null : tmpIsAccepted == 1;
         byte tmpIsClosed = in.readByte();
         isClosed = tmpIsClosed == 0 ? null : tmpIsClosed == 1;
+        callType = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(requestId);
+        dest.writeString(customerId);
+        dest.writeString(customerName);
+        dest.writeString(supportId);
+        dest.writeString(supportName);
+        dest.writeParcelable(chat, flags);
+        dest.writeString(query);
+        dest.writeString(category);
+        dest.writeInt(queueNo);
+        dest.writeByte((byte) (isAccepted == null ? 0 : isAccepted ? 1 : 2));
+        dest.writeByte((byte) (isClosed == null ? 0 : isClosed ? 1 : 2));
+        dest.writeString(callType);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<CallRequest> CREATOR = new Creator<CallRequest>() {
@@ -164,23 +188,12 @@ public class CallRequest implements Parcelable {
         this.requestDate = requestDate;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getCallType() {
+        return callType;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(requestId);
-        dest.writeString(customerId);
-        dest.writeString(customerName);
-        dest.writeString(supportId);
-        dest.writeString(supportName);
-        dest.writeParcelable(chat, flags);
-        dest.writeString(query);
-        dest.writeString(category);
-        dest.writeInt(queueNo);
-        dest.writeByte((byte) (isAccepted == null ? 0 : isAccepted ? 1 : 2));
-        dest.writeByte((byte) (isClosed == null ? 0 : isClosed ? 1 : 2));
+    public void setCallType(String callType) {
+        this.callType = callType;
     }
+
 }

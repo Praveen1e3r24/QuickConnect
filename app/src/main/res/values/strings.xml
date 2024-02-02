@@ -150,6 +150,10 @@
     <string name="chats">Chats</string>
     <string name="call_requests">Call Requests</string>
     <string name="new_call">New Call</string>
+    <string name="voice_call">voice call</string>
+    <string name="Request">Request</string>
+    <string name="profile_and_settings_">Profile and Settings</string>
+    <string name="address">Address</string>
 
 
     <string-array name="language_array">
@@ -164,6 +168,19 @@
         <item>zh</item>
         <item>ta</item>
         <item>ms</item>
+    </string-array>
+
+
+    <string-array name="department_array">
+        <item>Inquiry and General Assistance</item>
+        <item>Account Services</item>
+        <item>Loan and Credit Services</item>
+        <item>Digital Banking Support</item>
+        <item>Complaint Resolution</item>
+        <item>VIP and Premium Services</item>
+        <item>Training and Development</item>
+        <item>Multilingual and International Support</item>
+        <item>Fraud Detection and Prevention</item>
     </string-array>
 
 

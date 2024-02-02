@@ -116,23 +116,12 @@
                         app:layout_constraintHorizontal_bias="0.166"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="76dp"
-                        android:src="@drawable/nav_call"
-                        app:layout_constraintBottom_toTopOf="@+id/imageView4"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.25" />
+
 
                     <ImageView
                         android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/imageView2"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginEnd="76dp"
@@ -166,11 +155,11 @@
                     android:layout_marginEnd="10dp">
 
                     <TextView
-                        android:id="@+id/Profile_Recent_Transaction_History"
+                        android:id="@+id/first_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="@string/transaction_history"
+                        android:text="@string/first_name"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -184,11 +173,11 @@
                     android:layout_marginEnd="10dp">
 
                     <TextView
-                        android:id="@+id/profile_account_type"
+                        android:id="@+id/last_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="@string/profile_account_type"
+                        android:text="@string/last_name"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -211,51 +200,16 @@
                     android:layout_marginEnd="10dp">
 
                     <TextView
-                        android:id="@+id/Profile_customer_preferences"
+                        android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="@string/customer_preferences"
+                        android:text="@string/address"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="10dp">
-
-                    <TextView
-                        android:id="@+id/profile_edit_account"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:text="@string/profile_edit_account"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="10dp">
-
-                    <TextView
-                        android:id="@+id/profile_others"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:text="@string/previous_queries"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -317,12 +271,24 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/acceptcall"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red"
-            android:text="Accept Call Request" />
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton
+                android:id="@+id/new_voice_call"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+            <com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton
+                android:id="@+id/new_video_call"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/p_gotochat"
@@ -332,6 +298,15 @@
             android:text="Go to chat" />
 
 
+
+
     </LinearLayout>
 
+
+
+
 </ScrollView>
+
+
+
+

@@ -20,7 +20,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.NotificationHandler;
-import com.example.Voice_Video_Call.VV_Call_Fragment;
 import com.example.palmchatbot.Chatbot_Activity;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
@@ -106,7 +105,7 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Setting_Fragment()).commit();
         }
         else if (itemId == R.id.nav_c_Voice_Video_Call) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VV_Call_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Call_Request()).commit();
         }
         else if (itemId == R.id.nav_c_chatbot) {
             Intent intent = new Intent(this, Chatbot_Activity.class);

@@ -147,6 +147,17 @@
     <string name="call_requests">அழைப்பு கோரிக்கைகள்</string>
     <string name="new_call">புதிய அழைப்பு</string>
 
+    <string-array name="department_array">
+        <item>விசாரணை மற்றும் பொது உதவி</item>
+        <item>கணக்கு சேவைகள்</item>
+        <item>கடன் மற்றும் கிரெடிட் சேவைகள்</item>
+        <item>டிஜிட்டல் வங்கி ஆதரவு</item>
+        <item>புகார் தீர்வு</item>
+        <item>VIP மற்றும் பிரீமியம் சேவைகள்</item>
+        <item>பயிற்சி மற்றும் அபிவிருத்தி</item>
+        <item>பல்மொழி மற்றும் சர்வதேச ஆதரவு</item>
+        <item>மோசடி கண்டறிதல் மற்றும் தடுப்பு</item>
+    </string-array>
 
 
 </resources>
