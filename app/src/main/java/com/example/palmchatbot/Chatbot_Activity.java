@@ -5,23 +5,29 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.AppPreferences;
 import com.example.customer.Customer_Main;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.Message;
 import com.example.quickconnect.MessageAdapter;
 import com.example.quickconnect.R;
+import com.example.quickconnect.TranslationService;
 import com.example.quickconnect.databinding.ActivityChatbotBinding;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +58,8 @@ public class Chatbot_Activity extends AppCompatActivity {
 
     private MessageAdapter messageAdapter;
 
+    private boolean firstTime = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +85,25 @@ public class Chatbot_Activity extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 chat = documentSnapshot.toObject(Chat.class);
                 messages = chat.getMessages();
-                messageAdapter = new MessageAdapter(messages);
+                messageAdapter = new MessageAdapter(messages, this);
                 binding.recyclerGchat.setAdapter(messageAdapter);
                 messageAdapter.notifyDataSetChanged();
                 if (messages.size() > 0)
                 {
-                    binding.recyclerGchat.smoothScrollToPosition(messages.size() - 1);
+                    if (firstTime)
+                    {
+                        firstTime = false;
+                        binding.recyclerGchat.smoothScrollToPosition(messages.size() - 1);
+                    }
+                    else
+                    {
+                        binding.recyclerGchat.scrollToPosition(messages.size() - 1);
+                    }
                 }
             }
         });
-
+        messageText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        messageText.setRawInputType(InputType.TYPE_CLASS_TEXT);
         binding.chatbotSend.setOnClickListener(v -> {
             if (messageText.getText().toString().isEmpty()) {
                 messageText.setError("Please enter a message");
@@ -127,6 +144,18 @@ public class Chatbot_Activity extends AppCompatActivity {
                 return true;
             }
 
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                if (messageText.getText().toString().isEmpty()) {
+                    messageText.setError("Please enter a message");
+                }
+                else
+                {
+                    sendQuery(messageText.getText().toString());
+                    messageText.setText("");
+                }
+                return true;
+            }
+
             return false;
         });
     }
@@ -135,7 +164,7 @@ public class Chatbot_Activity extends AppCompatActivity {
 
         if (messageAdapter == null)
         {
-            messageAdapter = new MessageAdapter(messages);
+            messageAdapter = new MessageAdapter(messages,this);
             binding.recyclerGchat.setAdapter(messageAdapter);
         }
         else
@@ -165,6 +194,12 @@ public class Chatbot_Activity extends AppCompatActivity {
         Map<String, Object> queryData = new HashMap<>();
         queryData.put("prompt", message);
 
+        Message typing = new Message("1","QCChatbot",userId,"", new Date());
+        messages.add(typing);
+        chat.setMessages(messages);
+        db.collection("QC_Chatbot_Messages").document(userId).set(chat);
+        updateChat();
+
         db.collection("QCchatbot").add(queryData).addOnSuccessListener(documentReference -> {
 
             String docId = documentReference.getId();
@@ -174,13 +209,16 @@ public class Chatbot_Activity extends AppCompatActivity {
             docRef.addSnapshotListener((documentSnapshot, e) -> {
                 if (e != null) {
                     Toast.makeText(this, "An error occured: "+ e, Toast.LENGTH_SHORT).show();
+                    binding.progressBar2.setVisibility(View.GONE);
                     return;
                 }
 
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     String response = documentSnapshot.getString("response");
                     if (response != null) {
-                        messages.add(new Message(UUID.randomUUID().toString(),"QCChatbot",userId,response, new Date()));
+                        messages.remove(messages.size() - 1);
+                        Message message1 = new Message(UUID.randomUUID().toString(),"QCChatbot",userId,response, new Date());
+                        messages.add(message1);
                         chat.setMessages(messages);
                         updateChat();
                         Toast.makeText(this, "Response Sent!", Toast.LENGTH_SHORT).show();
@@ -190,10 +228,18 @@ public class Chatbot_Activity extends AppCompatActivity {
                         binding.progressBar2.setVisibility(View.GONE);
                     }
                 }
+                else
+                {
+                    Toast.makeText(this, "No response from server", Toast.LENGTH_SHORT).show();
+                    binding.progressBar2.setVisibility(View.GONE);
+                }
             });
 
             updateChat();
 
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "An error occured: "+ e, Toast.LENGTH_SHORT).show();
+            binding.progressBar2.setVisibility(View.GONE);
         });
     }
 
@@ -262,6 +308,34 @@ public class Chatbot_Activity extends AppCompatActivity {
             builder.show();
         }
         else if (itemId == R.id.change_language) {
+            Spinner spinner = new Spinner(this, Spinner.MODE_DIALOG);
+            TranslationService translationService = new TranslationService();
+            AppPreferences appPreferences = new AppPreferences(this);
+            ArrayList<String> languages = translationService.getSupportedLanguages();
+            languages.add(0, "None");
+            SpinnerAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, languages);
+            spinner.setAdapter(spinnerAdapter);
+            spinner.setSelection(languages.indexOf(appPreferences.getChatLanguage()));
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Select Language")
+                    .setView(spinner)
+                    .setPositiveButton("Set Language", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String language = spinner.getSelectedItem().toString();
+                            appPreferences.saveChatLanguage(language);
+                            messageAdapter.notifyDataSetChanged();
+                            Toast.makeText(Chatbot_Activity.this, "Language set to " + language, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog a =  builder.create();
+            a.show();
         }
 
         return super.onOptionsItemSelected(menuItem);

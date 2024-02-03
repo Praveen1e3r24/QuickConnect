@@ -30,7 +30,7 @@ public class transactions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
         CallRequest request = getIntent().getParcelableExtra("callRequest");
-        FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(request.getCustomerId()).child("transactions").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(request.getCustomerId()).child("transactions").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot s : snapshot.getChildren()){

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.NotificationHandler;
 import com.example.OnClickInterface;
 import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
@@ -21,6 +22,9 @@ import com.example.quickconnect.ChatAdapter;
 import com.example.quickconnect.ChatRequestItem;
 import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.R;
+import com.example.quickconnect.databinding.FragmentEmployeeHomeBinding;
+import com.example.quickconnect.databinding.FragmentEmployeeMHomeBinding;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,10 +41,21 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
     private RecyclerView rv;
     private List<ChatRequestItem> chatRequestItemList= new ArrayList<>();
 
+    private List<ChatRequestItem> filteredList = new ArrayList<>();
+
+    private FragmentEmployeeHomeBinding binding;
+
+    private ChatAdapter chatAdapter;
+
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private OnClickInterface getInterface() {
         return this;
     }
+
+    private MaterialButtonToggleGroup filterSituation;
+
+    private MaterialButtonToggleGroup filterAccepted;
+
 
     String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
     @Override
@@ -50,6 +65,8 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
         rv = v.findViewById(R.id.csSupport_home);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        filterSituation = v.findViewById(R.id.cs_filter_situation_grp);
+        filterAccepted = v.findViewById(R.id.filter_acceptance_grp);
 
         dbRef.child("Requests").addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,9 +79,9 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
                         chatRequestItemList.add(new ChatRequestItem(null, callRequest));
                     }
                 }
-                ChatAdapter adapter = new ChatAdapter(getInterface(), chatRequestItemList);
-                rv.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                chatAdapter = new ChatAdapter(getInterface(), chatRequestItemList);
+                rv.setAdapter(chatAdapter);
+                chatAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -74,14 +91,86 @@ public class Employee_Home_Fragment extends Fragment implements OnClickInterface
         });
 
         dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
+
+        filterSituation.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                applyFilters();
+            }
+            else {
+                resetFilters();
+            }
+        });
+
+        filterAccepted.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                applyFilters();
+            }
+            else {
+                resetFilters();
+            }
+        });
+
         return v;
     }
 
     @Override
     public void onClick(int pos, ChatRequestItem chatRequestItem) {
-        Intent intent = new Intent(getActivity(), Customer_Profile.class);
-        CallRequest request = chatRequestItemList.get(pos).getCallRequest();
-        intent.putExtra("chatRequest", request);
-        startActivity(intent);
+        ChatRequestItem requestItem = null;
+        if (filteredList.size() > 0) {
+            requestItem = filteredList.get(pos);
+        } else {
+            requestItem = chatRequestItemList.get(pos);
+        }
+
+        if (requestItem != null){
+            Intent intent = new Intent(getActivity(), Customer_Profile.class);
+            CallRequest request = chatRequestItemList.get(pos).getCallRequest();
+            intent.putExtra("chatRequest", request);
+            startActivity(intent);
+        }
+
+    }
+
+    private void resetFilters() {
+        chatAdapter = new ChatAdapter(getInterface(), chatRequestItemList);
+        rv.setAdapter(chatAdapter);
+        chatAdapter.notifyDataSetChanged();
+        filteredList.clear();
+    }
+
+    private void applyFilters() {
+        filteredList.clear();
+
+        for (ChatRequestItem item : chatRequestItemList) {
+
+            boolean isUnresolved = (!item.getCallRequest().getClosed() || !item.getCallRequest().getChat().getClosed());
+            boolean isResolved = (item.getCallRequest().getClosed() || item.getCallRequest().getChat().getClosed());
+            boolean isAccepted = (item.getCallRequest().getAccepted());
+            boolean isUnaccepted = (!item.getCallRequest().getAccepted());
+
+            boolean addToList = true;
+
+
+            if (filterAccepted.getCheckedButtonId() == R.id.filter_accepted && !isAccepted) {
+                addToList = false;
+            } else if (filterAccepted.getCheckedButtonId() == R.id.filter_unaccepted && !isUnaccepted) {
+                addToList = false;
+            }
+
+            if (filterSituation.getCheckedButtonId() == R.id.cs_filter_unresolved && !isUnresolved) {
+                addToList = false;
+            } else if (filterSituation.getCheckedButtonId() == R.id.cs_filter_resolved && !isResolved) {
+                addToList = false;
+            }
+
+            if (addToList) {
+                filteredList.add(item);
+            }
+        }
+
+        chatAdapter = new ChatAdapter(getInterface(), filteredList);
+        RecyclerView rv = getView().findViewById(R.id.csSupport_home);
+        rv.setAdapter(chatAdapter);
+        chatAdapter.notifyDataSetChanged();
     }
 }

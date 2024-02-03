@@ -50,4 +50,14 @@ public class AppPreferences {
     public Boolean getNotificationStatus() {
         return sharedPreferences.getBoolean("notificationStatus", true);
     }
+
+    public void saveChatLanguage(String language) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("chatLanguage", language);
+        editor.apply();
+    }
+
+    public String getChatLanguage() {
+        return sharedPreferences.getString("chatLanguage", "None");
+    }
 }

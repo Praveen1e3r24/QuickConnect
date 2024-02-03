@@ -62,6 +62,7 @@ dependencies {
     implementation files('libs\\additionnal.jar')
     implementation files('libs\\mail.jar')
     implementation files('libs\\activation.jar')
+    implementation "com.airbnb.android:lottie:3.4.0"
 
     //FIREBASE
     implementation 'com.google.firebase:firebase-messaging:23.4.0'

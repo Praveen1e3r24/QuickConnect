@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,7 +23,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +40,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.AppPreferences;
 import com.example.NotificationHandler;
 import com.example.customer.Customer_Main;
 import com.example.quickconnect.databinding.ActivityChatBinding;
@@ -77,6 +82,11 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
 
     private StorageReference storageReference;
 
+    private TranslationService translationService;
+
+    private AppPreferences appPreferences;
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +97,8 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         setContentView(binding.getRoot());
 
         dbRef = FirebaseDatabase.getInstance().getReference();
-
+        translationService = new TranslationService();
+        appPreferences = new AppPreferences(this);
         firstenter = true;
 
         ActionBar actionBar = getSupportActionBar();
@@ -117,6 +128,8 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                     binding.chatMessage.setVisibility(View.GONE);
                     binding.chatSend.setVisibility(View.GONE);
                     binding.chatCloseText.setVisibility(View.VISIBLE);
+                    binding.chatGallery.setVisibility(View.GONE);
+                    binding.chatUploadFile.setVisibility(View.GONE);
                 } else {
                     binding.chatCloseText.setVisibility(View.GONE);
                 }
@@ -127,8 +140,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 Toast.makeText(ChatActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         dbRef.child("Chats").child(chat.getChatId()).child("messages").addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,7 +152,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 }
 
                 if (!messageList.isEmpty()) {
-                    adapter = new MessageAdapter(messageList, ChatActivity.this);
+                    adapter = new MessageAdapter(messageList, ChatActivity.this, getApplicationContext());
                     rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     if (firstenter == true) {
@@ -178,6 +189,8 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         }
 
         messageText = binding.chatMessage;
+        messageText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        messageText.setRawInputType(InputType.TYPE_CLASS_TEXT);
         messageText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -197,6 +210,11 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             }
 
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                sendMessage();
+                return true;
+            }
+
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 sendMessage();
                 return true;
             }
@@ -229,37 +247,6 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         });
 
     }
-
-//    public void createNotification() {
-//
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
-//            return;
-//        }
-//
-//        CharSequence name = "QuickConnect";
-//        String description = "Channel for Quickconnect notifications";
-//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//        NotificationChannel channel = null;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            channel = new NotificationChannel("notify", name, importance);
-//            channel.setDescription(description);
-//        }
-//
-//        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify")
-//                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setContentTitle(chat.getCustomerName())
-//                .setContentText(messageList.get(messageList.size() - 1).getText())
-//                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//        notificationManager.notify(200, builder.build());
-//    }
 
     public void showAlert(int choice) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -333,7 +320,34 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             alertDialog.show();
 
         } else if (itemId == R.id.change_language) {
+            Spinner spinner = new Spinner(this, Spinner.MODE_DIALOG);
+            ArrayList<String> languages = translationService.getSupportedLanguages();
+            languages.add(0, "None");
+            SpinnerAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, languages);
+            spinner.setAdapter(spinnerAdapter);
+            spinner.setSelection(languages.indexOf(appPreferences.getChatLanguage()));
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Select Language")
+                    .setView(spinner)
+                    .setPositiveButton("Set Language", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String language = spinner.getSelectedItem().toString();
+                            appPreferences.saveChatLanguage(language);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(ChatActivity.this, "Language set to " + language, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog a =  builder.create();
+            a.show();
         }
+
 
         return super.onOptionsItemSelected(menuItem);
     }
@@ -616,7 +630,36 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         intent.setData(Uri.parse(message.getFile()));
         startActivity(intent);
     }
-
+//    public void createNotification() {
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+//            return;
+//        }
+//
+//        CharSequence name = "QuickConnect";
+//        String description = "Channel for Quickconnect notifications";
+//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//        NotificationChannel channel = null;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            channel = new NotificationChannel("notify", name, importance);
+//            channel.setDescription(description);
+//        }
+//
+//        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify")
+//                .setSmallIcon(R.drawable.ic_launcher_foreground)
+//                .setContentTitle(chat.getCustomerName())
+//                .setContentText(messageList.get(messageList.size() - 1).getText())
+//                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//        notificationManager.notify(200, builder.build());
+//    }
     //    private void sendImage(String url){
 //        String message = messageText.getText().toString();
 //        String messageId = UUID.randomUUID().toString();
