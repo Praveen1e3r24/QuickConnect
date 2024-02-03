@@ -30,7 +30,7 @@ public class Palm_Ai_Service {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> chatData = new HashMap<>();
         chatData.put("prompt", message);
-        db.collection("QC_Chatbot_Messages")
+        db.collection("qc_quickconnect_query")
                 .add(chatData)
                 .addOnSuccessListener(documentReference -> {
                     awaitResponse(documentReference.getId(), 0, callback);
@@ -45,7 +45,7 @@ public class Palm_Ai_Service {
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("QC_Chatbot_Messages").document(documentId);
+        DocumentReference docRef = db.collection("qc_quickconnect_query").document(documentId);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();

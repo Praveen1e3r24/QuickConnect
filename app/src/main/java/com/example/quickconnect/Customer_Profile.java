@@ -83,12 +83,12 @@ public class Customer_Profile extends AppCompatActivity {
 
 
                     //initialising the activity with the data
-                    binding.address.setText(reqCustomer.getAddress());
-                    binding.firstName.setText(reqCustomer.getFirstName());
-                    binding.lastName.setText(reqCustomer.getLastName());
+                    binding.AddressInput.setText(reqCustomer.getAddress());
+                    binding.FirstNameInput.setText(reqCustomer.getFirstName());
+                    binding.LastNameInput.setText(reqCustomer.getLastName());
 
-                    binding.profileEmailaddress.setText(reqCustomer.getEmail());
-                    binding.profileMobileNumber.setText(reqCustomer.getPhonenumber());
+                    binding.EmailInput.setText(reqCustomer.getEmail());
+                    binding.numberInput.setText(reqCustomer.getPhonenumber());
                     binding.profileTitle.setText(reqCustomer.getFirstName() + " " + reqCustomer.getLastName() + "'s Profile");
 
                     Log.d(TAG, "onDataChange123: "+callRequest.getCallType());
@@ -105,7 +105,7 @@ public class Customer_Profile extends AppCompatActivity {
 
                     //email
 
-                    binding.imageView4.setOnClickListener(view -> {
+                    binding.EmailInput.setOnClickListener(view -> {
 
                         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 

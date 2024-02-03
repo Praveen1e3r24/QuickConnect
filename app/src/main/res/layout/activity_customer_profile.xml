@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/design_default_color_error"
+    android:backgroundTint="@color/white"
     tools:context="com.example.quickconnect.Customer_Profile">
 
 
@@ -13,7 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:textColor="@color/contentTextColor"
+
+
+        >
 
         <TextView
             android:id="@+id/profile_title"
@@ -21,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/profile"
-            android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -43,6 +46,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center"
+                    backgroundTint="@color/white"
                     android:src="@drawable/nav_profile" />
 
                 <LinearLayout
@@ -57,7 +61,6 @@
                         android:layout_height="wrap_content"
                         android:text="name"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -67,76 +70,10 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="118dp"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="92dp">
-
-                    <TextView
-                        android:id="@+id/profile_mobile_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/profile_mobile_number"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/profile_emailaddress"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-                        app:layout_constraintHorizontal_bias="0.154"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.296" />
-
-                    <TextView
-                        android:id="@+id/profile_emailaddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/email_address"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                        app:layout_constraintHorizontal_bias="0.166"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="76dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/nav_message"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -148,71 +85,143 @@
                 android:orientation="vertical"
                 android:padding="15dp">
 
-                <RelativeLayout
+                <!-- First Name -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp">
 
                     <TextView
-                        android:id="@+id/first_name"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/first_name_title"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
+                        android:layout_weight="1"
                         android:text="@string/first_name"
-                        android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
-                </RelativeLayout>
 
-                <RelativeLayout
+                    <TextView
+                        android:id="@+id/First_Name_Input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </LinearLayout>
+
+                <!-- Last Name -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="10dp">
 
                     <TextView
-                        android:id="@+id/last_name"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/last_name_title"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
+                        android:layout_weight="1"
                         android:text="@string/last_name"
-                        android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/Last_Name_Input"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text=""
-                        android:textColor="#6E6C6C"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </LinearLayout>
 
-                <RelativeLayout
+                <!-- Address -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="10dp">
 
                     <TextView
-                        android:id="@+id/address"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/Address_text"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
+                        android:layout_weight="1"
                         android:text="@string/address"
-                        android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
-                </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/Address_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </LinearLayout>
+
+                <!-- Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/Email_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/email"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/Email_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </LinearLayout>
+
+                <!-- Phone Number -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/Phone_number_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Phone Number"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/number_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </LinearLayout>
 
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

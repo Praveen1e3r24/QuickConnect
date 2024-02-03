@@ -160,4 +160,15 @@
     </string-array>
 
 
+    <string name="quickassist">Bantuan Pantas</string>
+    <string name="profile_and_settings__">Profil dan Tetapan</string>
+    <string name="chatbot">Chatbot</string>
+    <string name="voice_call">panggilan suara</string>
+    <string name="Request">Permintaan</string>
+    <string name="profile_and_settings_">Profil dan Tetapan</string>
+    <string name="address">Alamat</string>
+    <string name="call_specialist">Panggil Pakar</string>
+
+
+
 </resources>

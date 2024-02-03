@@ -20,7 +20,7 @@
                     android:layout_height="56dp"
                     android:id="@+id/toolbar"
                     android:elevation="4dp"
-                    android:background="@color/red"
+                    android:background="@color/nav_bar_color"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
@@ -38,8 +38,9 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_employee_cc_header"
         app:menu="@menu/nav_employee_cs_menu"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"/>
+        app:itemIconTint="@color/contentTextColor"
+        app:itemTextColor="@color/menu_text_color"
+        android:background="@color/menu_background_color"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

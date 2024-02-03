@@ -99,9 +99,7 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Call_Fragment()).commit();
         }  else if (itemId == R.id.nav_c_quickconnect) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_QuickConnect_Fragment()).commit();
-        } else if (itemId == R.id.nav_c_language) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
-        } else if (itemId == R.id.nav_c_profile) {
+        } else if (itemId == R.id.nav_c_profile_settings) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Setting_Fragment()).commit();
         }
         else if (itemId == R.id.nav_c_Voice_Video_Call) {
@@ -114,6 +112,7 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
         else if (itemId == R.id.nav_c_logout) {
             logout();
             Toast.makeText(this, "Logged Out of Account", Toast.LENGTH_SHORT).show();
+            ZegoUIKitPrebuiltCallInvitationService.unInit();
             return true;
         }
         binding.toolbar.setTitle(item.getTitle());
