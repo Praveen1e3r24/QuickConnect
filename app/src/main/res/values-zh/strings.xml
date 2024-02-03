@@ -164,6 +164,16 @@
         <item>欺诈检测和预防</item>
     </string-array>
 
+    <string name="quickassist">快速协助</string>
+    <string name="profile_and_settings__">个人资料和设置</string>
+    <string name="chatbot">聊天机器人</string>
+    <string name="voice_call">语音通话</string>
+    <string name="Request">请求</string>
+    <string name="profile_and_settings_">个人资料和设置</string>
+    <string name="address">地址</string>
+    <string name="call_specialist">呼叫专家</string>
+
+
 
 
 

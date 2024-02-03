@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/contentBodyColor"
 
-    tools:context="com.example.Employee_M.Employee_M_Home_">
+    tools:context="com.example.quickconnect_employee_cc.Employee_CC_Home">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="8dp"
-                            android:src="@drawable/nav_profile">
+                            android:src="@drawable/nav_profile_white">
 
                         </ImageView>
 
@@ -169,6 +169,7 @@
 
 
         </LinearLayout>
+
 
 
     </LinearLayout>

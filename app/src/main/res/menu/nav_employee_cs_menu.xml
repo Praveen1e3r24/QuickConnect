@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+
+        android:textColor="@color/contentTextColor"
+        >
         <item
             android:id="@+id/nav_e_cc_home"
             android:icon="@drawable/nav_home"
             android:title="@string/Home"/>
 
         <item
-            android:id="@+id/nav_e_requests"
+            android:id="@+id/nav_e_cc_requests"
             android:icon="@drawable/nav_about"
             android:title="@string/Request"/>
-        <item
-            android:id="@+id/nav_e_cc_chatbot"
-            android:icon="@drawable/nav_message"
-            android:title="@string/profile" />
+
         <item
             android:id="@+id/nav_e_cc_language"
             android:icon="@drawable/nav_language"
@@ -29,7 +29,10 @@
     </group>
 
     <item
-        android:title="">
+        android:title=""
+
+        android:textColor="@color/contentTextColor"
+        >
 
         <menu>
             <item

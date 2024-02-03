@@ -1,4 +1,4 @@
-package com.example.Employee_M;
+package com.example.quickconnect_employee_cc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,17 +17,16 @@ import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
-import com.example.quickconnect.databinding.FragmentEmployeeMHomeBinding;
+import com.example.quickconnect.databinding.FragmentEmployeeCCHomeBinding;
 import com.google.gson.Gson;
 
-
-public class Employee_M_Home_ extends Fragment {
-    FragmentEmployeeMHomeBinding binding;
+public class Employee_CC_Home extends Fragment {
+    FragmentEmployeeCCHomeBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentEmployeeMHomeBinding.inflate(inflater, container, false);
+        binding = FragmentEmployeeCCHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -45,7 +44,7 @@ public class Employee_M_Home_ extends Fragment {
         binding.firstbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Requests_Fragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_CC_Request()).commit();
             }
         });
 

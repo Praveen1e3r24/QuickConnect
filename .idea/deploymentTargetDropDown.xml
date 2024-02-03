@@ -2,31 +2,53 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="Unnamed">
+      <entry key="LoginVVActivity">
+        <State />
+      </entry>
+      <entry key="SettingsActivity">
+        <State />
+      </entry>
+      <entry key="app">
         <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\junqi\.android\avd\Pixel_6_Pro_API_33.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
           <targetSelectedWithDropDown>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\junqi\.android\avd\Pixel_6_Pro_API_33.avd" />
+                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-02-03T16:02:24.361846700Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-02-03T12:02:57.554623900Z" />
+          <targetsSelectedWithDialog>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\Praveen\.android\avd\device_2.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetsSelectedWithDialog>
+        </State>
+      </entry>
+      <entry key="palm_ai_chatbot">
+        <State />
+      </entry>
+      <entry key="s2t">
+        <State>
           <multipleDevicesSelectedInDropDown value="true" />
           <targetsSelectedWithDialog>
             <Target>
@@ -34,7 +56,7 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\junqi\.android\avd\Pixel_6_Pro_API_33.avd" />
+                  <value value="C:\Users\Praveen\.android\avd\device_2.avd" />
                 </Key>
               </deviceKey>
             </Target>
@@ -43,14 +65,14 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\junqi\.android\avd\Pixel_3a_API_33_x86_64.avd" />
+                  <value value="C:\Users\Praveen\.android\avd\Pixel_6_Pro_API_34.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetsSelectedWithDialog>
         </State>
       </entry>
-      <entry key="transactions">
+      <entry key="translate_test">
         <State />
       </entry>
     </value>
