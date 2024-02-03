@@ -159,5 +159,15 @@
         <item>மோசடி கண்டறிதல் மற்றும் தடுப்பு</item>
     </string-array>
 
+    <string name="quickassist">விரைவு உதவி</string>
+    <string name="profile_and_settings__">சுயவிவரம் மற்றும் அமைப்புகள்</string>
+    <string name="chatbot">உரையாடல் பொறி</string>
+    <string name="voice_call">குரல் அழைப்பு</string>
+    <string name="Request">கோரிக்கை</string>
+    <string name="profile_and_settings_">சுயவிவரம் மற்றும் அமைப்புகள்</string>
+    <string name="address">முகவரி</string>
+    <string name="call_specialist">நிபுணரை அழை</string>
+
+
 
 </resources>

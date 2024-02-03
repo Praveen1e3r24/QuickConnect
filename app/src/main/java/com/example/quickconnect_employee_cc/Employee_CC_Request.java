@@ -2,28 +2,23 @@ package com.example.quickconnect_employee_cc;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.NotificationHandler;
 import com.example.OnClickInterface;
 import com.example.quickconnect.CallRequest;
-import com.example.quickconnect.Chat;
-import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
 import com.example.quickconnect.ChatRequestItem;
 import com.example.quickconnect.Customer_Profile;
 import com.example.quickconnect.R;
 import com.example.quickconnect.databinding.FragmentEmployeeHomeBinding;
-import com.example.quickconnect.databinding.FragmentEmployeeMHomeBinding;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +32,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class Employee_Home_Fragment extends Fragment implements OnClickInterface {
+public class Employee_CC_Request extends Fragment implements OnClickInterface {
     private RecyclerView rv;
     private List<ChatRequestItem> chatRequestItemList= new ArrayList<>();
 

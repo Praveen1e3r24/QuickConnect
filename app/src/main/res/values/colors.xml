@@ -17,17 +17,23 @@
 
 
 
+    #hello name text color
+    <color name="hello_name_text">#FF6200EE</color>
 
 
 
 
 
+
+
+
+    <color name="colorPrimaryVariant">@color/red</color>
 
 
 
     <color name="red">#FF390F</color>
     <color name="colorPrimary">#4C853F</color>
-    <color name="colorPrimaryDark">#9F303D</color>
+    <color name="colorPrimaryDark">#FF390F</color>
     <color name="colorAccent">#FF5722</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
@@ -54,7 +60,7 @@
 
 
     <!--colors for light mode-->
-    <color name="contentBodyColor">#FCFCFC</color>
+    <color name="contentBodyColor">#FFFFFF</color>
     <color name="contentTextColor">#020000</color>
     <color name="imageBorderColor">#E01E7A</color>
     <color name="miniTitle">#2A2E43</color>

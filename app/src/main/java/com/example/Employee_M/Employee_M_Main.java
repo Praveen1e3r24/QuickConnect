@@ -20,11 +20,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.NotificationHandler;
+import com.example.customer.Language_Change;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
-import com.example.quickconnect.Profile_Fragment;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.ActivityEmployeeMmainBinding;
@@ -60,11 +60,12 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                 ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.open_nav, R.string.close_nav);
 
                 binding.drawerLayout.addDrawerListener(toggle);
+                binding.toolbar.setTitle("Home");
 
                 toggle.syncState();
 
                 if(savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Requests_Fragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_()).commit();
                 binding.navView.setCheckedItem(nav_e_m_home);
                 }
                 User user = getUserDetailsFromSharedPreferences();
@@ -170,14 +171,10 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_()).commit();
                 } else if (itemId == R.id.nav_e_m_requests) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Requests_Fragment()).commit();
-                } else if (itemId == R.id.nav_e_m_chatbot) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Language_Fragment()).commit();
-                } else if (itemId == R.id.nav_e_m_language) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Profile_Fragment()).commit();
+                }  else if (itemId == R.id.nav_e_m_language) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
                 }
-                else if (itemId == R.id.nav_e_m_language) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Profile_Fragment()).commit();
-                }
+
                 else if (itemId == R.id.nav_e_m_profile_settings) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Settings_Profile_Fragment()).commit();
                 }
@@ -186,6 +183,7 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                         logout();
                         Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
                 }
+                binding.toolbar.setTitle(item.getTitle());
                 binding.drawerLayout.closeDrawers();
                 return true;
         }
@@ -258,3 +256,8 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                 }
         }
 }
+
+//else if (itemId == R.id.nav_e_m_chatbot) {
+//        Intent intent = new Intent(Employee_M_Main.this, Chatbot_Activity.class);
+//        startActivity(intent);
+//        }

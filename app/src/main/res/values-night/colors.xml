@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--colors for dark mode-->
+<!--nav top bar-->
 
+    <color name="colorPrimaryVariant">#5DC0D1</color>
+
+    <color name="colorPrimaryDark">#5DC0D1</color>
 
     #Nav Bar
     <color name="nav_bar_color">#5DC0D1</color>
@@ -21,11 +25,72 @@
     <color name="colorPrimary">#6BD3BE</color>
 
 
+    #hello name text color
+    <color name="hello_name_text">#D1B1FF</color>
 
 
 
-    <color name="contentBodyColor">#000</color>
+
+
+
+
+    <color name="contentBodyColor">#201D1D</color>
     <color name="contentTextColor">#fff</color>
     <color name="miniTitle">#fff</color>
+
+
+
+
+
+
+
+    <color name="colorAccent">#FF5722</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="colorTextIcons">#FFFFFF</color>
+    <color name="colorBackground">#FAFAFA</color>
+    <color name="colorHintText">#BDBDBD</color>
+    <color name="colorMeetingInvitationStart">#4004BB</color>
+    <color name="colorMeetingInvitationEnd">#BA1AAA</color>
+    <color name="green">#18FF3E</color>
+
+
+    //cometchat
+    <color name="main">#2196F3</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+
+
+
+    <color name="imageBorderColor">#E01E7A</color>
+
+    <color name="voice_call_selected1">#11FD00</color>
+    <color name="voice_call_normal">#01DAFF</color>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </resources>
