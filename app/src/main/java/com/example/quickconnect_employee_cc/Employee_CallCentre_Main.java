@@ -2,7 +2,6 @@ package com.example.quickconnect_employee_cc;
 
 
 import static com.example.quickconnect.R.id.nav_e_cc_home;
-import static com.example.quickconnect.R.id.nav_e_cc_requests;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.customer.Language_Change;
+import com.example.NotificationHandler;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
@@ -30,11 +29,17 @@ import com.example.quickconnect.databinding.ActivityEmployeeCallCentreMainBindin
 import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 public class Employee_CallCentre_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+
+    private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     ActivityEmployeeCallCentreMainBinding binding;
 
     @Override
@@ -52,7 +57,7 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
          toggle.syncState();
 
          if(savedInstanceState == null) {
-             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_CC_Home()).commit();
+             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Home_Fragment()).commit();
              binding.navView.setCheckedItem(nav_e_cc_home);
          }
 
@@ -60,7 +65,28 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
 
         updateNavHeader(user);
 
+        NotificationHandler notificationHandler = NotificationHandler.getInstance();
+        notificationHandler.initialize(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NotificationHandler notificationHandler = NotificationHandler.getInstance();
+        notificationHandler.initialize(this);
+        dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
+    }
+
+    @Override
+    protected void onStart() {
+        dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbRef.child("Users").child("Employees").child(userId).child("available").setValue(false);
+        super.onDestroy();
     }
 
 
@@ -70,17 +96,16 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == nav_e_cc_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_CC_Home()).commit();
-        } else if (itemId == nav_e_cc_requests) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_CC_Request()).commit();
-        }  else if (itemId == R.id.nav_e_cc_language) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Home_Fragment()).commit();
+        } else if (itemId == R.id.nav_e_cc_chatbot) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Call_Fragment()).commit();
+        } else if (itemId == R.id.nav_e_cc_language) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Language_Fragment()).commit();
         } else if (itemId == R.id.nav_e_cc_profile_settings) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_CC_Settings_Profile_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Profile_Fragment()).commit();
         } else if (itemId == R.id.nav_e_cc_logout) {
             logout();
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
-
         }
       binding.drawerLayout.closeDrawers();
         return true;
@@ -155,7 +180,3 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
         }
     }
 }
-
-//else if (itemId == R.id.nav_e_cc_chatbot) {
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_Call_Fragment()).commit();
-//        }

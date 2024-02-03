@@ -62,7 +62,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:outlineProvider="bounds"
         android:visibility="gone"
         app:cardBackgroundColor="@color/material_dynamic_neutral95"
@@ -71,6 +71,8 @@
         app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintWidth="match_constraint">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,26 +126,27 @@
         android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
 
         <EditText
             android:id="@+id/chat_message"
-            style="@style/Widget.AppCompat.EditText"
+            style="@android:style/Widget.DeviceDefault.Light.AutoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@+id/chat_send"
+            android:layout_marginEnd="0dp"
+            android:layout_toStartOf="@+id/chatbot_send"
             android:background="@drawable/chat_outline"
+            android:breakStrategy="simple"
             android:fontFamily="sans-serif"
             android:foreground="@drawable/chat_outline"
             android:hint="@string/enter_message"
-            android:imeOptions="actionDone|actionSend"
-            android:inputType="text|textAutoCorrect"
-            android:maxLines="6"
+            android:imeOptions="actionDone|actionNext|actionSend"
+            android:inputType="text|textImeMultiLine|textMultiLine"
             android:minHeight="48dp"
             android:paddingStart="12dp"
             android:paddingTop="12dp"

@@ -43,7 +43,17 @@ public class Add_Employee extends AppCompatActivity {
         customersReference = usersReference.child("Customers");
         employeesReference = usersReference.child("Employees");
 
-        String[] department = new String[] {"Scam & Fraud", "Technical", "Account", "General"};
+        String[] department = new String[] {
+                "Inquiry and General Assistance",
+                "Account Services",
+                "Loan and Credit Services",
+                "Digital Banking Support",
+                "Complaint Resolution",
+                "VIP and Premium Services",
+                "Training and Development",
+                "Multilingual and International Support",
+                "Fraud Detection and Prevention"
+        };
 
         ArrayAdapter<String> teamadapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, department);

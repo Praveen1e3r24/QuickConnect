@@ -5,6 +5,8 @@ import android.util.Log;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,21 @@ public class TranslationService {
     public TranslationService() {
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
+    }
+
+    public ArrayList<String> getSupportedLanguages() {
+        ArrayList<String> supportedLanguages = new ArrayList<>();
+        supportedLanguages.add("en");
+        supportedLanguages.add("es");
+        supportedLanguages.add("fr");
+        supportedLanguages.add("de");
+        supportedLanguages.add("it");
+        supportedLanguages.add("ja");
+        supportedLanguages.add("ko");
+        supportedLanguages.add("pt");
+        supportedLanguages.add("ru");
+        supportedLanguages.add("zh");
+        return supportedLanguages;
     }
 
     public void translate(String message, String languageCode, TranslationCallback callback) {

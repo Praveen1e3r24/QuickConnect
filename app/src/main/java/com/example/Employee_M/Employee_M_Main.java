@@ -47,6 +47,7 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
 
          private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
+
         ActivityEmployeeMmainBinding binding;
 
         @Override
@@ -142,8 +143,10 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
 //}
         @Override
         protected void onResume() {
-                dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
                 super.onResume();
+                NotificationHandler notificationHandler = NotificationHandler.getInstance();
+                notificationHandler.initialize(this);
+                dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
         }
 
         @Override

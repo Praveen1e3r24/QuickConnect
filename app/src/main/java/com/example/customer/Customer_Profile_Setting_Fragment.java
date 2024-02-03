@@ -6,18 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import com.example.AppPreferences;
 import com.example.quickconnect.R;
 import com.example.quickconnect.databinding.FragmentCustomerProfileSettingBinding;
 
 
 public class Customer_Profile_Setting_Fragment extends Fragment {
     private Switch darkModeSwitch;
+    private Switch notificationSwitch;
     FragmentCustomerProfileSettingBinding binding;
 
     @Override
@@ -39,6 +42,7 @@ public class Customer_Profile_Setting_Fragment extends Fragment {
         }
 
         setDarkModeSwitch();
+        setNotifcationSwitch();
 
         binding.languageTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +62,21 @@ public class Customer_Profile_Setting_Fragment extends Fragment {
                 AppCompatDelegate.setDefaultNightMode(
                         isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
                getActivity().recreate();
+                Toast.makeText(requireContext(), "Dark Mode Turned " + (isChecked?"On":"Off"), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setNotifcationSwitch() {
+        notificationSwitch = binding.notificationsSwitch;
+        AppPreferences appPreferences = new AppPreferences(getActivity());
+
+        notificationSwitch.setChecked(appPreferences.getNotificationStatus());
+        notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                appPreferences.saveNotificationStatus(isChecked);
+                Toast.makeText(requireContext(), "Notifications Turned " + (isChecked?"On":"Off"), Toast.LENGTH_SHORT).show();
             }
         });
     }

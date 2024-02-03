@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,7 +49,7 @@ public class call_waiting_dashboard extends AppCompatActivity {
 
         dbRef = FirebaseDatabase.getInstance().getReference();
 
-        dbRef.child("Requests").child(request.getRequestId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("Requests").child(request.getRequestId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists())
@@ -65,11 +66,9 @@ public class call_waiting_dashboard extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(call_waiting_dashboard.this, "An error occurred: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
     }
 }

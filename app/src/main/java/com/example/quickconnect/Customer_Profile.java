@@ -55,8 +55,6 @@ public class Customer_Profile extends AppCompatActivity {
         binding = ActivityCustomerProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Context context = this; // or use getApplicationContext() or another valid context
-
         callRequest = getIntent().getParcelableExtra("chatRequest");
 
         dbRef = FirebaseDatabase.getInstance().getReference();
@@ -102,7 +100,7 @@ public class Customer_Profile extends AppCompatActivity {
                     }
 
 
-
+                    //click listener for the phone call
                     //email
 
                     binding.EmailInput.setOnClickListener(view -> {
@@ -167,7 +165,8 @@ public class Customer_Profile extends AppCompatActivity {
         ZegoSendCallInvitationButton newVideoCall = binding.newVideoCall;
         newVideoCall.setIsVideoCall(true);
         newVideoCall.setOnClickListener(v -> {
-      String targetUserID = "white1";
+            dbRef.child("Requests").child(callRequest.getRequestId()).child("accepted").setValue(true);
+            String targetUserID = "white1";
             String[] split = targetUserID.split(",");
             List<ZegoUIKitUser> users = new ArrayList<>();
             for (String userID : split) {
@@ -182,6 +181,7 @@ public class Customer_Profile extends AppCompatActivity {
         ZegoSendCallInvitationButton newVoiceCall = binding.newVoiceCall;
         newVoiceCall.setIsVideoCall(false);
         newVoiceCall.setOnClickListener(v -> {
+            dbRef.child("Requests").child(callRequest.getRequestId()).child("accepted").setValue(true);
             String targetUserID = "white1";
             String[] split = targetUserID.split(",");
             List<ZegoUIKitUser> users = new ArrayList<>();

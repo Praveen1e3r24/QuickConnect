@@ -402,7 +402,7 @@ public class Customer_QuickConnect_Fragment extends Fragment {
                     if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5 && employee.getDepartment().equals(department)){
                         Log.d(TAG, "showDialogWithResolutionMethod:7");
                         List<Message> messages = new ArrayList<>();
-                        Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), topic, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
+                        Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), department, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
                         chat.setChatId(dbRef.child("Chats").push().getKey());
                         Log.d(TAG, "showDialogWithResolutionMethod:8");
                         dbRef.child("Chats").child(chat.getChatId()).setValue(chat);

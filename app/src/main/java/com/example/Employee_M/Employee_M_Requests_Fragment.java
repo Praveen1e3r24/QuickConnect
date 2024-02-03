@@ -18,6 +18,7 @@ import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.ChatAdapter;
 import com.example.quickconnect.ChatRequestItem;
 import com.example.quickconnect.R;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,10 +34,18 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
     private RecyclerView rv;
     private List<ChatRequestItem> chatRequestItemList = new ArrayList<>();
 
+    private List<ChatRequestItem> filteredList = new ArrayList<>();
+
+    private MaterialButtonToggleGroup toggleGroup;
+
+    private ChatAdapter adapter;
+
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private OnClickInterface getInterface() {
         return this;
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +53,8 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
         View v = inflater.inflate(R.layout.fragment_employee__m__requests_, container, false);
         rv = v.findViewById(R.id.msupport_home_rv);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        toggleGroup = v.findViewById(R.id.m_filter_situation_grp);
 
         dbRef.child("Chats").addValueEventListener(new ValueEventListener() {
             @Override
@@ -67,6 +78,16 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
             }
         });
 
+        toggleGroup.setSingleSelection(true);
+        toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                applyFilters();
+            }
+            else{
+                resetFilters();
+            }
+        });
+
         return v;
     }
 
@@ -77,5 +98,38 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
         intent.putExtra("chat", chat);
         startActivity(intent);
 
+    }
+
+    private void resetFilters() {
+        adapter = new ChatAdapter(getInterface(), chatRequestItemList);
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        filteredList.clear();
+    }
+
+    private void applyFilters() {
+        filteredList.clear();
+
+        for (ChatRequestItem item : chatRequestItemList) {
+
+            boolean isUnresolved = (!item.getChat().getClosed());
+            boolean isResolved = (item.getChat().getClosed());
+
+            boolean addToList = true;
+
+            if (toggleGroup.getCheckedButtonId() == R.id.m_filter_unresolved && !isUnresolved) {
+                addToList = false;
+            } else if (toggleGroup.getCheckedButtonId() == R.id.m_filter_resolved && !isResolved) {
+                addToList = false;
+            }
+
+            if (addToList) {
+                filteredList.add(item);
+            }
+        }
+
+        adapter = new ChatAdapter(getInterface(), filteredList);
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
