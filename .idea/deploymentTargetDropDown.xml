@@ -4,17 +4,6 @@
     <value>
       <entry key="Unnamed">
         <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\junqi\.android\avd\Pixel_6_Pro_API_33.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
           <targetSelectedWithDropDown>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
@@ -26,8 +15,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-02-03T16:02:24.361846700Z" />
-          <multipleDevicesSelectedInDropDown value="true" />
+          <timeTargetWasSelectedWithDropDown value="2024-02-03T18:42:40.208837300Z" />
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />

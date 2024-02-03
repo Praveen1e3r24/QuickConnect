@@ -160,9 +160,6 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
             if (isChecked) {
                 applyFilters();
             }
-            else {
-                resetFilters();
-            }
         });
 
         MaterialButtonToggleGroup filterSituation = v.findViewById(R.id.filter_situation_grp);
@@ -171,9 +168,6 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
         filterSituation.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
                 applyFilters();
-            }
-            else {
-                resetFilters();
             }
         });
 
@@ -235,7 +229,6 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
             boolean isResolved = (isChat && item.getChat().getClosed()) || (isRequest && item.getCallRequest().getClosed());
 
             boolean addToList = true;
-
 
             if (filterChatsRequestsGrp.getCheckedButtonId() == R.id.filter_chats && !isChat) {
                 addToList = false;
