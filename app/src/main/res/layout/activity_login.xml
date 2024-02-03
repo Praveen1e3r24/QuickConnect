@@ -87,7 +87,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginRight="35dp">
+                android:layout_marginRight="35dp"
+                android:textColorHint="@color/black"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_username"
@@ -111,6 +113,7 @@
                 android:background="@drawable/roundedcorners"
                 android:backgroundTint="@color/material_dynamic_neutral90"
                 android:backgroundTintMode="add"
+                android:textColorHint="@color/black"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText

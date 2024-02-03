@@ -28,7 +28,6 @@ import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.ActivityEmployeeMmainBinding;
-import com.example.quickconnect_employee_cc.Employee_CC_Home;
 import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,11 +60,12 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                 ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.open_nav, R.string.close_nav);
 
                 binding.drawerLayout.addDrawerListener(toggle);
+                binding.toolbar.setTitle("Home");
 
                 toggle.syncState();
 
                 if(savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_CC_Home()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Home_()).commit();
                 binding.navView.setCheckedItem(nav_e_m_home);
                 }
                 User user = getUserDetailsFromSharedPreferences();
@@ -183,6 +183,7 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                         logout();
                         Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
                 }
+                binding.toolbar.setTitle(item.getTitle());
                 binding.drawerLayout.closeDrawers();
                 return true;
         }
