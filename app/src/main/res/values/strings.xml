@@ -96,7 +96,7 @@
     <string name="forget_password">Forget Password?</string>
     <string name="dont_have_an_account">Dont have an account?</string>
     <string name="voice_video_call">Voice/Video Call</string>
-    <string name="messaging">Messaging</string>
+    <string name="messaging">Chats and Requests</string>
     <string name="qc_chatbot">QC ChatBot</string>
     <string name="quickconnect_dashboard">QuickConnect Dashboard</string>
     <string name="queue_number_10">Queue Number: 10</string>

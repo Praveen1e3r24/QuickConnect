@@ -458,6 +458,7 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 binding.layoutGchatChatbox.setBackgroundColor(Color.parseColor("#EFEFF2"));
                 binding.chatGallery.setVisibility(View.GONE);
                 binding.chatUploadFile.setVisibility(View.GONE);
+                binding.chatFileSend.setVisibility(View.GONE);
             }
 
             catch (IOException e) {
@@ -479,11 +480,12 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
                 binding.cardView.startAnimation(animation);
                 binding.chatSend.setVisibility(View.VISIBLE);
-                binding.chatFileSend.setText(filePath.toString());
+                binding.chatFileSend.setText("\uD83D\uDCC2 "+filePath.toString());
                 binding.chatFileSend.setVisibility(View.VISIBLE);
                 binding.layoutGchatChatbox.setBackgroundColor(Color.parseColor("#EFEFF2"));
                 binding.chatGallery.setVisibility(View.GONE);
                 binding.chatUploadFile.setVisibility(View.GONE);
+                binding.chatImgSend.setVisibility(View.GONE);
             }
             catch (Exception e) {
                 // Log the exception
@@ -507,6 +509,10 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
         binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
         binding.cardView.startAnimation(animation);
         binding.cardView.setVisibility(View.GONE);
+        binding.chatMessage.setText("");
+        binding.chatMessage.setFocusableInTouchMode(false);
+        binding.chatMessage.setFocusable(false);
+        binding.chatSend.setVisibility(View.GONE);
 
         if (filePath != null) {
 
@@ -608,12 +614,13 @@ public class ChatActivity extends AppCompatActivity implements MessageAdapter.On
             messageList.add(msg);
             filePath = null;
             binding.chatMessage.clearFocus();
-            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
-            binding.cardView.startAnimation(animation);
             binding.layoutGchatChatbox.setBackgroundColor(getColor(R.color.white));
+            binding.chatMessage.setFocusableInTouchMode(true);
+            binding.chatMessage.setFocusable(true);
             binding.cardView.setVisibility(View.GONE);
             binding.chatSend.setVisibility(View.GONE);
             binding.chatGallery.setVisibility(View.VISIBLE);
+            binding.chatUploadFile.setVisibility(View.VISIBLE);
             dbRef.child("Chats").child(chat.getChatId()).child("messages").setValue(messageList);
             messageText.setText("");
         }

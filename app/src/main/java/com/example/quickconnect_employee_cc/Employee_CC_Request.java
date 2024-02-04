@@ -36,7 +36,7 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
     private RecyclerView rv;
     private List<ChatRequestItem> chatRequestItemList= new ArrayList<>();
 
-    private List<ChatRequestItem> filteredList = new ArrayList<>();
+    private List<ChatRequestItem> filteredList;
 
     private FragmentEmployeeHomeBinding binding;
 
@@ -51,6 +51,8 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
 
     private MaterialButtonToggleGroup filterAccepted;
 
+    private Boolean isFiltered = false;
+
 
     String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
     @Override
@@ -62,6 +64,7 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
 
         filterSituation = v.findViewById(R.id.cs_filter_situation_grp);
         filterAccepted = v.findViewById(R.id.filter_acceptance_grp);
+        filteredList = new ArrayList<>();
 
         dbRef.child("Requests").addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,6 +76,11 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
                     {
                         chatRequestItemList.add(new ChatRequestItem(null, callRequest));
                     }
+                }
+
+                if (!filteredList.isEmpty()) {
+                    applyFilters();
+                    return;
                 }
                 chatAdapter = new ChatAdapter(getInterface(), chatRequestItemList);
                 rv.setAdapter(chatAdapter);
@@ -88,21 +96,11 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
         dbRef.child("Users").child("Employees").child(userId).child("available").setValue(true);
 
         filterSituation.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (isChecked) {
                 applyFilters();
-            }
-            else {
-                resetFilters();
-            }
         });
 
         filterAccepted.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (isChecked) {
                 applyFilters();
-            }
-            else {
-                resetFilters();
-            }
         });
 
         return v;
@@ -111,7 +109,7 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
     @Override
     public void onClick(int pos, ChatRequestItem chatRequestItem) {
         ChatRequestItem requestItem = null;
-        if (filteredList.size() > 0) {
+        if (!filteredList.isEmpty()) {
             requestItem = filteredList.get(pos);
         } else {
             requestItem = chatRequestItemList.get(pos);
@@ -119,8 +117,7 @@ public class Employee_CC_Request extends Fragment implements OnClickInterface {
 
         if (requestItem != null){
             Intent intent = new Intent(getActivity(), Customer_Profile.class);
-            CallRequest request = chatRequestItemList.get(pos).getCallRequest();
-            intent.putExtra("chatRequest", request);
+            intent.putExtra("chatRequest", requestItem.getCallRequest());
             startActivity(intent);
         }
 

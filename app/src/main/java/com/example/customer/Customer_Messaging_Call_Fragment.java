@@ -86,7 +86,6 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
                         itemsToRemove.add(item);
                     }
                 }
-
                 // Remove all collected items
                 chatRequestItemList.removeAll(itemsToRemove);
 
@@ -96,6 +95,10 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
                         ChatRequestItem chatRequestItem = new ChatRequestItem(chat,null);
                         chatRequestItemList.add(chatRequestItem);
                     }
+                }
+
+                if (filteredList.size() > 0) {
+                    applyFilters();
                 }
 //                chatRV.setAdapter(chatAdapter);
 //                chatAdapter.notifyDataSetChanged();
@@ -137,6 +140,10 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
 
                 }
 
+                if (filteredList.size() > 0) {
+                    applyFilters();
+                }
+
                 if (chatAdapter != null) {
                     chatAdapter.notifyDataSetChanged();
                 }
@@ -155,20 +162,16 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
             }
         });
 
-        filterChatsRequestsGrp.setSingleSelection(true);
+
         filterChatsRequestsGrp.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (isChecked) {
-                applyFilters();
-            }
+            applyFilters();
         });
 
         MaterialButtonToggleGroup filterSituation = v.findViewById(R.id.filter_situation_grp);
-        filterSituation.setSingleSelection(true);
+
 
         filterSituation.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (isChecked) {
-                applyFilters();
-            }
+            applyFilters();
         });
 
         return v;
@@ -176,8 +179,6 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
 
     @Override
     public void onClick(int pos, ChatRequestItem o) {
-
-
 
         if (o.isCallRequest()) {
             CallRequest request;
@@ -189,8 +190,6 @@ public class Customer_Messaging_Call_Fragment extends Fragment implements OnClic
 
             if (request == null) {
                 return;}
-
-
             Intent intent = new Intent(this.getActivity(), call_waiting_dashboard.class);
             intent.putExtra("chat", request.getChat());
             intent.putExtra("callRequest", request);

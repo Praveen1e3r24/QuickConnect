@@ -135,14 +135,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 newHolder.message.setVisibility(View.VISIBLE);
             }
 
-            if (message.getMessageId().equals("1"))
-            {
-                newHolder.progressLottie.setVisibility(View.VISIBLE);
-            }
-            else
-            {
-                newHolder.progressLottie.setVisibility(View.GONE);
-            }
 
         } else if (holder.getItemViewType() == VIEWTYPE_RECIEVE) {
             ThemViewHolder newHolder = (ThemViewHolder) holder;
@@ -189,7 +181,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 newHolder.progressLottie.setVisibility(View.GONE);
             }
 
-            if (!appPreferences.getChatLanguage().equals("None") && !appPreferences.getChatLanguage().isEmpty()) {
+            if (!appPreferences.getChatLanguage().equals("None") && !appPreferences.getChatLanguage().isEmpty() && !message.getText().isEmpty()) {
                 newHolder.message.setText(message.getText());
                 newHolder.progressLottie.setVisibility(View.VISIBLE);
                 newHolder.message.setVisibility(View.GONE);

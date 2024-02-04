@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.AppPreferences;
 import com.example.NotificationHandler;
 import com.example.palmchatbot.Chatbot_Activity;
 import com.example.quickconnect.Customer;
@@ -113,6 +114,8 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
             logout();
             Toast.makeText(this, "Logged Out of Account", Toast.LENGTH_SHORT).show();
             ZegoUIKitPrebuiltCallInvitationService.unInit();
+            AppPreferences appPreferences = new AppPreferences(this);
+            appPreferences.clearSharedPrefrences();
             return true;
         }
         binding.toolbar.setTitle(item.getTitle());

@@ -41,6 +41,12 @@ public class AppPreferences {
         editor.apply();
     }
 
+    public void clearSharedPrefrences() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
     public void saveNotificationStatus(Boolean status) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("notificationStatus", status);

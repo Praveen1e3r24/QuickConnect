@@ -35,6 +35,7 @@
         android:background="#e0e0e0"
         app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_gchat" />
 
@@ -64,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:outlineProvider="bounds"
-        android:visibility="gone"
+        android:visibility="visible"
         app:cardBackgroundColor="@color/material_dynamic_neutral95"
         app:cardElevation="1dp"
         app:contentPadding="8dp"
@@ -82,28 +83,35 @@
 
             <ImageView
                 android:id="@+id/chat_imgSend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chat_cancelImg"
-                app:layout_constraintWidth="wrap_content_constrained"
-                app:srcCompat="@drawable/baseline_attach_file_24" />
-
-            <TextView
-                android:id="@+id/chat_fileSend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gothic_a1_medium"
-                android:text="fileextention.ext"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chat_imgSend" />
+                app:layout_constraintTop_toBottomOf="@+id/chat_cancelImg"
+                app:srcCompat="@drawable/baseline_attach_file_24" />
+
+            <TextView
+                android:id="@+id/chat_fileSend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/gothic_a1_medium"
+                android:text="fileextention.ext"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/chat_cancelImg"
@@ -111,6 +119,7 @@
                 android:layout_height="48dp"
                 android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -126,8 +135,7 @@
         android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/chat_message"

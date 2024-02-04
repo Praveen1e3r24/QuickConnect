@@ -67,6 +67,12 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
                         chatRequestItemList.add(new ChatRequestItem(chat, null));
                     }
                 }
+
+                if (!filteredList.isEmpty()) {
+                    applyFilters();
+                    return;
+                }
+
                 ChatAdapter adapter = new ChatAdapter(getInterface(), chatRequestItemList);
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -93,8 +99,11 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
 
     @Override
     public void onClick(int pos, ChatRequestItem chatRequestItem) {
-        Intent intent = new Intent(getActivity(), ChatActivity.class);
         Chat chat = chatRequestItemList.get(pos).getChat();
+        if (!filteredList.isEmpty()) {
+            chat = filteredList.get(pos).getChat();
+        }
+        Intent intent = new Intent(getActivity(), ChatActivity.class);;
         intent.putExtra("chat", chat);
         startActivity(intent);
 

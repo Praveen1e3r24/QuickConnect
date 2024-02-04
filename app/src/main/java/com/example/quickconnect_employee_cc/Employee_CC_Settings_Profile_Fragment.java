@@ -15,7 +15,13 @@ import androidx.fragment.app.Fragment;
 import com.example.customer.DarkModePrefManager;
 import com.example.customer.Language_Change;
 import com.example.quickconnect.R;
+import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentCustomerProfileSettingBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Employee_CC_Settings_Profile_Fragment extends Fragment {
@@ -31,6 +37,20 @@ public class Employee_CC_Settings_Profile_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentCustomerProfileSettingBinding.inflate(inflater, container, false);
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                binding.usernameTextView.setText(user.getFullName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return binding.getRoot();
 
 

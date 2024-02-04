@@ -15,7 +15,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.AppPreferences;
 import com.example.quickconnect.R;
+import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentCustomerProfileSettingBinding;
+import com.example.quickconnect.databinding.FragmentEmployeeMProfileSettingsBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Customer_Profile_Setting_Fragment extends Fragment {
@@ -26,11 +33,25 @@ public class Customer_Profile_Setting_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentCustomerProfileSettingBinding.inflate(inflater, container, false);
+        FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists())
+                {
+                    User user = snapshot.getValue(User.class);
+                    binding.usernameTextView.setText(user.getFullName());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         return binding.getRoot();
-
-
     }
 
     @Override
