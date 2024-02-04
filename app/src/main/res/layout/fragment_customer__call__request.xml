@@ -73,18 +73,18 @@
             android:src="@drawable/nav_videocall" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/callTypeerrorText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Please select a call type"
-        android:textColor="@color/red"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/voiceCallButtonLayout" />
+        <TextView
+            android:id="@+id/callTypeerrorText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Please select a call type"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voiceCallButtonLayout" />
 
     <TextView
         android:id="@+id/department_text_title"
@@ -111,8 +111,7 @@
             android:id="@+id/departmentSpinnerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            />
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

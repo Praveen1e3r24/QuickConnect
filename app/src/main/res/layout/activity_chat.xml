@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:outlineProvider="bounds"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardBackgroundColor="@color/material_dynamic_neutral95"
         app:cardElevation="1dp"
         app:contentPadding="8dp"

@@ -18,6 +18,10 @@
             />
 
         <item
+            android:id="@+id/nav_c_Messaging"
+            android:icon="@drawable/nav_message"
+            android:title="@string/messaging" />
+        <item
             android:id="@+id/nav_c_quickconnect"
             android:icon="@drawable/quick_connect"
             android:title="@string/quickconnect"
@@ -28,9 +32,9 @@
             android:title="@string/voice_video_call"/>
 
         <item
-            android:id="@+id/nav_c_Messaging"
-            android:icon="@drawable/nav_message"
-            android:title="@string/messaging"/>
+            android:id="@+id/nav_c_Message"
+            android:icon="@drawable/call_icon_top_chat"
+            android:title="@string/newmessage" />
 
 
         <item

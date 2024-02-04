@@ -33,6 +33,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 
@@ -41,6 +42,7 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
     private ActivityCustomerMainBinding binding;
 
     private DatabaseReference chatDbRef = FirebaseDatabase.getInstance().getReference().child("Chats");
+
 
     private String userId = FirebaseAuth.getInstance().getUid();
     private boolean firstEnter;
@@ -105,6 +107,10 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
         }
         else if (itemId == R.id.nav_c_Voice_Video_Call) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Call_Request()).commit();
+        }
+        else if (itemId == R.id.nav_c_Message)
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Fragment()).commit();
         }
         else if (itemId == R.id.nav_c_chatbot) {
             Intent intent = new Intent(this, Chatbot_Activity.class);

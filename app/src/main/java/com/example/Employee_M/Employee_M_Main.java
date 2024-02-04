@@ -80,7 +80,7 @@ public class Employee_M_Main extends  AppCompatActivity implements NavigationVie
                                 int count = 0;
                                 for (DataSnapshot s : snapshot.getChildren()) {
                                         Chat chat = s.getValue(Chat.class);
-                                        if (chat != null && chat.getSupportId().equals(userId)) {
+                                        if (chat != null && chat.getSupportId().equals(userId) && !chat.getClosed()) {
                                                 count ++;
                                         }
                                 }

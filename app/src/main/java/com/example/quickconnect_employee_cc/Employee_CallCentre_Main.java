@@ -19,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.request.Request;
 import com.example.NotificationHandler;
 import com.example.customer.Language_Change;
+import com.example.quickconnect.Chat;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
 import com.example.quickconnect.Login;
@@ -30,8 +32,11 @@ import com.example.quickconnect.databinding.ActivityEmployeeCallCentreMainBindin
 import com.example.utilities.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 public class Employee_CallCentre_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,12 +68,15 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
              binding.navView.setCheckedItem(nav_e_cc_home);
          }
 
+
         User user = getUserDetailsFromSharedPreferences();
 
         updateNavHeader(user);
 
         NotificationHandler notificationHandler = NotificationHandler.getInstance();
         notificationHandler.initialize(this);
+
+        dbRef.child("Chats").addValueEventListener(notificationHandler.checkNewMessage());
     }
 
     @Override

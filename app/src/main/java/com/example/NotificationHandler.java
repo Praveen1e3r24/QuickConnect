@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
+import com.example.quickconnect.CallRequest;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.ChatActivity;
 import com.example.quickconnect.Login;
@@ -32,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.protobuf.Value;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +43,6 @@ public class NotificationHandler {
 
     private static volatile NotificationHandler instance;
 
-    private String userId = FirebaseAuth.getInstance().getUid();
     private Map<String, Chat> chatMap = new HashMap<>();
     private Boolean notificationStatus;
     private Activity activity;
@@ -84,31 +85,47 @@ public class NotificationHandler {
         }
     }
 
-
     public ValueEventListener checkNewMessage()
     {
           ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                if (userId == null)
+                {
+                    return;
+                }
                 for(DataSnapshot s : snapshot.getChildren())
                 {
                     Chat chat = s.getValue(Chat.class);
 
-                    if (chatMap.containsKey(s.getKey()))
+                    if (chat.getCustomerId().equals(userId) || chat.getSupportId().equals(userId))
                     {
-                        Chat oldChat = chatMap.get(s.getKey());
-                        List<Message> oldMessages = oldChat.getMessages();
-                        List<Message> newMessages = chat.getMessages();
-
-                        if (oldMessages != null && oldMessages.size()>0)
+                        if (chatMap.containsKey(s.getKey()) && chat.getMessages() != null && chat.getMessages().size() > 0 && !chat.getClosed())
                         {
-                            if (oldMessages.size() < newMessages.size() && (chat.getCustomerId().equals(userId) || chat.getSupportId().equals(userId)) && notificationStatus)
+                            Chat oldChat = chatMap.get(s.getKey());
+                            List<Message> oldMessages = oldChat.getMessages();
+                            List<Message> newMessages = chat.getMessages();
+
+                            if (oldMessages != null && oldMessages.size() > 0 && newMessages != null && newMessages.size() > 0)
                             {
-                                if (currentChat == null || !currentChat.getChatId().equals(chat.getChatId()))
+                                if (oldMessages.size() < newMessages.size() && notificationStatus)
                                 {
-                                    createMessageNotification(chat);
+                                    if (currentChat == null || !currentChat.getChatId().equals(chat.getChatId()))
+                                    {
+                                        createMessageNotification(chat);
+                                    }
                                 }
                             }
+                        }
+                        else if (notificationStatus && chat.getMessages() != null && chat.getMessages().size() == 1 && !chat.getClosed())
+                        {
+                            if (chat.getCallRequestId() == null)
+                            {
+                                createChatNotification(chat);
+                            }
+
                         }
                     }
                     chatMap.put(s.getKey(), chat);
@@ -122,13 +139,19 @@ public class NotificationHandler {
           return eventListener;
     }
 
+
     private void createMessageNotification(Chat chat)
     {
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        if (userId == null)
+        {
+            return;
+        }
         List<Message> messageList = chat.getMessages();
         Message msg = messageList.get(messageList.size() - 1);
         String username = null;
@@ -160,8 +183,8 @@ public class NotificationHandler {
                 notificationManager.createNotificationChannel(channel);
             }
 
-            Intent intent = new Intent(activity.getApplicationContext(), Login.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Intent intent = new Intent(activity.getApplicationContext(), ChatActivity.class);
+            intent.putExtra("chat", chat);
             PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, "notify")
@@ -169,6 +192,64 @@ public class NotificationHandler {
                     .setLargeIcon(BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher_foreground))
                     .setContentTitle(username)
                     .setContentText(msg.getText())
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setContentIntent(pendingIntent)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            notificationManager.notify(200, builder.build());
+        }
+    }
+
+
+    public void createChatNotification(Chat chat)
+    {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (userId == null)
+        {
+            return;
+        }
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        String username = null;
+        if (userId.equals(chat.getSupportId()))
+        {
+            username = chat.getSupportName();
+        }
+        else
+        {
+            username = chat.getCustomerName();
+        }
+
+        if (username != null)
+        {
+            CharSequence name = "QuickConnect";
+            String description = "Channel for Quickconnect notifications";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                channel = new NotificationChannel("notify", name, importance);
+                channel.setDescription(description);
+            }
+
+            NotificationManager notificationManager = getSystemService(activity.getApplicationContext(), NotificationManager.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationManager.createNotificationChannel(channel);
+            }
+
+            Intent intent = new Intent(activity.getApplicationContext(), ChatActivity.class);
+            intent.putExtra("chat", chat);
+            PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, "notify")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setLargeIcon(BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher_foreground))
+                    .setContentTitle("A new chat has been created!")
+                    .setContentText("New Chat with " + username)
                     .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                     .setContentIntent(pendingIntent)
                     .setDefaults(Notification.DEFAULT_ALL)
