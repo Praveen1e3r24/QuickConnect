@@ -86,12 +86,8 @@ public class Employee_M_Requests_Fragment extends Fragment implements OnClickInt
 
         toggleGroup.setSingleSelection(true);
         toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (isChecked) {
                 applyFilters();
-            }
-            else{
-                resetFilters();
-            }
+
         });
 
         return v;
