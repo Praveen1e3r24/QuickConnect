@@ -70,6 +70,14 @@ public class Customer_Home_Fragment extends Fragment {
             }
         });
 
+
+        binding.fifthbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Setting_Fragment()).commit();
+            }
+        });
+
 //        for customers previous requests
 
 //        binding.fifthbox.setOnClickListener(new View.OnClickListener() {

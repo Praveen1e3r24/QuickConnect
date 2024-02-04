@@ -23,6 +23,7 @@ import com.example.NotificationHandler;
 import com.example.palmchatbot.Chatbot_Activity;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
+import com.example.quickconnect.LocaleHelper;
 import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
@@ -46,6 +47,7 @@ public class Customer_Main extends AppCompatActivity implements NavigationView.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LocaleHelper.loadLocale(this);
         if (new DarkModePrefManager(this).isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

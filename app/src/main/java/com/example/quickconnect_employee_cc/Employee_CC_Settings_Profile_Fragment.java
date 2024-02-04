@@ -1,5 +1,6 @@
 package com.example.quickconnect_employee_cc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,12 @@ import androidx.fragment.app.Fragment;
 import com.example.customer.DarkModePrefManager;
 import com.example.customer.Language_Change;
 import com.example.quickconnect.LocaleHelper;
+import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.databinding.FragmentCustomerProfileSettingBinding;
+import com.example.utilities.UserData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 
 public class Employee_CC_Settings_Profile_Fragment extends Fragment {
     private Switch darkModeSwitch;
@@ -50,6 +55,22 @@ public class Employee_CC_Settings_Profile_Fragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
             }
         });
+
+        binding.logoutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform logout tasks here
+                new UserData().removeUserDetails(getActivity());
+                // Example: Clear Firebase Authentication
+                FirebaseAuth.getInstance().signOut();
+                ZegoUIKitPrebuiltCallInvitationService.unInit();
+                // Redirect to the login screen
+                Intent intent = new Intent(getContext(), Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
     }
 
     private void setDarkModeSwitch() {
@@ -67,4 +88,7 @@ public class Employee_CC_Settings_Profile_Fragment extends Fragment {
             }
         });
     }
+
+
+
 }
