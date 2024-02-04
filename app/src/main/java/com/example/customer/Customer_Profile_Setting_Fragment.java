@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.example.AppPreferences;
+import com.example.quickconnect.LocaleHelper;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentCustomerProfileSettingBinding;
@@ -33,6 +34,8 @@ public class Customer_Profile_Setting_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LocaleHelper.loadLocale(getActivity());
+
         binding = FragmentCustomerProfileSettingBinding.inflate(inflater, container, false);
         FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -57,6 +60,7 @@ public class Customer_Profile_Setting_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         if (new DarkModePrefManager(getActivity()).isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

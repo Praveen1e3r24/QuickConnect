@@ -36,14 +36,14 @@ public class Language_Change extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        LocaleHelper.loadLocale(getActivity());
         if (new DarkModePrefManager(getContext()).isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        LocaleHelper.loadLocale(getActivity());  // Load the locale first
+          // Load the locale first
 
         AutoCompleteTextView languageSpinner = binding.languageSpinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -70,7 +70,7 @@ public class Language_Change extends Fragment {
         view.findViewById(R.id.languageSpinnerContainer).setOnClickListener(v -> userIsInteracting = true);
     }
 
-    private void restartApp() {
+    public void restartApp() {
         Intent intent = new Intent(getContext(), Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

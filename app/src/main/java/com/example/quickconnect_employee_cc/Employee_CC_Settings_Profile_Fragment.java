@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.customer.DarkModePrefManager;
 import com.example.customer.Language_Change;
+import com.example.quickconnect.LocaleHelper;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentCustomerProfileSettingBinding;
@@ -23,19 +25,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class Employee_CC_Settings_Profile_Fragment extends Fragment {
-
-
     private Switch darkModeSwitch;
-
     FragmentCustomerProfileSettingBinding binding;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        LocaleHelper.loadLocale(getActivity());
         binding = FragmentCustomerProfileSettingBinding.inflate(inflater, container, false);
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
@@ -52,8 +49,6 @@ public class Employee_CC_Settings_Profile_Fragment extends Fragment {
         });
 
         return binding.getRoot();
-
-
     }
 
     @Override
@@ -64,15 +59,19 @@ public class Employee_CC_Settings_Profile_Fragment extends Fragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
+
+
         setDarkModeSwitch();
 
         binding.languageTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Replace the current fragment with Language_Change fragment
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
             }
         });
     }
+
     private void setDarkModeSwitch() {
         darkModeSwitch = binding.darkModeSwitch;
         darkModeSwitch.setChecked(new DarkModePrefManager(getActivity()).isNightMode());
@@ -84,6 +83,7 @@ public class Employee_CC_Settings_Profile_Fragment extends Fragment {
                 AppCompatDelegate.setDefaultNightMode(
                         isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
                 getActivity().recreate();
+                Toast.makeText(requireContext(), "Dark Mode Turned " + (isChecked?"On":"Off"), Toast.LENGTH_SHORT).show();
             }
         });
     }
