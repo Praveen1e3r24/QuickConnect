@@ -49,6 +49,13 @@ public class Employee_M_Home_ extends Fragment {
             }
         });
 
+        binding.thirdbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Employee_M_Settings_Profile_Fragment()).commit();
+            }
+        });
+
 
 
 

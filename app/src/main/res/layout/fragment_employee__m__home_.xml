@@ -136,7 +136,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="8dp"
-                            android:src="@drawable/nav_profile">
+                            android:src="@drawable/nav_profile_white">
 
                         </ImageView>
 

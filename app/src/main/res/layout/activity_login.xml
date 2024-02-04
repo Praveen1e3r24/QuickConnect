@@ -98,6 +98,7 @@
                     android:background="@drawable/roundedcorners"
                     android:backgroundTint="@color/material_dynamic_neutral90"
                     android:backgroundTintMode="add"
+                    android:textColorHint="@color/black"
                     android:hint="@string/username"
                     android:inputType="text" />
 
@@ -123,6 +124,7 @@
                     android:background="@drawable/roundedcorners"
                     android:backgroundTint="@color/material_dynamic_neutral90"
                     android:backgroundTintMode="add"
+                    android:textColorHint="@color/black"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
 
@@ -141,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/design_default_color_background"
                     android:buttonTintMode="src_in"
+                    android:textColor="@color/black"
                     android:text="@string/remember_me" />
 
                 <TextView
@@ -178,6 +181,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dont_have_an_account" />
