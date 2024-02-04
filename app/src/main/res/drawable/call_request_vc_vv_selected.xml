@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
 
-    <corners android:radius="100dp" /> <!-- Adjust the radius to control the roundness of the corners -->
+    <corners android:radius="10dp" /> <!-- Adjust the radius to control the roundness of the corners -->
 
     <gradient android:startColor="#DC6188"
         android:endColor="#DF364F"

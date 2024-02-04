@@ -25,6 +25,7 @@ import com.example.customer.Language_Change;
 import com.example.quickconnect.Chat;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.Employee;
+import com.example.quickconnect.LocaleHelper;
 import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
@@ -51,6 +52,7 @@ public class Employee_CallCentre_Main extends AppCompatActivity implements Navig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.loadLocale(this);
         binding = ActivityEmployeeCallCentreMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

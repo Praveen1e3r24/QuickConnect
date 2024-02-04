@@ -1,5 +1,6 @@
 package com.example.Employee_M;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,13 @@ import com.example.customer.DarkModePrefManager;
 import com.example.customer.Language_Change;
 import com.example.quickconnect.Customer;
 import com.example.quickconnect.LocaleHelper;
+import com.example.quickconnect.Login;
 import com.example.quickconnect.R;
 import com.example.quickconnect.User;
 import com.example.quickconnect.databinding.FragmentEmployeeMProfileSettingsBinding;
+import com.example.utilities.UserData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,19 +42,10 @@ public class Employee_M_Settings_Profile_Fragment extends Fragment {
 
         binding = FragmentEmployeeMProfileSettingsBinding.inflate(inflater, container, false);
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child("Employees").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                binding.usernameTextView.setText(user.getFullName());
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         return binding.getRoot();
+
+
     }
 
     @Override
@@ -66,6 +62,21 @@ public class Employee_M_Settings_Profile_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Language_Change()).commit();
+            }
+        });
+        binding.logoutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform logout tasks here
+                new UserData().removeUserDetails(getActivity());
+                // Example: Clear Firebase Authentication
+                FirebaseAuth.getInstance().signOut();
+                ZegoUIKitPrebuiltCallInvitationService.unInit();
+                // Redirect to the login screen
+                Intent intent = new Intent(getContext(), Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
     }
