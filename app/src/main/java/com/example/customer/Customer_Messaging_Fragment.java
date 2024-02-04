@@ -120,7 +120,7 @@ public class Customer_Messaging_Fragment extends Fragment {
                     if (employee != null && employee.getAvailable() && employee.getEmployeeRole().equals("M") && employee.getNumChats() < 5 && employee.getDepartment().equals(department)){
                         Log.d(TAG, "showDialogWithResolutionMethod:7");
                         List<Message> messages = new ArrayList<>();
-                        messages.add(new Message(UUID.randomUUID().toString(),employee.getUserId(),user.getUserId(), "Hello! I am " + employee.getFullName() + " from the " + department + "department. How may I help you today?", Date.from(Instant.ofEpochSecond(System.currentTimeMillis()))));
+                        messages.add(new Message(UUID.randomUUID().toString(),employee.getUserId(),user.getUserId(), "Hello! I am " + employee.getFullName() + " from the " + department + " department. How may I help you today?", Date.from(Instant.ofEpochSecond(System.currentTimeMillis()))));
                         Chat chat = new Chat("", employee.getUserId(), employee.getFullName(), employee.getDepartment(), user.getUserId(), user.getFullName(), department, Date.from(Instant.ofEpochSecond(System.currentTimeMillis())), messages, false);
                         chat.setChatId(dbRef.child("Chats").push().getKey());
                         Log.d(TAG, "showDialogWithResolutionMethod:8");

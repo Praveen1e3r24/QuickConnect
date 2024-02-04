@@ -5,6 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/contentBodyColor"
     tools:context="com.example.quickconnect_employee_cc.Employee_CC_Request">
 
 
@@ -42,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Unresolved" />
+                    android:text="@string/unresolved" />
 
                 <Button
                     android:id="@+id/cs_filter_resolved"
@@ -51,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Resolved" />
+                    android:text="@string/resolved" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -71,7 +72,7 @@
                     android:layout_marginLeft="8dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Accepted" />
+                    android:text="@string/accepted" />
 
                 <Button
                     android:id="@+id/filter_unaccepted"
@@ -81,7 +82,7 @@
                     android:layout_marginLeft="8dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Unaccepted" />
+                    android:text="@string/unaccepted" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 

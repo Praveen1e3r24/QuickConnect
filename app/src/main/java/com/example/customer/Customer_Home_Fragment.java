@@ -52,7 +52,7 @@ public class Customer_Home_Fragment extends Fragment {
         binding.secondbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Call_Fragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Fragment()).commit();
             }
         });
         binding.thirdbox.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +75,13 @@ public class Customer_Home_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Profile_Setting_Fragment()).commit();
+            }
+        });
+
+        binding.sixthbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Customer_Messaging_Call_Fragment()).commit();
             }
         });
 

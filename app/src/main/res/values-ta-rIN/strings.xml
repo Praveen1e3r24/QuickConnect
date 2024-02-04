@@ -168,6 +168,38 @@
     <string name="address">முகவரி</string>
     <string name="call_specialist">நிபுணரை அழை</string>
 
+    <string name="newmessage">செய்திகள்</string>
+    <string name="message_a_support_agent">ஒதுக்கப்பட்ட ஆதரவாளருக்கு செய்தி அனுப்பவும்</string>
+    <string name="_1_select_a_department_to_message">1. செய்தியை அனுப்ப ஒரு துறையைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="_2_describe_your_issue_for_us_to_choose">2. எங்களுக்கு தேர்ந்தெடுத்து உங்கள் பிரச்சினையை விவரிக்கவும்</string>
+    <string name="fill_up_this_form_to_start_a_chat">இந்த படிவத்தை நிரப்பி ஒரு உரையாடல் ஆரம்பிக்கவும்</string>
+    <string name="contact_now">உடைந்திருங்கள்</string>
+    <string name="please_select_a_call_type">தயவுசெய்து ஒரு அழைப்பு வகையைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="connect_now">உடைந்திருங்கள்</string>
+    <string name="describe_your_issue">உங்கள் பிரச்சினையை விவரிக்கவும்</string>
+    <string name="department">பிரிவு</string>
+    <string name="_2_choose_the_department_you_would_like_to_contact">2. உங்கள் தொடர்பை கொள்ள விரும்பும் பிரிவைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="please_select_your_department">தயவுசெய்து உங்கள் பிரிவைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="_3_describe_your_issue">3. உங்கள் பிரச்சினையை விவரிக்கவும்</string>
+    <string name="please_describe_your_issue">தயவுசெய்து உங்கள் பிரச்சினையை விவரிக்கவும்</string>
+    <string name="_1_choose_your_preferred_way_to_connect_with_us">1. நாங்களுடன் உங்களுக்கு உள்நுழைய உங்கள் விருத்தினர் வழி தேர்ந்தெடுக்கவும்.</string>
+    <string name="please_fill_up_the_form_to_connect_now">இப்போது உள்நுழைந்துகொள்ள வடிவமைக்க தயவுசெய்து படிவம் நிரப்பவும்</string>
+    <string name="contact_support">ஆதரவு அணுக</string>
+    <string name="resolved">சரிவுடைந்தது</string>
+    <string name="unresolved">சரிவிகாரமாகின்றது</string>
+    <string name="accepted">ஏற்கனவே ஏற்றுக்கொண்டது</string>
+    <string name="unaccepted">ஏற்றுக்கொள்ளப்படவில்லை</string>
+    <string name="resolved_">சரிவுடைந்தது</string>
+    <string name="unresolved_">சரிவிகாரமாகின்றது</string>
+    <string name="get_back_to_your_requests">உங்கள் கோரிக்கைகளுக்கு மீளுங்கள்</string>
+    <string name="requests">கோரிக்கைகள்</string>
+    <string name="quickconnect_ver_1_0_1">QuickConnect பதிப்பு 1.0.1</string>
+    <string name="dark_mode">கருப்பு முறை</string>
+    <string name="language_preferences">மொழி விருப்பங்கள்</string>
+    <string name="requests_">கோரிக்கைகள்</string>
+    <string name="get_back_to_your_requests_">உங்கள் கோரிக்கைகளுக்கு மீளுங்கள்</string>
+
+
 
 
 </resources>

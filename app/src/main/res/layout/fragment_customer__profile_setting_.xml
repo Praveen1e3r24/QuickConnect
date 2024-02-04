@@ -62,7 +62,7 @@
             android:id="@+id/darkModeSwitch"
             style="@style/settingsText"
             android:drawableLeft="@drawable/ic_dark_mode"
-            android:text="Dark Mode" />
+            android:text="@string/dark_mode" />
 
         <TextView
             style="@style/viewParent.headerText.settingsMiniTitle"
@@ -115,7 +115,7 @@
 
         <TextView
             style="@style/viewParent.headerText.settingsMiniTitle"
-            android:text="QuickConnect ver 1.0.1"
+            android:text="@string/quickconnect_ver_1_0_1"
             android:textAlignment="center"/>
 
     </LinearLayout>

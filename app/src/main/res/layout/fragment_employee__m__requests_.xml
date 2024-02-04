@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="Unresolved" />
+                android:text="@string/unresolved_" />
 
             <Button
                 android:id="@+id/m_filter_resolved"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="Resolved" />
+                android:text="@string/resolved_" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 

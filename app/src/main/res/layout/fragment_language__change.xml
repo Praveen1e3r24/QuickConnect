@@ -11,7 +11,7 @@
         android:id="@+id/textViewLanguagePreferences"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language Preferences"
+        android:text="@string/language_preferences"
         android:textSize="28sp"
         android:textColor="@color/contentTextColor"
         android:textStyle="bold"

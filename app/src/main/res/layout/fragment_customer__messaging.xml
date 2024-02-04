@@ -4,6 +4,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/contentBodyColor"
     tools:context="com.example.customer.Language_Change">
 
     <Button
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Contact now"
+        android:text="@string/contact_now"
         app:icon="@drawable/baseline_message_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +65,7 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/message_a_support_agent"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/contentTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -74,8 +76,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/poppins_light"
-        android:text="1. Select a department to message"
+        android:text="@string/_1_select_a_department_to_message"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/contentTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -86,8 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/poppins_light"
-        android:text="2. Describe your issue for us to choose"
+        android:text="@string/_2_describe_your_issue_for_us_to_choose"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/contentTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/m_department_layout" />
@@ -98,9 +102,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Fill up this form to start a chat"
+        android:text="@string/fill_up_this_form_to_start_a_chat"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#FF0000"
+        android:textColor="@color/contentTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />

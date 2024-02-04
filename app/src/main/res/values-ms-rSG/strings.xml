@@ -169,8 +169,34 @@
     <string name="address">Alamat</string>
     <string name="call_specialist">Panggil Pakar</string>
 
-
-
-
-
+    <string name="newmessage">Mesej</string>
+    <string name="message_a_support_agent">Hantar Mesej kepada Ejen Sokongan</string>
+    <string name="_1_select_a_department_to_message">1. Pilih jabatan untuk menghantar mesej</string>
+    <string name="_2_describe_your_issue_for_us_to_choose">2. Gambarkan isu anda untuk kami pilih</string>
+    <string name="fill_up_this_form_to_start_a_chat">Isi borang ini untuk memulakan perbualan</string>
+    <string name="contact_now">Hubungi sekarang</string>
+    <string name="please_select_a_call_type">Sila pilih jenis panggilan</string>
+    <string name="connect_now">Sambung sekarang</string>
+    <string name="describe_your_issue">Gambarkan isu anda</string>
+    <string name="department">Jabatan</string>
+    <string name="_2_choose_the_department_you_would_like_to_contact">2. Pilih jabatan yang anda ingin hubungi</string>
+    <string name="please_select_your_department">Sila pilih jabatan anda</string>
+    <string name="_3_describe_your_issue">3. Gambarkan isu anda</string>
+    <string name="please_describe_your_issue">Sila gambarkan isu anda</string>
+    <string name="_1_choose_your_preferred_way_to_connect_with_us">1. Pilih cara pilihan anda untuk berhubung dengan kami.</string>
+    <string name="please_fill_up_the_form_to_connect_now">Sila isi borang untuk berhubung sekarang</string>
+    <string name="contact_support">Hubungi Sokongan</string>
+    <string name="resolved">Selesai</string>
+    <string name="unresolved">Belum selesai</string>
+    <string name="accepted">Diterima</string>
+    <string name="unaccepted">Tidak diterima</string>
+    <string name="resolved_">Selesai</string>
+    <string name="unresolved_">Belum selesai</string>
+    <string name="get_back_to_your_requests">Kembali kepada permintaan anda</string>
+    <string name="requests">Permintaan</string>
+    <string name="quickconnect_ver_1_0_1">QuickConnect ver 1.0.1</string>
+    <string name="dark_mode">Mod Gelap</string>
+    <string name="language_preferences">Keutamaan Bahasa</string>
+    <string name="requests_">Permintaan</string>
+    <string name="get_back_to_your_requests_">Kembali kepada permintaan anda</string>
 </resources>

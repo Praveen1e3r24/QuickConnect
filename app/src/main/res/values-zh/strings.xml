@@ -173,15 +173,36 @@
     <string name="address">地址</string>
     <string name="call_specialist">呼叫专家</string>
 
-
-
-
-
-
-
-
-
-
+    <string name="newmessage">消息</string>
+    <string name="message_a_support_agent">给支持代理发送消息</string>
+    <string name="_1_select_a_department_to_message">1. 选择要发送消息的部门</string>
+    <string name="_2_describe_your_issue_for_us_to_choose">2. 描述您的问题以供我们选择</string>
+    <string name="fill_up_this_form_to_start_a_chat">填写此表格开始聊天</string>
+    <string name="contact_now">立即联系</string>
+    <string name="please_select_a_call_type">请选择通话类型</string>
+    <string name="connect_now">立即连接</string>
+    <string name="describe_your_issue">描述您的问题</string>
+    <string name="department">部门</string>
+    <string name="_2_choose_the_department_you_would_like_to_contact">2. 选择您要联系的部门</string>
+    <string name="please_select_your_department">请选择您的部门</string>
+    <string name="_3_describe_your_issue">3. 描述您的问题</string>
+    <string name="please_describe_your_issue">请描述您的问题</string>
+    <string name="_1_choose_your_preferred_way_to_connect_with_us">1. 选择您喜欢与我们联系的方式。</string>
+    <string name="please_fill_up_the_form_to_connect_now">请填写表格以立即连接</string>
+    <string name="contact_support">联系支持</string>
+    <string name="resolved">已解决</string>
+    <string name="unresolved">未解决</string>
+    <string name="accepted">已接受</string>
+    <string name="unaccepted">未接受</string>
+    <string name="resolved_">已解决</string>
+    <string name="unresolved_">未解决</string>
+    <string name="get_back_to_your_requests">返回您的请求</string>
+    <string name="requests">请求</string>
+    <string name="quickconnect_ver_1_0_1">QuickConnect 版本 1.0.1</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="language_preferences">语言首选项</string>
+    <string name="requests_">请求</string>
+    <string name="get_back_to_your_requests_">返回您的请求</string>
 
 
 

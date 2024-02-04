@@ -190,6 +190,34 @@
     <string name="call_specialist">Call Specialist</string>
     <string name="newmessage">Messaging</string>
     <string name="message_a_support_agent">Message a Support Agent</string>
+    <string name="_1_select_a_department_to_message">1. Select a department to message</string>
+    <string name="_2_describe_your_issue_for_us_to_choose">2. Describe your issue for us to choose</string>
+    <string name="fill_up_this_form_to_start_a_chat">Fill up this form to start a chat</string>
+    <string name="contact_now">Contact now</string>
+    <string name="please_select_a_call_type">Please select a call type</string>
+    <string name="connect_now">Connect Now</string>
+    <string name="describe_your_issue">Describe your issue</string>
+    <string name="department">Department</string>
+    <string name="_2_choose_the_department_you_would_like_to_contact">2. Choose the department you would like to contact</string>
+    <string name="please_select_your_department">Please select your department</string>
+    <string name="_3_describe_your_issue">3. Describe your issue</string>
+    <string name="please_describe_your_issue">Please describe your issue</string>
+    <string name="_1_choose_your_preferred_way_to_connect_with_us">1. Choose your preferred way to connect with us.</string>
+    <string name="please_fill_up_the_form_to_connect_now">Please fill up the form to connect now</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="resolved">Resolved</string>
+    <string name="unresolved">Unresolved</string>
+    <string name="accepted">Accepted</string>
+    <string name="unaccepted">Unaccepted</string>
+    <string name="resolved_">Resolved</string>
+    <string name="unresolved_">Unresolved</string>
+    <string name="get_back_to_your_requests">Get back to your requests</string>
+    <string name="requests">Requests</string>
+    <string name="quickconnect_ver_1_0_1">QuickConnect ver 1.0.1</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="language_preferences">Language Preferences</string>
+    <string name="requests_">Requests</string>
+    <string name="get_back_to_your_requests_">Get back to your requests</string>
 
 
 </resources>

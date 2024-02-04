@@ -4,7 +4,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral99"
+    android:background="@color/contentBodyColor"
     tools:context="com.example.customer.Customer_Messaging_Call_Fragment">
 
     <HorizontalScrollView
@@ -20,6 +20,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@color/contentBodyColor"
             android:orientation="horizontal"
             android:padding="10dp"
             android:scrollbarThumbHorizontal="@drawable/call_request_vc_vc_not_selected">
@@ -41,7 +42,8 @@
                     android:layout_marginLeft="8dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Messaging" />
+                    android:text="Messaging"
+                    android:textColor="@color/contentTextColor" />
 
                 <Button
                     android:id="@+id/filter_requests"
@@ -51,7 +53,8 @@
                     android:layout_marginLeft="8dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Call Requests" />
+                    android:text="Call Requests"
+                    android:textColor="@color/contentTextColor" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -70,7 +73,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Unresolved" />
+                    android:text="Unresolved"
+                    android:textColor="@color/contentTextColor" />
 
                 <Button
                     android:id="@+id/filter_resolved"
@@ -79,7 +83,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Resolved" />
+                    android:text="Resolved"
+                    android:textColor="@color/contentTextColor" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -91,6 +96,7 @@
         android:layout_height="0dp"
         android:elevation="10dp"
         android:fadingEdgeLength="20dp"
+        app:cardBackgroundColor="@color/contentBodyColor"
         app:cardCornerRadius="20dp"
         app:cardElevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
