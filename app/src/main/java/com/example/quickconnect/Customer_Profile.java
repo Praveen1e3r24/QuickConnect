@@ -137,6 +137,9 @@ public class Customer_Profile extends AppCompatActivity {
                     // The user data doesn't exist in either "customer" or "employee" nodes
                     Toast.makeText(getApplicationContext(), "User data not found in the database", Toast.LENGTH_SHORT).show();
                 }
+                initVoiceButton(reqCustomer);
+
+                initVideoButton(reqCustomer);
             }
 
             @Override
@@ -147,9 +150,7 @@ public class Customer_Profile extends AppCompatActivity {
 
         });
 
-        initVoiceButton(reqCustomer);
 
-        initVideoButton(reqCustomer);
 
 
     }
@@ -166,7 +167,7 @@ public class Customer_Profile extends AppCompatActivity {
         newVideoCall.setIsVideoCall(true);
         newVideoCall.setOnClickListener(v -> {
             dbRef.child("Requests").child(callRequest.getRequestId()).child("accepted").setValue(true);
-            String targetUserID = "white1";
+            String targetUserID = reqCustomer.getFirstName();
             String[] split = targetUserID.split(",");
             List<ZegoUIKitUser> users = new ArrayList<>();
             for (String userID : split) {
@@ -182,7 +183,7 @@ public class Customer_Profile extends AppCompatActivity {
         newVoiceCall.setIsVideoCall(false);
         newVoiceCall.setOnClickListener(v -> {
             dbRef.child("Requests").child(callRequest.getRequestId()).child("accepted").setValue(true);
-            String targetUserID = "white1";
+            String targetUserID = reqCustomer.getFirstName();
             String[] split = targetUserID.split(",");
             List<ZegoUIKitUser> users = new ArrayList<>();
             for (String userID : split) {
